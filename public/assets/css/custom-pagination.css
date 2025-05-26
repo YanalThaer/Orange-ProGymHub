@@ -1,0 +1,108 @@
+/* Custom pagination styling for dark theme */
+.pagination-wrapper .pagination {
+    margin-bottom: 0;
+    font-size: 16px;
+}
+
+.pagination-wrapper .page-item .page-link {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    padding: 10px 18px;
+    margin: 0 5px;
+    border-radius: 4px;
+}
+
+.pagination-wrapper .page-item.active .page-link {
+    background-color: #ff1313;
+    border-color: #ff1313;
+    font-weight: bold;
+}
+
+.pagination-wrapper .page-item .page-link:hover {
+    background-color: #ff1313;
+    border-color: #ff1313;
+}
+
+.pagination-wrapper .page-item.disabled .page-link {
+    color: #6c757d;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Custom styling for status badges */
+.card .badge {
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Custom styling for filter container */
+.filter-container {
+    background-color: #1a1a1a !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.filter-container label {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* Status dropdown styling */
+.filter-container select {
+    background-color: #2a2a2a;
+    color: white;
+    border-color: rgba(255, 255, 255, 0.2);
+    font-size: 16px;
+    padding: 10px 15px;
+    height: auto;
+    min-width: 200px;
+}
+
+.filter-container select:focus {
+    box-shadow: 0 0 0 0.25rem rgba(255, 19, 19, 0.25);
+    border-color: rgba(255, 19, 19, 0.5);
+}
+
+/* Search box styling */
+.filter-container .input-group {
+    min-width: 260px;
+}
+
+.filter-container input.form-control {
+    background-color: #2a2a2a;
+    color: white;
+    border-color: rgba(255, 255, 255, 0.2);
+    font-size: 16px;
+    padding: 10px 15px;
+    height: auto;
+}
+
+.filter-container input.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.filter-container input.form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(255, 19, 19, 0.25);
+    border-color: rgba(255, 19, 19, 0.5);
+    background-color: #2a2a2a;
+    color: white;
+}
+
+.filter-container .btn-danger {
+    background-color: #ff1313;
+    border-color: #ff1313;
+    padding: 10px 15px;
+}
+
+.filter-container .btn-outline-light:hover {
+    background-color: #ff1313;
+    border-color: #ff1313;
+}
+
+.btn-outline-light:hover {
+    background-color: #ff1313;
+    border-color: #ff1313;
+}

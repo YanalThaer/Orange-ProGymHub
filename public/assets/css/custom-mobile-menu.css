@@ -1,0 +1,42 @@
+/* Custom mobile menu styles for profile options */
+@media only screen and (max-width: 991px) {
+    .slicknav_nav .profile-options {
+        border-top: 1px solid #333;
+        margin-top: 10px;
+        padding-top: 10px;
+    }
+
+    .slicknav_nav .profile-option-item {
+        padding: 5px 0;
+    }
+
+    .slicknav_nav .profile-option-item a {
+        color: #fff;
+        padding: 8px 15px;
+        display: block;
+    }
+
+    .slicknav_nav .profile-option-item a:hover {
+        background-color: #ff0000;
+        color: #fff;
+    }
+
+    .slicknav_nav .profile-option-divider {
+        border-top: 1px solid #333;
+        margin: 5px 0;
+    }
+    
+    .slicknav_nav .profile-option-item button {
+        background: none;
+        border: none;
+        color: #fff;
+        width: 100%;
+        text-align: left;
+        padding: 8px 15px;
+    }
+    
+    .slicknav_nav .profile-option-item button:hover {
+        background-color: #ff0000;
+        color: #fff;
+    }
+}
