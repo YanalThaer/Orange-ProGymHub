@@ -46,6 +46,7 @@
 
 @push('styles')
 <style>
+    /* Ensure search box and no-results message have nice styling */
     .form-control.bg-black, .form-select.bg-black {
         background-color: #121212 !important;
         color: #fff !important;

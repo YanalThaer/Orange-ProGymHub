@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'ProGymHub - Login')
 @section('content')
 <style>
     body {
@@ -45,7 +45,8 @@
 <div class="d-flex justify-content-center align-items-center vh-100">
     <div class="login-card shadow">
         <div class="text-center mb-4">
-            <h3 class="fw-bold">Login</h3>
+            <img src="{{ asset('img/image.png') }}" alt="Logo" style="width: 300px; height: 100px;" class="me-2">
+            <h3 class="fw-bold" style="color: red; font-size: 3rem;">Login</h3>
         </div>
 
         <form method="POST" action="{{ route('login') }}">

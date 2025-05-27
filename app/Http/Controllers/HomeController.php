@@ -101,8 +101,11 @@ class HomeController extends Controller
 
         $query = Club::query();
 
+        // Only show active clubs by default
         if ($status && $status != 'all') {
             $query->where('status', $status);
+        } else {
+            $query->where('status', 'active');
         }
 
         if ($search) {
@@ -114,7 +117,8 @@ class HomeController extends Controller
             });
         }
 
-        $clubs = $query->paginate(12)->withQueryString();
+        // Order by latest to show most recently added clubs first
+        $clubs = $query->latest()->paginate(12)->withQueryString();
 
         return view('public.clubs.clubs', compact('clubs', 'status', 'search'));
     }
@@ -242,6 +246,7 @@ class HomeController extends Controller
             'card_number' => 'required|string',
             'expiry_date' => 'required|string',
             'cvv' => 'required|string|min:3|max:4',
+            'confirmed' => 'sometimes|boolean',
         ]);
 
         try {
@@ -269,6 +274,11 @@ class HomeController extends Controller
             [$isValid, $message, $startDate, $endDate] = $this->validateSubscription($user, $club, $plan);
             if (!$isValid) {
                 return back()->with('error', $message)->withInput();
+            }
+            
+            // Check if the user confirmed the subscription in the modal dialog
+            if (!isset($validated['confirmed']) || $validated['confirmed'] != '1') {
+                return back()->with('error', 'You must confirm your subscription to proceed.')->withInput();
             }
 
             $subscription = UserSubscription::create([

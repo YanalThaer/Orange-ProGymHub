@@ -1,6 +1,13 @@
 @extends('layouts.public')
-@section('title', 'ProGymHome')
+@section('title', 'ProGymHub - Clubs')
 @section('content')
+<style>
+    @media (max-width: 567px) {
+        .coustem-search {
+            flex-direction: column;
+        }
+    }
+</style>
 <main>
     <div class="slider-area2">
         <div class="slider-height2 d-flex align-items-center">
@@ -17,29 +24,20 @@
     </div>
     <section class="gyms-section py-5">
         <div class="container">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="section-tittle text-center mb-55 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".1s">
-                        <h2>Gyms</h2>
-                    </div>
-                </div>
-            </div>
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="filter-container bg-dark p-4 rounded shadow-sm">
-                        <form action="{{ route('all_clubs') }}" method="GET" class="d-flex flex-wrap align-items-center justify-content-between">
-                            <div class="d-flex flex-wrap align-items-center">   
+                        <form action="{{ route('all_clubs') }}" method="GET" class="">
+                            <div class="d-flex justify-content-between align-items-center coustem-search">
                                 <div class="me-4 mb-2 mb-md-0">
                                     <label for="status-filter" class="text-white me-3">Filter by Status:</label>
                                     <select id="status-filter" name="status" class="form-select" onchange="this.form.submit()">
-                                        <option value="all" {{ request('status') == 'all' || !request('status') ? 'selected' : '' }}>All Statuses</option>
-                                        <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
+                                        <option value="active" {{ request('status') == 'active' || !request('status') ? 'selected' : '' }}>Active</option>
                                         <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
                                         <option value="under_maintenance" {{ request('status') == 'under_maintenance' ? 'selected' : '' }}>Under Maintenance</option>
                                     </select>
                                 </div>
-                                
-                                <div class="d-flex align-items-center ms-md-4 mt-3 mt-md-0">
+                                <div class="  mt-3 mt-md-0">
                                     <label for="search-box" class="text-white me-3">Search:</label>
                                     <div class="input-group">
                                         <input type="text" id="search-box" name="search" class="form-control"
@@ -57,15 +55,13 @@
                 </div>
             </div>
             <div class="row g-4">
-
                 <div id="no-results-message" class="col-12 text-center" style="display: none;">
                     <p class="text-white">No clubs match your search criteria.</p>
                 </div>
-
                 @forelse($clubs as $club)
                 <div class="col-md-6 col-lg-4 mb-4 club-card">
                     <div class="card shadow-sm h-100">
-                        <div class="position-absolute" style="right: 15px; top: 15px; z-index: 10;">
+                        <div class="position-absolute" style="right: 15px; top: 15px; ">
                             @if($club->status == 'active')
                             <span class="badge bg-success text-white">Active</span>
                             @elseif($club->status == 'inactive')
@@ -75,23 +71,22 @@
                             @else
                             <span class="badge bg-secondary">{{ ucfirst($club->status) }}</span>
                             @endif
-                        </div> <img src="{{ $club->logo ? asset('storage/' . $club->logo) : 'assets/img/gallery/team1.png' }}" class="card-img-top" alt="{{ $club->name }}">
-                        <div class="card-body">
-                            <h5 class="card-title fw-semibold club-name">{{ $club->name }}</h5>
-                            <p class="card-text text-muted club-bio">{{ $club->bio }}</p>
-                            <p class="card-text"><i class="fas fa-phone-alt"></i> {{ $club->phone }}</p>
-                            <p class="card-text club-city"><i class="fas fa-map-marker-alt"></i> {{ $club->city }}, {{ $club->country }}</p>
-                            <a href="{{ route('club_details', $club->getEncodedId()) }}" class="btn btn-sm mt-2">View Details</a>
+                        </div> <img src="{{ $club->logo ? asset('storage/' . $club->logo) : 'assets/img/gallery/team1.png' }}" class="card-img-top img-fluid" alt="{{ $club->name }}" style="max-height: 200px;">
+                        <div class="card-body" style="background-color: black;">
+                            <h5 class="card-title fw-semibold text-white text-center" style="font-size: 2rem;">{{ $club->name }}</h5>
+                            <p class="card-text  text-white">{{ Str::words($club->bio, 15, '...') }}</p>
+                            <p class="card-text text-white"><i class="fas fa-phone-alt"></i> {{ $club->phone }}</p>
+                            <p class="card-text club-city text-white"><i class="fas fa-map-marker-alt"></i> {{ $club->city }}, {{ $club->country }}</p>
+                            <a href="{{ route('club_details', $club->getEncodedId()) }}" class="btn btn-sm mt-2 text-center" style="display: flex; justify-content: center;">View Details</a>
                         </div>
                     </div>
-                </div> 
+                </div>
                 @empty
                 <div class="col-12 text-center" id="empty-state-message">
                     <p class="text-white">No clubs available at the moment.</p>
                 </div>
                 @endforelse
             </div>
-
             <div class="row mt-5 mb-4">
                 <div class="col-12 d-flex justify-content-center">
                     <div class="pagination-wrapper">
@@ -103,7 +98,6 @@
     </section>
 </main>
 @endsection
-
 @push('scripts')
 <script src="{{ asset('assets/js/club-filter.js') }}"></script>
 @endpush

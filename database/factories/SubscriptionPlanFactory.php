@@ -55,7 +55,7 @@ class SubscriptionPlanFactory extends Factory
             'price' => $this->faker->numberBetween($planDetails['price_range'][0], $planDetails['price_range'][1]),
             'duration_days' => $duration,
             'type' => $planType,
-            'is_active' => $this->faker->boolean(80),
+            'is_active' => true,
             'club_id' => $club->id,
         ];
     }

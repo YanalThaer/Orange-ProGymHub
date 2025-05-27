@@ -1,24 +1,22 @@
 @extends('layouts.public')
-@section('title', 'My Profile | ProGymHub')
+@section('title', 'ProGymHub - Profile')
 @section('content')
 <style>
     body {
         background-color: #121212;
         color: #ffffff;
+        font-size: medium;
     }
-
     .profile-container {
         max-width: 1000px;
         margin: auto;
         padding: 2rem;
     }
-
     .profile-header {
         display: flex;
         align-items: center;
         margin-bottom: 2rem;
     }
-
     .profile-avatar {
         width: 100px;
         height: 100px;
@@ -27,23 +25,30 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 2rem;
         color: white;
         margin-right: 1.5rem;
     }
+    @media (max-width:576px) {
+        .profile-header {
+            flex-direction: column;
+            align-items: center;
+        }
 
+        .profile-avatar {
+            margin-bottom: 1rem;
+        }
+
+    }
     .profile-name {
-        font-size: 2rem;
+
         font-weight: bold;
     }
-
     .card {
         background-color: #1f1f1f;
         border: none;
         border-radius: 10px;
         margin-bottom: 1.5rem;
     }
-
     .card-header {
         background-color: #ff0000;
         color: white;
@@ -51,67 +56,56 @@
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
     }
-
     .edit-button {
         background-color: #ff0000;
         border-color: #ff0000;
     }
-    
     .edit-button:hover {
         background-color: #d60000;
         border-color: #d60000;
     }
-    
     .info-item {
         display: flex;
         margin-bottom: 0.5rem;
     }
-    
     .info-label {
         font-weight: bold;
         width: 150px;
         color: #aaa;
     }
-    
     .info-value {
         flex-grow: 1;
     }
-    
     .status-badge {
         background-color: #28a745;
         color: white;
         padding: 0.25rem 0.75rem;
         border-radius: 20px;
-        font-size: 0.875rem;
+        ;
     }
-    
     .status-badge.inactive {
         background-color: #dc3545;
     }
 </style>
-
-<div class="container profile-container">
+<div class="container profile-container mt-5">
     @if(session('status'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('status') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('status') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     @endif
-    
-    <div class="profile-header">
-        <div class="profile-avatar">
-            {{ strtoupper(substr($user->name, 0, 1)) }}
-        </div>        <div>
-            <div class="profile-name">{{ $user->name }}</div>
-            <div>Member since 
+    <div class="profile-header" style="margin-top: 50px;">
+        <div>
+            <div class="profile-name ">{{ $user->name }}</div>
+            <div>Member since
                 @if ($user->join_date)
-                    @if ($user->join_date instanceof \DateTime || $user->join_date instanceof \Carbon\Carbon)
-                        {{ $user->join_date->format('F Y') }}
-                    @else
-                        {{ $user->join_date }}
-                    @endif
+                @if ($user->join_date instanceof \DateTime || $user->join_date instanceof \Carbon\Carbon)
+                {{ $user->join_date->format('F Y') }}
                 @else
-                    N/A
+                {{ $user->join_date }}
+                @endif
+                @else
+                N/A
                 @endif
             </div>
             <div class="mt-2">
@@ -121,9 +115,7 @@
             </div>
         </div>
     </div>
-    
     <div class="row">
-        <!-- Personal Information -->
         <div class="col-md-6">
             <div class="card mb-4">
                 <div class="card-header">
@@ -142,13 +134,13 @@
                         <div class="info-label">Date of Birth:</div>
                         <div class="info-value">
                             @if ($user->date_of_birth)
-                                @if ($user->date_of_birth instanceof \DateTime || $user->date_of_birth instanceof \Carbon\Carbon)
-                                    {{ $user->date_of_birth->format('F d, Y') }}
-                                @else
-                                    {{ \Carbon\Carbon::parse($user->date_of_birth)->format('F d, Y') }}
-                                @endif
+                            @if ($user->date_of_birth instanceof \DateTime || $user->date_of_birth instanceof \Carbon\Carbon)
+                            {{ $user->date_of_birth->format('F d, Y') }}
                             @else
-                                Not provided
+                            {{ \Carbon\Carbon::parse($user->date_of_birth)->format('F d, Y') }}
+                            @endif
+                            @else
+                            Not provided
                             @endif
                         </div>
                     </div>
@@ -158,8 +150,6 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Health Information -->
             <div class="card mb-4">
                 <div class="card-header">
                     Health Information
@@ -183,8 +173,6 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Fitness Preferences -->
             <div class="card">
                 <div class="card-header">
                     Fitness Preferences
@@ -221,10 +209,7 @@
                 </div>
             </div>
         </div>
-        
-        <!-- Right column -->
         <div class="col-md-6">
-            <!-- Physical Stats -->
             <div class="card mb-4">
                 <div class="card-header">
                     Physical Stats
@@ -252,8 +237,6 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Diet Preferences -->
             <div class="card mb-4">
                 <div class="card-header">
                     Diet Preferences
@@ -277,67 +260,62 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Membership Status -->
             <div class="card mb-4">
                 <div class="card-header">
                     Membership Status
                 </div>
                 <div class="card-body">
                     @php
-                        $activeSubscription = $user->getActiveSubscription();
+                    $activeSubscription = $user->getActiveSubscription();
                     @endphp
-                    
                     @if($activeSubscription)
-                        <div class="info-item">
-                            <div class="info-label">Status:</div>
-                            <div class="info-value">
-                                <span class="status-badge">Active</span>
-                            </div>
+                    <div class="info-item">
+                        <div class="info-label">Status:</div>
+                        <div class="info-value">
+                            <span class="status-badge">Active</span>
                         </div>
-                        <div class="info-item">
-                            <div class="info-label">Club:</div>
-                            <div class="info-value">{{ $activeSubscription->club->name ?? 'Unknown' }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Club:</div>
+                        <div class="info-value">{{ $activeSubscription->club->name ?? 'Unknown' }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Plan:</div>
+                        <div class="info-value">{{ $activeSubscription->plan->name ?? 'Standard Plan' }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Start Date:</div>
+                        <div class="info-value">
+                            @if ($activeSubscription->start_date instanceof \DateTime || $activeSubscription->start_date instanceof \Carbon\Carbon)
+                            {{ $activeSubscription->start_date->format('F d, Y') }}
+                            @else
+                            {{ \Carbon\Carbon::parse($activeSubscription->start_date)->format('F d, Y') }}
+                            @endif
                         </div>
-                        <div class="info-item">
-                            <div class="info-label">Plan:</div>
-                            <div class="info-value">{{ $activeSubscription->plan->name ?? 'Standard Plan' }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">End Date:</div>
+                        <div class="info-value">
+                            @if ($activeSubscription->end_date instanceof \DateTime || $activeSubscription->end_date instanceof \Carbon\Carbon)
+                            {{ $activeSubscription->end_date->format('F d, Y') }}
+                            @else
+                            {{ \Carbon\Carbon::parse($activeSubscription->end_date)->format('F d, Y') }}
+                            @endif
                         </div>
-                        <div class="info-item">
-                            <div class="info-label">Start Date:</div>
-                            <div class="info-value">
-                                @if ($activeSubscription->start_date instanceof \DateTime || $activeSubscription->start_date instanceof \Carbon\Carbon)
-                                    {{ $activeSubscription->start_date->format('F d, Y') }}
-                                @else
-                                    {{ \Carbon\Carbon::parse($activeSubscription->start_date)->format('F d, Y') }}
-                                @endif
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">End Date:</div>
-                            <div class="info-value">
-                                @if ($activeSubscription->end_date instanceof \DateTime || $activeSubscription->end_date instanceof \Carbon\Carbon)
-                                    {{ $activeSubscription->end_date->format('F d, Y') }}
-                                @else
-                                    {{ \Carbon\Carbon::parse($activeSubscription->end_date)->format('F d, Y') }}
-                                @endif
-                            </div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">Days Remaining:</div>
-                            <div class="info-value">{{ now()->diffInDays($activeSubscription->end_date, false) }}</div>
-                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Days Remaining:</div>
+                        <div class="info-value">{{ now()->diffInDays($activeSubscription->end_date, false) }}</div>
+                    </div>
                     @else
-                        <div class="text-center py-3">
-                            <span class="status-badge inactive">No active subscription</span>
-                            <p class="mt-3 mb-0">You currently don't have an active membership.</p>
-                            <a href="{{ route('all_clubs') }}" class="btn btn-danger mt-3">Browse Clubs</a>
-                        </div>
+                    <div class="text-center py-3">
+                        <span class="status-badge inactive">No active subscription</span>
+                        <p class="mt-3 mb-0">You currently don't have an active membership.</p>
+                        <a href="{{ route('all_clubs') }}" class="btn btn-danger mt-3">Browse Clubs</a>
+                    </div>
                     @endif
                 </div>
             </div>
-            
-            <!-- Coach Information (if assigned) -->
             @if($user->coach)
             <div class="card">
                 <div class="card-header">

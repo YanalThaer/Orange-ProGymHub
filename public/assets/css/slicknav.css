@@ -144,8 +144,7 @@
   /*===== mobile menu slicknav =====*/
 
 .mobile_menu {
-	position: absolute;
-	right: 10px;
+
 	width: 96%;
 	z-index: 99;
 }

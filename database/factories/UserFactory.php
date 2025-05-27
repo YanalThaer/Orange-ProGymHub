@@ -83,14 +83,8 @@ class UserFactory extends Factory
             'food_preferences' => $this->faker->optional(0.7)->randomElement(['Protein-rich foods', 'Fruits', 'Vegetables', 'Traditional Arabic food', 'Low-carb options', 'Healthy snacks']),
             'food_dislikes' => $this->faker->optional(0.5)->randomElement(['Fast food', 'Processed sugar', 'Red meat', 'Dairy', 'Spicy food']),
             
-            'club_id' => function() {
-                return Club::inRandomOrder()->first()?->id;
-            },
-            'coach_id' => function(array $attributes) {
-                return Coach::where('club_id', $attributes['club_id'])
-                    ->inRandomOrder()
-                    ->first()?->id;
-            }
+            'club_id' => null, // Will be set later
+            'coach_id' => null, // Will be set later
         ];
     }
 

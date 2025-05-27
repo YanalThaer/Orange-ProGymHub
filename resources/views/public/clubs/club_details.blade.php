@@ -1,18 +1,20 @@
 @extends('layouts.public')
 @section('title', $club->name . ' - Details')
 @section('content')
-
-
 <style>
     body {
         background-color: #121212 !important;
         color: white !important;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+        font-size: medium !important;
     }
-
+    .zoom-on-hover {
+        transition: transform 0.3s ease;
+    }
+    .zoom-on-hover:hover {
+        transform: scale(1.05);
+    }
     .gym-details-container {
-        max-width: 1000px;
-        margin: 40px auto;
         background-color: #1f1f1f;
         border-radius: 20px;
         padding: 40px;
@@ -21,7 +23,6 @@
         gap: 30px;
         height: auto;
     }
-
     .gym-details-image {
         flex: 1 1 350px;
         max-width: 400px;
@@ -29,26 +30,30 @@
         object-fit: cover;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     }
-
+    @media (max-width: 768px) {
+        .gym-details-image {
+            max-width: 703px;
+        }
+    }
+    @media (max-width: 576px) {
+        .gym-details-image {
+            max-width: 100%;
+        }
+    }
     .gym-details-info {
         flex: 2 1 400px;
     }
-
     .gym-details-title {
-        font-size: 2.5rem !important;
+
         font-weight: bold !important;
         color: #ff0000;
         margin-bottom: 20px;
     }
-
     .gym-details-description {
-        font-size: 1.1rem;
         line-height: 1.7;
         color: #ccc;
         margin-bottom: 20px;
     }
-
-    /* Coaches Section Styling */
     .coaches-section {
         background-color: #1a1a1a;
         padding: 100px 0;
@@ -57,7 +62,6 @@
         overflow: hidden;
         background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff0000' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
-
     .coaches-section::before {
         content: '';
         position: absolute;
@@ -69,7 +73,6 @@
         background-size: 200% 100%;
         animation: gradientShift 8s infinite linear;
     }
-
     @keyframes gradientShift {
         0% {
             background-position: 0% 50%;
@@ -83,7 +86,6 @@
             background-position: 0% 50%;
         }
     }
-
     @keyframes fadeInUp {
         from {
             opacity: 0;
@@ -95,7 +97,6 @@
             transform: translateY(0);
         }
     }
-
     @keyframes pulse {
         0% {
             transform: scale(1);
@@ -109,7 +110,6 @@
             transform: scale(1);
         }
     }
-
     .coach-card {
         background: linear-gradient(145deg, #252525, #2d2d2d);
         border-radius: 16px;
@@ -125,20 +125,17 @@
         animation-delay: calc(var(--coach-index, 0) * 0.1s);
         opacity: 0;
     }
-
     .coach-card:hover {
         transform: translateY(-12px) scale(1.02);
         box-shadow: 0 20px 40px rgba(255, 0, 0, 0.25);
         border-color: rgba(255, 0, 0, 0.4);
     }
-
     .coach-img {
         height: 270px;
         object-fit: cover;
         transition: all 0.5s ease;
         position: relative;
     }
-
     .coach-img-overlay {
         position: absolute;
         bottom: 0;
@@ -149,15 +146,12 @@
         opacity: 0;
         transition: opacity 0.3s ease;
     }
-
     .coach-card:hover .coach-img-overlay {
         opacity: 1;
     }
-
     .coach-card:hover .coach-img {
         transform: scale(1.05);
     }
-
     .coach-info {
         padding: 28px;
         flex-grow: 1;
@@ -169,20 +163,16 @@
         border-top: 4px solid;
         border-image: linear-gradient(90deg, #ff0000, transparent) 1;
     }
-
     .coach-name {
-        font-size: 1.5rem;
         font-weight: 600;
         margin-bottom: 10px;
         color: white;
         border-bottom: 2px solid rgba(255, 0, 0, 0.3);
         padding-bottom: 10px;
     }
-
     .specialization-badge {
         background: linear-gradient(135deg, #ff0000, #cc0000);
         color: white;
-        font-size: 0.8rem;
         padding: 6px 12px;
         border-radius: 20px;
         display: inline-block;
@@ -192,21 +182,18 @@
         box-shadow: 0 2px 5px rgba(255, 0, 0, 0.2);
         font-weight: 500;
     }
-
     .specialization-badge:hover {
         background: linear-gradient(135deg, #e60000, #b30000);
         transform: translateY(-2px) scale(1.05);
         box-shadow: 0 4px 8px rgba(255, 0, 0, 0.3);
     }
-
     .coach-bio {
+        font-size: large;
         color: #bbb;
         margin: 15px 0;
         line-height: 1.6;
         flex-grow: 1;
-        font-size: 0.95rem;
     }
-
     .view-profile-btn {
         background-color: transparent;
         color: #ff0000;
@@ -224,7 +211,6 @@
         z-index: 1;
         letter-spacing: 0.5px;
     }
-
     .view-profile-btn::after {
         content: '';
         position: absolute;
@@ -236,17 +222,14 @@
         transition: all 0.4s ease;
         z-index: -1;
     }
-
     .view-profile-btn:hover {
         color: white;
         transform: translateY(-3px);
         box-shadow: 0 7px 15px rgba(255, 0, 0, 0.35);
     }
-
     .view-profile-btn:hover::after {
         width: 100%;
     }
-
     .view-profile-btn i {
         transition: transform 0.3s ease;
     }
@@ -254,34 +237,8 @@
     .view-profile-btn:hover i {
         transform: translateX(3px);
     }
-
-    .coaches-title {
-        position: relative;
-        display: inline-block;
-        margin-bottom: 20px;
-        font-weight: 700;
-        letter-spacing: 1px;
-    }
-
-    .coaches-title::after {
-        content: '';
-        position: absolute;
-        bottom: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 80px;
-        height: 3px;
-        background-color: #ff0000;
-    }
-
-    .section-title-wrapper {
-        position: relative;
-        margin-bottom: 50px;
-        animation: fadeInUp 0.8s ease-out forwards;
-    }
-
+    .coaches-title,
     .section-title {
-        font-size: 2.5rem;
         font-weight: 700;
         color: white;
         margin-bottom: 10px;
@@ -290,7 +247,6 @@
         position: relative;
         display: inline-block;
     }
-
     .section-title::after {
         content: '';
         position: absolute;
@@ -302,19 +258,15 @@
         background: linear-gradient(90deg, #ff0000, #ff6b6b);
         border-radius: 2px;
     }
-
     .section-subtitle {
-        font-size: 1.1rem;
         color: #aaa;
         margin-top: 15px;
     }
-
     .social-icons {
         display: flex;
         justify-content: center;
         margin-top: 15px;
     }
-
     .social-icon {
         width: 35px;
         height: 35px;
@@ -325,45 +277,35 @@
         justify-content: center;
         margin: 0 5px;
         color: white;
-        font-size: 1rem;
         transition: all 0.3s ease;
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
-
     .social-icon:hover {
         background: #ff0000;
         transform: translateY(-3px);
     }
-
     .coach-experience {
-        font-size: 0.9rem;
         color: #ff6b6b;
         margin-top: 3px;
         margin-bottom: 12px;
     }
-
     @media (max-width: 992px) {
         .coach-card {
             margin-bottom: 30px;
         }
     }
-
     @media (max-width: 768px) {
         .coaches-section {
             padding: 60px 0;
         }
 
-        .section-title {
-            font-size: 2rem;
-        }
+        .section-title {}
     }
-
     @media (max-width: 576px) {
         .coach-img {
             height: 240px;
         }
     }
-
     .gym-price-box {
         background-color: #2a2a2a;
         padding: 20px;
@@ -371,130 +313,95 @@
         border-radius: 10px;
         margin-bottom: 30px;
     }
-
     .gym-price-box h5 {
         margin-bottom: 10px !important;
         color: #ff0000;
     }
-
     .btn-gym-book {
         background-color: #ff0000;
         border: none;
         padding: 15px 32px;
-        font-size: 1.1rem;
         border-radius: 4px;
         color: white;
         transition: background-color 0.3s;
     }
-
     .btn-gym-book:hover {
         background-color: #cc0000;
     }
-
     li {
-        font-size: 1rem !important;
+
         color: #ccc !important;
     }
-
     .feature-icon {
         color: #ff0000;
         margin-right: 8px;
     }
-
     .status-badge {
         display: inline-block;
         padding: 8px 12px;
         border-radius: 20px;
-        font-size: 0.9rem;
         font-weight: bold;
         margin-bottom: 15px;
     }
-
     .status-active {
         background-color: #28a745;
         color: white;
     }
-
     .status-inactive {
         background-color: #ffc107;
         color: #212529;
     }
-
     .status-maintenance {
         background-color: #17a2b8;
         color: white;
     }
-
-    /* Custom Breadcrumb Styling */
     .breadcrumb {
         background-color: #1a1a1a !important;
         border: 1px solid rgba(255, 255, 255, 0.1);
-        font-size: 1.2rem;
         padding: 15px !important;
     }
-
     .breadcrumb-item+.breadcrumb-item::before {
         color: #ff0000;
         content: ">";
         font-weight: bold;
         padding: 0 10px;
     }
-
     .breadcrumb-item a {
         text-decoration: none;
         transition: all 0.3s ease;
     }
-
     .breadcrumb-item a:hover {
         color: #ff0000 !important;
     }
-
     .breadcrumb-item.active {
         font-weight: 600;
     }
-
     .breadcrumb i {
-        font-size: 1.3rem;
         margin-right: 6px;
     }
-
-    /* Subscription Plans Styling */
-    .subscription-plans-container {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
+    ul {
+        font-size: medium;
     }
-
     .subscription-plan {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         border-left: 3px solid #ff0000;
     }
-
     .subscription-plan:hover {
         transform: translateY(-5px);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     }
-
     .subscription-plan .btn-danger {
         background-color: #ff0000;
         border: none;
         transition: all 0.3s ease;
     }
-
     .subscription-plan .btn-danger:hover {
         background-color: #cc0000;
         transform: scale(1.05);
     }
-
-    /* Working Days Styling */
-    .working-days-container {
-        gap: 8px;
-    }
-
     .day-item {
         padding: 5px 12px;
         border-radius: 20px;
-        font-size: 0.85rem;
         font-weight: 600;
         display: inline-flex;
         align-items: center;
@@ -502,22 +409,18 @@
         margin-right: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
-
     .day-item i {
         margin-right: 7px;
     }
-
     .day-active {
         background: linear-gradient(145deg, rgba(255, 0, 0, 0.1), rgba(255, 0, 0, 0.2));
         color: #ff6666;
         border: 1px solid rgba(255, 0, 0, 0.4);
     }
-
     .day-active:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(255, 0, 0, 0.3);
     }
-
     .day-inactive {
         background-color: rgba(128, 128, 128, 0.1);
         color: #999;
@@ -533,29 +436,18 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="hero-cap hero-cap2 pt-70">
-                            <h2>Club Details</h2>
+                            <h2>{{ $club->name }}</h2>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container mt-5 mb-4">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb bg-dark p-3 rounded shadow-sm">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-white"><i class="fas fa-home"></i> Home</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('all_clubs') }}" class="text-white"><i class="fas fa-dumbbell"></i> Clubs</a></li>
-                <li class="breadcrumb-item active text-danger" aria-current="page"><i class="fas fa-store"></i> {{ $club->name }}</li>
-            </ol>
-        </nav>
-    </div>
-
     <div class="gym-details-container">
-        <img src="{{ $club->logo ? asset('storage/' . $club->logo) : asset('assets/img/gallery/team1.png') }}" alt="{{ $club->name }}" class="gym-details-image">
+        <img src="{{ $club->logo ? asset('storage/' . $club->logo) : asset('assets/img/gallery/team1.png') }}"
+            alt="{{ $club->name }}" class="gym-details-image">
         <div class="gym-details-info">
             <h2 class="gym-details-title">{{ $club->name }}</h2>
-
-            <!-- Status Badge -->
             <div>
                 @if($club->status == 'active')
                 <span class="status-badge status-active">Active</span>
@@ -567,31 +459,36 @@
                 <span class="status-badge">{{ ucfirst($club->status) }}</span>
                 @endif
             </div>
-
             <p class="gym-details-description">
                 {{ $club->bio }}
             </p>
-
             @if($club->description)
             <p class="gym-details-description">
                 {{ $club->description }}
             </p>
             @endif <div class="gym-price-box">
                 <h5>Club Details</h5>
-                <ul class="mb-0">
-                    <li><i class="fas fa-map-marker-alt feature-icon"></i> {{ $club->address }}, {{ $club->city }}, {{ $club->country }}</li>
+                <ul class="mb-0" style="">
+                    <li><i class="fas fa-map-marker-alt feature-icon"></i> {{ $club->address }}, {{ $club->city }},
+                        {{ $club->country }}
+                    </li>
                     <li><i class="fas fa-phone feature-icon"></i> {{ $club->phone }}</li>
                     <li><i class="fas fa-envelope feature-icon"></i> {{ $club->email }}</li>
                     @if($club->website)
-                    <li><i class="fas fa-globe feature-icon"></i> <a href="{{ $club->website }}" target="_blank" class="text-white">{{ $club->website }}</a></li>
+                    <li><i class="fas fa-globe feature-icon"></i> <a href="{{ $club->website }}" target="_blank"
+                            class="text-white">{{ $club->website }}</a></li>
                     @endif
                     @if($club->established_date)
-                    <li><i class="fas fa-calendar-alt feature-icon"></i> Established: {{ $club->established_date->format('F Y') }}</li>
+                    <li><i class="fas fa-calendar-alt feature-icon"></i> Established:
+                        {{ $club->established_date->format('F Y') }}
+                    </li>
                     @endif
                     @if($club->capacity)
                     <li><i class="fas fa-users feature-icon"></i> Capacity: {{ $club->capacity }} people</li>
                     @endif @if($club->open_time && $club->close_time)
-                    <li><i class="far fa-clock feature-icon"></i> Hours: {{ $club->open_time->format('H:i') }} - {{ $club->close_time->format('H:i') }}</li>
+                    <li><i class="far fa-clock feature-icon"></i> Hours: {{ $club->open_time->format('H:i') }} -
+                        {{ $club->close_time->format('H:i') }}
+                    </li>
                     @endif
                     @if(!empty($club->working_days))
                     <li>
@@ -608,8 +505,6 @@
                             'saturday' => 'glass-cheers',
                             'sunday' => 'church'
                             ];
-
-                            // Match working_days to days
                             $activeDays = [];
                             foreach ($club->working_days as $index => $value) {
                             if ($value == "1") {
@@ -617,9 +512,9 @@
                             }
                             }
                             @endphp
-
                             @foreach($days as $day)
-                            <div class="day-item mb-2 mr-2 {{ in_array($day, $activeDays) ? 'day-active' : 'day-inactive' }}">
+                            <div
+                                class="day-item mb-2 mr-2 {{ in_array($day, $activeDays) ? 'day-active' : 'day-inactive' }}">
                                 <i class="fas fa-{{ $dayIcons[$day] }}"></i>
                                 {{ ucfirst($day) }}
                             </div>
@@ -632,7 +527,6 @@
                     @endif
                 </ul>
             </div>
-
             <div class="gym-price-box">
                 <h5>Amenities</h5>
                 <ul class="mb-0">
@@ -656,11 +550,9 @@
                     @endif
                 </ul>
             </div>
-
             @auth
             @include('public.clubs._user_subscriptions')
             @endauth
-
             @if($club->subscriptionPlans && $club->subscriptionPlans->isNotEmpty())
             <div class="gym-price-box">
                 <h5>Subscription Plans</h5>
@@ -675,7 +567,8 @@
                         <p class="small text-light mb-2">{{ $plan->description }}</p>
                         @endif <div class="d-flex justify-content-between align-items-center mt-2">
                             <div>
-                                <span class="text-white font-weight-bold">{{ number_format($plan->price, 2) }} JOD</span>
+                                <span class="text-white font-weight-bold">{{ number_format($plan->price, 2) }}
+                                    JOD</span>
                                 <span class="text-muted small"> / {{ $plan->duration_days }} days</span>
                             </div>
                             @auth
@@ -692,13 +585,15 @@
                             @elseif(!$plan->is_active)
                             <span class="badge bg-secondary py-2 px-3">Currently Unavailable</span>
                             @else
-                            <a href="{{ route('payment', ['plan_id' => $plan->getEncodedId(), 'club_id' => $club->getEncodedId()]) }}" class="btn btn-sm btn-danger">Subscribe</a>
+                            <a href="{{ route('payment', ['plan_id' => $plan->getEncodedId(), 'club_id' => $club->getEncodedId()]) }}"
+                                class="btn btn-sm btn-danger">Subscribe</a>
                             @endif
                             @else
                             @if($club->status !== 'active')
                             <span class="badge bg-secondary py-2 px-3">Club Temporarily Unavailable</span>
                             @elseif($plan->is_active)
-                            <button type="button" class="btn btn-sm btn-danger" onclick="showLoginAlert({{ $plan->id }})">Subscribe</button>
+                            <button type="button" class="btn btn-sm btn-danger"
+                                onclick="showLoginAlert({{ $plan->id }})">Subscribe</button>
                             @else
                             <span class="badge bg-secondary py-2 px-3">Currently Unavailable</span>
                             @endif
@@ -709,11 +604,10 @@
                 </div>
             </div>
             @endif
-
             @if(!empty($club->social_media))
             <div class="gym-price-box">
                 <h5>Connect With Us</h5>
-                <div class="d-flex mt-2">
+                <div class="d-flex justify-content-around mt-2">
                     @foreach($club->social_media as $platform => $url)
                     @if(!empty($url))
                     <a href="{{ $url }}" target="_blank" class="me-3 text-white">
@@ -737,13 +631,15 @@
             </div>
             @endif
         </div>
-    </div> @if($club->coaches && $club->coaches->count() > 0) <section class="coaches-section">
+    </div> @if($club->coaches && $club->coaches->count() > 0)
+    <section class="coaches-section">
         <div class="container">
             <div class="row mb-5">
                 <div class="col-12 text-center">
                     <div class="section-title-wrapper">
                         <h2 class="section-title">Expert Coaches</h2>
-                        <p class="section-subtitle">Meet our dedicated team of fitness professionals ready to help you reach your goals</p>
+                        <p class="section-subtitle">Meet our dedicated team of fitness professionals ready to help you
+                            reach your goals</p>
                     </div>
                 </div>
             </div>
@@ -757,7 +653,7 @@
                             <div class="coach-img-overlay"></div>
                         </div>
                         <div class="coach-info">
-                            <h5 class="mb-1">{{ $coach->name }}</h5>
+                            <h5 class="mb-1  text-white">{{ $coach->name }}</h5>
                             @if($coach->experience_years)
                             <div class="coach-experience">
                                 <i class="fas fa-star me-1"></i> {{ $coach->experience_years }} Years Experience
@@ -768,7 +664,6 @@
                                 @php
                                 $specializations = is_array($coach->specializations) ? $coach->specializations : json_decode($coach->specializations, true);
                                 @endphp
-
                                 @if(is_array($specializations))
                                 @foreach($specializations as $specialization)
                                 <span class="specialization-badge">{{ $specialization }}</span>
@@ -776,8 +671,7 @@
                                 @endif
                             </div>
                             @endif
-
-                            <p class="coach-bio">{{ Str::limit($coach->bio, 100) }}</p>
+                            <p class="coach-bio text-white">{{ Str::limit($coach->bio, 100) }}</p>
                             <div class="text-center">
                                 <a href="{{ route('profile', $coach->encoded_id) }}" class="view-profile-btn">
                                     View Full Profile <i class="fas fa-arrow-right ms-1"></i>
@@ -791,9 +685,7 @@
         </div>
     </section>
     @endif
-
 </main>
-
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function showLoginAlert(planId) {
@@ -808,13 +700,10 @@
             cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Store the intended plan_id and club_id in the session via a redirect
                 window.location.href = "{{ route('login') }}?redirect_after_login=1&plan_id=" + planId + "&club_id={{ $club->getEncodedId() }}";
             }
         });
     }
-
-    // Animation for coach cards when they scroll into view
     document.addEventListener('DOMContentLoaded', function() {
         const animateOnScroll = function() {
             const coachCards = document.querySelectorAll('.coach-card');
@@ -828,11 +717,7 @@
                 }
             });
         };
-
-        // Run on initial load
         animateOnScroll();
-
-        // Run on scroll
         window.addEventListener('scroll', animateOnScroll);
     });
 </script>

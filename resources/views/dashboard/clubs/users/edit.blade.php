@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('title', 'Edit User')
+@section('title', 'Club - Edit User')
 
 @section('content')
 <style>

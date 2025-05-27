@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+@extends('layouts.app')
+@section('title', 'ProGymHub - Register')
+@section('content')
 
     <style>
         body {
@@ -60,13 +57,12 @@
             font-weight: bold;
         }
     </style>
-</head>
-<body>
 
 <div class="d-flex justify-content-center align-items-center vh-100">
     <div class="register-card">
         <div class="text-center mb-4">
-            <h3>Register</h3>
+            <img src="{{ asset('img/image.png') }}" alt="Logo" style="width: 300px; height: 100px;" class="me-2">
+            <h3 class="fw-bold" style="color: red; font-size: 3rem;">Login</h3>
         </div>
 
         <form method="POST" action="{{ route('register') }}">
@@ -133,6 +129,4 @@
         </form>
     </div>
 </div>
-
-</body>
-</html>
+@endsection

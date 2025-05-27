@@ -1,66 +1,208 @@
 @extends('layouts.app')
-
+@section('title', 'ProGymHub - Verify Email Address')
 @section('content')
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card border-0 shadow-lg rounded-3 overflow-hidden">                <div class="card-header bg-danger text-white p-4" style="background-color: #e60000 !important;">
-                    <h4 class="mb-0 fw-bold">{{ __('Verify Your Email Address') }}</h4>
-                </div>
+<style>
+    body {
+        background-color: #121212;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+    }
+    
+    .verification-card {
+        background-color: #1f1f1f;
+        border: none;
+        padding: 2rem;
+        border-radius: 10px;
+        color: white;
+        width: 100%;
+        max-width: 500px;
+    }
+    
+    .verification-code-container {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+        justify-content: center;
+    }
+    
+    .verification-digit {
+        width: 50px;
+        height: 60px;
+        background-color: #2b2b2b;
+        color: white;
+        border: 2px solid #444;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        transition: all 0.2s;
+    }
+    
+    .verification-digit:focus {
+        border-color: #ff0000;
+        box-shadow: 0 0 0 0.25rem rgba(255, 0, 0, 0.25);
+        outline: none;
+        background-color: #2b2b2b;
+        color: white;
+    }
+    
+    .verification-digit.filled {
+        background-color: #3a3a3a;
+        border-color: #ff0000;
+    }
+    
+    .form-label {
+        color: white;
+        font-weight: 600;
+    }
+    
+    .btn-primary {
+        background-color: #ff0000;
+        border-color: #ff0000;
+        font-weight: bold;
+        padding: 12px;
+    }
+    
+    .btn-primary:hover {
+        background-color: #cc0000;
+        border-color: #cc0000;
+    }
+    
+    .btn-primary:disabled {
+        background-color: #666;
+        border-color: #666;
+    }
+    
+    a {
+        text-decoration: none;
+        color: #ff0000;
+        font-weight: bold;
+    }
+    
+    a:hover {
+        color: #cc0000;
+    }
+    
+    .alert-success {
+        background-color: #1a4a3a;
+        border-color: #28a745;
+        color: #28a745;
+    }
+    
+    .invalid-feedback {
+        color: #ff4444;
+    }
+    
+    .text-muted {
+        color: #aaa !important;
+    }
+    
+    .countdown-text {
+        color: #ff0000;
+        font-weight: bold;
+    }
+    
+    .modal-content {
+        background-color: #1f1f1f;
+        color: white;
+        border: none;
+    }
+    
+    .modal-header {
+        border-bottom: 1px solid #444;
+    }
+    
+    .modal-footer {
+        border-top: 1px solid #444;
+    }
+    
+    .btn-close {
+        filter: invert(1);
+    }
+    
+    .text-warning {
+        color: #ffc107 !important;
+    }
+    
+    @media (max-width: 576px) {
+        .verification-code-container {
+            gap: 6px;
+        }
+        
+        .verification-digit {
+            width: 40px;
+            height: 50px;
+            font-size: 20px;
+        }
+        
+        .verification-card {
+            padding: 1.5rem;
+            margin: 1rem;
+        }
+    }
+</style>
 
-                <div class="card-body p-4">
-                    @if(session('status'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ session('status') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    @endif
-
-                    <div class="text-center mb-4">
-                        <div class="mb-3">                            <i class="bi bi-envelope-check fs-1" style="color: #e60000;"></i>
-                        </div>
-                        <h5 class="text-dark fw-bold">{{ __('Almost there!') }}</h5>
-                        <p class="text-muted">
-                            {{ __('We\'ve sent a verification code to your email address. Please enter it below to verify your account.') }}
-                        </p>
-                    </div>
-
-                    <form id="verify-form" method="POST" action="{{ route('verify.email.code') }}" class="mb-4">
-                        @csrf                        <div class="mb-4">
-                            <label for="code" class="form-label fw-semibold mb-2">{{ __('Verification Code') }}</label>
-                            <div class="verification-code-container">
-                                <input type="text" id="digit-1" class="verification-digit" maxlength="1" autofocus>
-                                <input type="text" id="digit-2" class="verification-digit" maxlength="1">
-                                <input type="text" id="digit-3" class="verification-digit" maxlength="1">
-                                <input type="text" id="digit-4" class="verification-digit" maxlength="1">
-                                <input type="text" id="digit-5" class="verification-digit" maxlength="1">
-                                <input type="text" id="digit-6" class="verification-digit" maxlength="1">
-                                <input type="hidden" id="code" name="code" class="@error('code') is-invalid @enderror">
-                            </div>
-                            
-                            @error('code')
-                                <span class="invalid-feedback d-block mt-1">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>                        <div class="d-grid gap-2">
-                            <button type="submit" id="submit-btn" class="btn btn-danger btn-lg py-3 fw-bold" style="background-color: #e60000;">
-                                {{ __('Verify Email') }}
-                            </button>
-                        </div>
-                    </form>
-
-                    <div class="text-center">
-                        <div class="d-flex justify-content-center align-items-center mb-2">
-                            <i class="bi bi-clock me-2 text-muted"></i>
-                            <p class="mb-0 text-muted">{{ __('Code expires in:') }} <span id="countdown" class="fw-bold">05:00</span></p>
-                        </div>
-                        <p class="text-muted small mb-0">
-                            {{ __('Didn\'t receive the code?') }} <a href="{{ route('register') }}" class="text-decoration-none fw-bold">{{ __('Resend Code') }}</a>
-                        </p>
-                    </div>
-                </div>
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="verification-card shadow">
+        <div class="text-center mb-4">
+            <div class="mb-3">
+            <img src="{{ asset('img/image.png') }}" alt="Logo" style="width: 300px; height: 100px;" class="me-2">
+                <i class="bi bi-envelope-check fs-1" style="color: #ff0000;"></i>
             </div>
+            <h3 class="fw-bold">{{ __('Verify Your Email Address') }}</h3>
+            <p class="text-muted">
+                {{ __('We\'ve sent a verification code to your email address. Please enter it below to verify your account.') }}
+            </p>
+        </div>
+
+        @if(session('status'))
+            <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                {{ session('status') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        <form id="verify-form" method="POST" action="{{ route('verify.email.code') }}" class="mb-4">
+            @csrf
+            <div class="mb-4">
+                <label for="code" class="form-label mb-3">{{ __('Verification Code') }}</label>
+                <div class="verification-code-container">
+                    <input type="text" id="digit-1" class="verification-digit" maxlength="1" autofocus>
+                    <input type="text" id="digit-2" class="verification-digit" maxlength="1">
+                    <input type="text" id="digit-3" class="verification-digit" maxlength="1">
+                    <input type="text" id="digit-4" class="verification-digit" maxlength="1">
+                    <input type="text" id="digit-5" class="verification-digit" maxlength="1">
+                    <input type="text" id="digit-6" class="verification-digit" maxlength="1">
+                    <input type="hidden" id="code" name="code" class="@error('code') is-invalid @enderror">
+                </div>
+                
+                @error('code')
+                    <span class="invalid-feedback d-block mt-1">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+
+            <div class="d-grid gap-2 mb-4">
+                <button type="submit" id="submit-btn" class="btn btn-primary btn-lg">
+                    {{ __('Verify Email') }}
+                </button>
+            </div>
+        </form>
+
+        <div class="text-center">
+            <div class="d-flex justify-content-center align-items-center mb-3">
+                <i class="bi bi-clock me-2 text-muted"></i>
+                <p class="mb-0 text-muted">
+                    {{ __('Code expires in:') }} 
+                    <span id="countdown" class="countdown-text">05:00</span>
+                </p>
+            </div>
+            <p class="text-muted mb-0">
+                {{ __('Didn\'t receive the code?') }} 
+                <a href="{{ route('register') }}">{{ __('Resend Code') }}</a>
+            </p>
         </div>
     </div>
 </div>
@@ -78,54 +220,12 @@
                 </div>
                 <p>{{ __('The verification code has expired. Please register again to receive a new one.') }}</p>
             </div>
-            <div class="modal-footer border-0">                <a href="{{ route('register') }}" class="btn btn-danger" style="background-color: #e60000;">{{ __('Register Again') }}</a>
+            <div class="modal-footer border-0">
+                <a href="{{ route('register') }}" class="btn btn-primary">{{ __('Register Again') }}</a>
             </div>
         </div>
     </div>
 </div>
-
-@push('styles')
-<style>
-    .verification-code-container {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 15px;
-        justify-content: center;
-    }
-    
-    .verification-digit {
-        width: 50px;
-        height: 60px;
-        border: 2px solid #ddd;
-        border-radius: 8px;
-        text-align: center;
-        font-size: 24px;
-        font-weight: bold;
-        transition: all 0.2s;
-    }
-      .verification-digit:focus {
-        border-color: #e60000;
-        box-shadow: 0 0 0 0.25rem rgba(230, 0, 0, 0.25);
-        outline: none;
-    }
-    
-    .verification-digit.filled {
-        background-color: #f8f9fa;
-    }
-    
-    @media (max-width: 576px) {
-        .verification-code-container {
-            gap: 6px;
-        }
-        
-        .verification-digit {
-            width: 40px;
-            height: 50px;
-            font-size: 20px;
-        }
-    }
-</style>
-@endpush
 
 @push('scripts')
 <script>

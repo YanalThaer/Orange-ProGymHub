@@ -1,10 +1,10 @@
 <div class="sidebar pe-4 pb-3">
     <nav class="navbar bg-secondary navbar-dark">
         <!-- Logo and Project Name Horizontally -->
-        <a href="index.html" class="navbar-brand mx-4 mb-3 d-flex align-items-center justify-content-center">
-            <img src="{{ asset('img/logo.png') }}" alt="Logo" style="width: 40px; height: 40px;" class="me-2">
-            <h4 class="text-primary mb-0">ProGymHub</h4>
-        </a>
+            <div class="navbar-brand mx-4 mb-3 d-flex align-items-center justify-content-center">
+                <img src="{{ asset('img/favicon.png') }}" alt="Logo" style="width: 40px; height: 40px;" class="me-2">
+                <h4 class="text-primary mb-0"><img src="{{ asset('img/image.png') }}" alt="Logo" style="width: 150px; height: 70px;" class="me-2"></h4>
+            </div>
 
         <!-- User Info Section in the center -->
         <div class="flex-grow-1 d-flex flex-column justify-content-center align-items-center mb-3">
@@ -68,11 +68,11 @@
                 <a href="{{ route('club.subscription-plans') }}" class="nav-item nav-link {{ request()->routeIs('club.subscription-plans*') ? 'active' : '' }}">
                     <i class="fa fa-tags me-2"></i>Subscription Plans
                 </a>
-                <a href="{{ route('club.users') }}" class="nav-item nav-link {{ request()->routeIs('club.users*') ? 'active' : '' }}">
-                    <i class="fa fa-user-cog me-2"></i>User Management
-                </a>
                 <a href="{{ route('club.coaches') }}" class="nav-item nav-link {{ request()->routeIs('club.coaches*') ? 'active' : '' }}">
                     <i class="fa fa-dumbbell me-2"></i>Coach Management
+                </a>
+                <a href="{{ route('club.users') }}" class="nav-item nav-link {{ request()->routeIs('club.users*') ? 'active' : '' }}">
+                    <i class="fa fa-user-cog me-2"></i>User Management
                 </a>
                 <a href="{{ route('club.search') }}" class="nav-item nav-link {{ request()->routeIs('club.search*') ? 'active' : '' }}">
                     <i class="fa fa-search me-2"></i>Search

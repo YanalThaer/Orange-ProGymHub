@@ -1,45 +1,48 @@
-@extends('layouts.app')
-@section('title', 'Verify User Email')
+@extends('layouts.dashboard')
+@section('title', 'Club - Verify User Email Address')
 
 @push('styles')
 <style>
     .verification-code-container {
         display: flex;
-        gap: 10px;
-        margin-bottom: 15px;
+        gap: 8px;
+        margin-bottom: 12px;
         justify-content: center;
     }
     
     .verification-digit {
-        width: 50px;
-        height: 60px;
-        border: 2px solid #ddd;
+        width: 42px;
+        height: 50px;
+        border: 2px solid #fff;
         border-radius: 8px;
         text-align: center;
-        font-size: 24px;
+        font-size: 20px;
         font-weight: bold;
+        background-color: transparent;
+        color: white;
         transition: all 0.2s;
     }
     
     .verification-digit:focus {
-        border-color: #0d6efd;
-        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        border-color: #ff4d4d;
+        box-shadow: 0 0 0 0.25rem rgba(255, 77, 77, 0.5);
         outline: none;
+        background-color: rgba(255, 255, 255, 0.1);
     }
     
     .verification-digit.filled {
-        background-color: #f8f9fa;
+        background-color: rgba(255, 255, 255, 0.15);
     }
     
     @media (max-width: 576px) {
         .verification-code-container {
-            gap: 6px;
+            gap: 5px;
         }
         
         .verification-digit {
-            width: 40px;
-            height: 50px;
-            font-size: 20px;
+            width: 36px;
+            height: 44px;
+            font-size: 18px;
         }
     }
 </style>
@@ -48,91 +51,101 @@
 @section('content')
 <div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card border-0 shadow-lg rounded-3 overflow-hidden">
-                <div class="card-header bg-primary text-white p-4">
-                    <h4 class="mb-0 fw-bold">{{ __('Verify User Email Address') }}</h4>
+        <div class="col-md-7 col-lg-6">
+            <div class="card border-0 shadow-lg rounded-3 overflow-hidden" style="background-color: #b30000;">
+                <div class="card-header bg-danger text-white p-3" style="background-color: #e60000 !important;">
+                    <h5 class="mb-0 fw-bold" style="font-size: 1.25rem;">{{ __('Verify User Email Address') }}</h5>
                 </div>
 
-                <div class="card-body p-4">
+                <div class="card-body p-3 text-white" style="font-size: 0.85rem;">
                     @if(session('error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="font-size: 0.8rem;">
                             {{ session('error') }}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
 
                     @if(session('status'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="font-size: 0.8rem;">
                             {{ session('status') }}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
 
-                    <div class="text-center mb-4">
-                        <div class="mb-3">
-                            <i class="fas fa-user-check fs-1" style="color: #0d6efd;"></i>
+                    <div class="text-center mb-3">
+                        <div class="mb-2">
+                            <i class="fas fa-user-check fs-2" style="color: #fff;"></i>
                         </div>
-                        <h5 class="text-dark fw-bold">{{ __('Verify User Account') }}</h5>
-                        <p class="text-muted">
-                            {{ __('We\'ve sent a verification code to the user\'s email address.') }}
+                        <h6 class="text-white fw-bold">{{ __('Verify User Account') }}</h6>
+                        <p class="text-white" style="font-size: 0.9rem;">
+                            {{ __('We\'ve sent a verification code to the user\'s email address.') }}<br>
                             {{ __('Please enter the 6-digit code below to complete the user registration.') }}
                         </p>
                         
-                        <div class="mt-2 p-3 bg-light rounded-3">
-                            <p class="mb-0"><strong>{{ __('Email:') }}</strong> {{ $userData['email'] }}</p>
-                            <p class="mb-0"><strong>{{ __('User:') }}</strong> {{ $userData['name'] }}</p>
+                        <div class="mt-2 p-2 bg-black rounded-3">
+                            <p class="mb-0 text-white" style="font-weight: 600;"><strong>{{ __('Email:') }}</strong> {{ $userData['email'] }}</p>
+                            <p class="mb-0 text-white" style="font-weight: 600;"><strong>{{ __('User:') }}</strong> {{ $userData['name'] }}</p>
                         </div>
                     </div>
 
-                    <form action="{{ route('club.users.verify.email') }}" method="POST" class="mb-4">
+                    <form action="{{ route('club.users.verify.email') }}" method="POST" class="mb-3">
                         @csrf
-                        <div class="mb-4">
-                            <label for="verification_code" class="form-label fw-semibold mb-2">{{ __('Verification Code') }}</label>
+                        <div class="mb-3">
+                            <label for="verification_code" class="form-label fw-semibold mb-1 text-white" style="font-size: 0.9rem;">{{ __('Verification Code') }}</label>
                             <div class="verification-code-container">
-                                <input type="text" id="digit-1" class="verification-digit" maxlength="1" autofocus>
-                                <input type="text" id="digit-2" class="verification-digit" maxlength="1">
-                                <input type="text" id="digit-3" class="verification-digit" maxlength="1">
-                                <input type="text" id="digit-4" class="verification-digit" maxlength="1">
-                                <input type="text" id="digit-5" class="verification-digit" maxlength="1">
-                                <input type="text" id="digit-6" class="verification-digit" maxlength="1">
-                                <input type="hidden" id="verification_code" name="verification_code" class="@error('verification_code') is-invalid @enderror" required>
+                                <input type="text" id="digit-1" class="verification-digit" maxlength="1" autofocus autocomplete="one-time-code" inputmode="numeric" pattern="\d*">
+                                <input type="text" id="digit-2" class="verification-digit" maxlength="1" autocomplete="one-time-code" inputmode="numeric" pattern="\d*">
+                                <input type="text" id="digit-3" class="verification-digit" maxlength="1" autocomplete="one-time-code" inputmode="numeric" pattern="\d*">
+                                <input type="text" id="digit-4" class="verification-digit" maxlength="1" autocomplete="one-time-code" inputmode="numeric" pattern="\d*">
+                                <input type="text" id="digit-5" class="verification-digit" maxlength="1" autocomplete="one-time-code" inputmode="numeric" pattern="\d*">
+                                <input type="text" id="digit-6" class="verification-digit" maxlength="1" autocomplete="one-time-code" inputmode="numeric" pattern="\d*">
+                                <input type="hidden" id="verification_code" name="verification_code" value="" class="@error('verification_code') is-invalid @enderror">
+                            </div>
+                            
+                            <!-- Fallback direct input for verification code -->
+                            <div class="mt-3 text-center">
+                                <p class="text-white mb-1" style="font-size: 0.8rem;">{{ __('Or enter the verification code directly:') }}</p>
+                                <input type="text" id="direct_code" class="form-control text-center" maxlength="6" inputmode="numeric" pattern="\d{6}" placeholder="Enter 6-digit code" style="max-width: 200px; margin: 0 auto;">
                             </div>
                             
                             @error('verification_code')
-                                <span class="invalid-feedback d-block mt-1">
+                                <span class="invalid-feedback d-block mt-1" style="font-size: 0.8rem;">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-lg py-3 fw-bold">
-                                {{ __('Verify Email & Create User') }}
+                            <button type="submit" class="btn btn-danger btn-lg py-2 fw-bold" style="background-color: #e60000; font-size: 1rem;">
+                                <i class="fas fa-check-circle me-2"></i>{{ __('Verify Email & Create User') }}
                             </button>
                         </div>
                     </form>
-                    <div class="text-center border-top pt-4">
-                        <div class="d-flex justify-content-center align-items-center mb-2">
-                            <i class="fas fa-clock me-2 text-muted"></i>
-                            <p class="mb-0 text-muted">{{ __('Code expires in:') }} <span id="countdown" class="fw-bold">30:00</span></p>
+                    
+                    <div class="row mt-3 pt-2 border-top border-light">
+                        <div class="col-12 mb-2 text-center">
+                            <div class="d-flex justify-content-center align-items-center mb-2">
+                                <i class="fas fa-clock me-2 text-white"></i>
+                                <p class="mb-0" style="color: #f8f9fa; font-size: 0.85rem;">{{ __('Code expires in:') }} <span id="countdown" class="fw-bold">30:00</span></p>
+                            </div>
                         </div>
-                        <div class="d-flex justify-content-center align-items-center mt-3 mb-2">
-                            <i class="fas fa-question-circle me-2 text-muted"></i>
-                            <p class="mb-0 text-muted">{{ __('Didn\'t receive the code?') }}</p>
+                        <div class="col-md-6 mb-2 mb-md-0">
+                            <div class="d-flex align-items-center mb-1">
+                                <i class="fas fa-question-circle me-2 text-white"></i>
+                                <p class="mb-0" style="font-size: 0.85rem;">{{ __('Didn\'t receive the code?') }}</p>
+                            </div>
+                            <a href="{{ route('club.users.resend.verification') }}" class="btn btn-outline-light w-100" style="border-color: #fff; color: #fff;">
+                                <i class="fas fa-envelope me-2"></i>{{ __('Resend Verification Code') }}
+                            </a>
                         </div>
-                        <a href="{{ route('club.users.resend.verification') }}" class="btn btn-outline-primary">
-                            <i class="fas fa-envelope me-2"></i>{{ __('Resend Verification Code') }}
-                        </a>
-                        <a href="{{ route('club.users.create') }}" class="btn btn-outline-secondary ms-2">
-                            <i class="fas fa-times me-2"></i>{{ __('Cancel Registration') }}
-                        </a>
-                    </div>
-                </div>
-                <div class="card-footer bg-light p-3">
-                    <div class="text-center">
-                        <p class="mb-0 text-muted">
-                            <small><i class="fas fa-info-circle me-1"></i>{{ __('Note: User will only be registered after successful verification.') }}</small>
-                        </p>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center mb-1">
+                                <i class="fas fa-times me-2 text-white"></i>
+                                <p class="mb-0" style="font-size: 0.85rem;">{{ __('Want to cancel?') }}</p>
+                            </div>
+                            <a href="{{ route('club.users.create') }}" class="btn btn-outline-light w-100" style="border-color: #fff; color: #fff;">
+                                <i class="fas fa-arrow-left me-2"></i>{{ __('Cancel Registration') }}
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -144,39 +157,87 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Handle digit verification inputs
         const form = document.querySelector('form');
         const digits = Array.from({ length: 6 }, (_, i) => document.getElementById(`digit-${i+1}`));
         const codeInput = document.getElementById('verification_code');
+        const directInput = document.getElementById('direct_code');
         
-        // Update hidden field on form submit
+        // Handle direct input changes
+        if (directInput) {
+            directInput.addEventListener('input', function() {
+                // Clear individual digit fields when direct input is used
+                if (this.value.length > 0) {
+                    digits.forEach(digit => {
+                        digit.value = '';
+                        digit.classList.remove('filled');
+                    });
+                }
+                
+                // Only allow digits
+                this.value = this.value.replace(/[^0-9]/g, '');
+                
+                // Always update the hidden input with the direct input value
+                codeInput.value = this.value;
+            });
+        }
+        
+        // Handle form submission
         form.addEventListener('submit', function(e) {
+            // First check if direct input has a value
+            if (directInput && directInput.value.length === 6) {
+                // Copy direct input value to hidden input
+                codeInput.value = directInput.value;
+                console.log('Submitting with direct input:', directInput.value);
+                return true;
+            }
+            
+            // If no direct input, use the digit inputs
             let code = '';
             digits.forEach(digit => {
                 code += digit.value;
             });
-            codeInput.value = code;
             
-            if (code.length !== 6) {
-                e.preventDefault();
-                alert('Please enter all 6 digits of the verification code');
+            // If all 6 digits are filled, use that value for the hidden input
+            if (code.length === 6) {
+                codeInput.value = code;
+                console.log('Submitting with digit inputs:', code);
+                return true;
             }
+            
+            // If we get here, neither input method has a complete code
+            e.preventDefault();
+            alert('Please enter a valid 6-digit verification code');
+            return false;
         });
         
-        // Handle digit input navigation
+        // Function to update hidden input with digits
+        function updateHiddenInput() {
+            let combinedValue = '';
+            digits.forEach(d => {
+                combinedValue += d.value || '';
+            });
+            codeInput.value = combinedValue;
+            console.log('Updated hidden input:', codeInput.value);
+        }
+        
         digits.forEach((digit, index) => {
-            // Only allow numbers
-            digit.addEventListener('input', function(e) {
+            digit.addEventListener('input', function() {
+                // Clear direct input when individual digits are used
+                if (directInput) {
+                    directInput.value = '';
+                }
+                
                 this.value = this.value.replace(/[^0-9]/g, '');
                 this.classList.toggle('filled', this.value !== '');
                 
-                // Auto focus next input
+                // Update the hidden input every time a digit changes
+                updateHiddenInput();
+                
                 if (this.value !== '' && index < digits.length - 1) {
                     digits[index + 1].focus();
                 }
             });
             
-            // Handle backspace
             digit.addEventListener('keydown', function(e) {
                 if (e.key === 'Backspace') {
                     if (this.value === '' && index > 0) {
@@ -187,36 +248,32 @@
                     } else {
                         this.classList.remove('filled');
                     }
+                    // Update hidden input after backspace
+                    setTimeout(updateHiddenInput, 0);
                 }
-                
-                // Allow arrow keys for navigation
                 if (e.key === 'ArrowLeft' && index > 0) {
                     e.preventDefault();
                     digits[index - 1].focus();
                 }
-                
                 if (e.key === 'ArrowRight' && index < digits.length - 1) {
                     e.preventDefault();
                     digits[index + 1].focus();
                 }
             });
             
-            // Handle paste event
             digit.addEventListener('paste', function(e) {
                 e.preventDefault();
                 const pasteData = e.clipboardData.getData('text').trim();
-                
                 if (/^\d+$/.test(pasteData)) {
                     const pasteDigits = pasteData.split('').slice(0, 6);
-                    
                     pasteDigits.forEach((value, i) => {
                         if (i < digits.length) {
                             digits[i].value = value;
                             digits[i].classList.add('filled');
                         }
                     });
-                    
-                    // Focus the next empty digit
+                    // Update hidden input after paste
+                    updateHiddenInput();
                     if (pasteDigits.length < digits.length) {
                         digits[pasteDigits.length].focus();
                     }
@@ -245,10 +302,10 @@
                     let expiredMessage = document.createElement('div');
                     expiredMessage.className = 'alert alert-warning mt-3';
                     expiredMessage.innerHTML = '<i class="fas fa-exclamation-triangle me-2"></i>' + 
-                        '{{ __("The verification code has expired. Please request a new one.") }}';
+                        '{{ __("The verification code has expired. Please request a new one or cancel and start over.") }}';
                     
-                    let container = countdown.closest('.text-center');
-                    container.insertBefore(expiredMessage, container.firstChild);
+                    let container = countdown.closest('.col-12');
+                    container.appendChild(expiredMessage);
                 }
             }, 1000);
         }

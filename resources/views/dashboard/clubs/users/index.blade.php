@@ -50,8 +50,6 @@
                                         <th>Phone</th>
                                         <th>Fitness Level</th>
                                         <th>Goal</th>
-                                        <th>Subscription</th>
-                                        <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -71,22 +69,6 @@
                                                 @endif
                                             </td>
                                             <td>{{ $user->goal }}</td>
-                                            <td>
-                                                @if($user->plan_name)
-                                                    {{ $user->plan_name }}
-                                                    <br>
-                                                    <small class="text-muted">Until: {{ \Carbon\Carbon::parse($user->end_date)->format('Y-m-d') }}</small>
-                                                @else
-                                                    <span class="text-muted">No active subscription</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if($user->end_date && \Carbon\Carbon::parse($user->end_date)->gte(now()))
-                                                    <span class="badge bg-success">Active</span>
-                                                @else
-                                                    <span class="badge bg-warning text-dark">Inactive</span>
-                                                @endif
-                                            </td>
                                             <td class="d-flex justify-content-center">
                                                 <a href="{{ route('club.users.show', $user->getEncodedId()) }}" class="btn btn-sm btn-info mx-1">
                                                     <i class="fas fa-eye"></i>

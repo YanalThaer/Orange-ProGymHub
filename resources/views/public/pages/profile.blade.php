@@ -5,6 +5,7 @@
     body {
         background-color: #121212;
         color: #ffffff;
+        font-size: medium;
     }
 
     .edit-container {
