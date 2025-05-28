@@ -103,54 +103,54 @@
                 </div>
             </div>
         </div>
-        <section class="team-area fix mt-5">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="section-tittle text-center mb-55 wow fadeInUp" data-wow-duration="1s"
-                            data-wow-delay=".1s">
-                            <h2>What we Offer</h2>
+        <section class="team-area fix">
+        <div class="container">
+            <div class="row ">
+                <div class="col-xl-12">
+                    <div class="section-tittle text-center mb-55 wow fadeInUp" data-wow-duration="1s"
+                        data-wow-delay=".1s">
+                        <h2>What we Offer</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center d-flex">
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-cat text-center mb-30 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".2s">
+                        <div class="cat-icon">
+                            <img src="assets/img/gallery/team1.png" alt="">
+                        </div>
+                        <div class="cat-cap">
+                            <h5><a href="services.html">Find the Nearest Gym</a></h5>
+                            <p>Browse gyms by location and sign up for the one that suits you best</p>
                         </div>
                     </div>
                 </div>
-                <div class="row d-flex justify-content-center">
-                    <div class="col-xl-4 col-md-6">
-                        <div class="single-cat text-center mb-30 wow fadeInUp " data-wow-duration="1s" data-wow-delay=".2s">
-                            <div class="cat-icon">
-                                <img src="assets/img/gallery/team1.png" class="img-fluid" alt="">
-                            </div>
-                            <div class="cat-cap">
-                                <h5><a href="services.html">Find the Nearest Gym</a></h5>
-                                <p>Browse gyms by location and sign up for the one that suits you best</p>
-                            </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-cat text-center mb-30 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".4s">
+                        <div class="cat-icon">
+                            <img src="assets/img/gallery/team2.png" alt="">
+                        </div>
+                        <div class="cat-cap">
+                            <h5><a href="services.html">Choose the Right Coach</a></h5>
+                            <p>Explore coach profiles, compare their experience, and pick the one that fits your goals
+                            </p>
                         </div>
                     </div>
-                    <!-- Duplicate content - consider replacing with real data later -->
-                    <div class="col-xl-4 col-md-6">
-                        <div class="single-cat text-center mb-30 wow fadeInUp " data-wow-duration="1s" data-wow-delay=".2s">
-                            <div class="cat-icon">
-                                <img src="assets/img/gallery/team1.png" class="img-fluid" alt="">
-                            </div>
-                            <div class="cat-cap">
-                                <h5><a href="services.html">Find the Nearest Gym</a></h5>
-                                <p>Browse gyms by location and sign up for the one that suits you best</p>
-                            </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="single-cat text-center mb-30 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".6s">
+                        <div class="cat-icon">
+                            <img src="assets/img/gallery/team3.png" alt="">
                         </div>
-                    </div>
-                    <div class="col-xl-4 col-md-6">
-                        <div class="single-cat text-center mb-30 wow fadeInUp " data-wow-duration="1s" data-wow-delay=".2s">
-                            <div class="cat-icon">
-                                <img src="assets/img/gallery/team1.png" class="img-fluid" alt="">
-                            </div>
-                            <div class="cat-cap">
-                                <h5><a href="services.html">Find the Nearest Gym</a></h5>
-                                <p>Browse gyms by location and sign up for the one that suits you best</p>
-                            </div>
+                        <div class="cat-cap">
+                            <h5><a href="services.html">Easy & Secure Payment</a></h5>
+                            <p>Book your spot and pay online with confidence — then get started right away</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
         <section class="clubs-area py-5">
             <div class="container">
                 <div class="row">

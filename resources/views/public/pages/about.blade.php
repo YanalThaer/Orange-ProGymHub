@@ -82,7 +82,7 @@
                             you.
 
                         </p>
-                        <a href="courses.html" class="border-btn">Our Club</a>
+                        <a href="{{ route('all_clubs') }}" class="border-btn">Our Clubs</a>
                     </div>
                 </div>
             </div>

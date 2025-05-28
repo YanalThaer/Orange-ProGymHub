@@ -10,7 +10,6 @@
         color: white !important;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
         font-size: medium !important;
-
         line-height: 1.6;
     }
     .payment-container {
@@ -19,14 +18,13 @@
         padding: 30px;
     }
     .payment-title {
-
         margin-bottom: 20px;
     }
     h2,
     h3,
     h4,
     h5 {
-        : calc(1.5rem + 0.5vw);
+        font-size: calc(1.5rem + 0.5vw);
         line-height: 1.3;
     }
     .payment-form input,
@@ -63,8 +61,8 @@
         border-radius: 5px;
     }
 </style>
-<div class="payment-container container mt-5" style="">
-    <h2 class="payment-title mt-5 text-white text-center" style=" ">Complete Your Subscription</h2>
+<div class="payment-container container mt-5">
+    <h2 class="payment-title mt-5 text-white text-center">Complete Your Subscription</h2>
     @if(session('error'))
     <div class="alert alert-danger mb-4">
         {{ session('error') }}
@@ -72,7 +70,7 @@
     @endif
     @if(isset($plan) && isset($club))
     <div style="background-color: #2a2a2a; padding: 20px; border-radius: 10px; margin-bottom: 25px;">
-        <h4 style="color: #ff0000; margin-bottom: 15px; : 1.25rem;">Subscription Summary</h4>
+        <h4 style="color: #ff0000; margin-bottom: 15px; font-size: 1.25rem;">Subscription Summary</h4>
         <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #444;">
             <span>Club:</span>
             <span><strong>{{ $club->name }}</strong></span>
@@ -90,13 +88,13 @@
             <span><strong>{{ $plan->duration_days }} days</strong></span>
         </div>
         <div
-            style="display: flex; justify-content: space-between; padding: 15px 0; margin-top: 10px; border-top: 2px solid #555; : 1.1rem;">
+            style="display: flex; justify-content: space-between; padding: 15px 0; margin-top: 10px; border-top: 2px solid #555; font-size: 1.1rem;">
             <span>Total:</span>
             <span><strong>{{ number_format($plan->price, 2) }} JOD</strong></span>
         </div>
     </div>
     <div style="background-color: #2a2a2a; padding: 20px; border-radius: 10px; margin-bottom: 25px;">
-        <h4 style="color: #ff0000; margin-bottom: 15px; : 1.25rem;">Your Information</h4>
+        <h4 style="color: #ff0000; margin-bottom: 15px; font-size: 1.25rem;">Your Information</h4>
         <div class="row">
             <div class="col-md-6">
                 @foreach(['name', 'email', 'phone_number' => 'phone number', 'goal'] as $field => $label)
@@ -161,7 +159,7 @@
         @endif
     </div>
     @endif
-    <form class="payment-form" action="{{ route('process.payment') }}" method="POST" style=": 1rem;">
+    <form class="payment-form" action="{{ route('process.payment') }}" method="POST" style="font-size: 1rem;">
         @csrf
         <input type="hidden" name="plan_id" value="{{ $plan->id }}">
         <input type="hidden" name="club_id" value="{{ $club->getEncodedId() }}">
@@ -202,7 +200,7 @@
             </div>
         </div>
         <hr class="my-4 border-secondary">
-        <h4 class="text-danger mb-3" style=": 1.25rem;">Select Your Coach</h4>
+        <h4 class="text-danger mb-3" style="font-size: 1.25rem;">Select Your Coach</h4>
         <div class="mb-3 bg-dark p-3 rounded">
             <label for="coach_id" class="form-label fw-bold text-secondary">Choose a Coach (Optional)</label>
             <select id="coach_id" name="coach_id" class="form-select bg-dark text-white" style="background-color: #2a2a2a; color: white;">
@@ -243,7 +241,7 @@
             </div>
         </div>
         <hr class="my-4 border-secondary">
-        <h4 class="text-danger mb-3" style=": 1.25rem;">Payment Details</h4>
+        <h4 class="text-danger mb-3" style="font-size: 1.25rem;">Payment Details</h4>
         <div class="d-flex gap-2 mb-3">
             <img src="{{ asset('assets/img/visa.jpg') }}" width="100" alt="Visa"
                 style="height: 100px; opacity: 0.7;">
@@ -272,15 +270,19 @@
                 <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
-        </div> <button type="button" id="confirm-payment-btn" class="btn btn-danger w-100" {{ $club->status !== 'active' || !$plan->is_active || (isset($canSubscribe) && !$canSubscribe) ? 'disabled' : '' }}>
+        </div>
+        <button type="button" id="confirm-payment-btn" class="btn btn-danger w-100" 
+            {{ ($club->status !== 'active' || !$plan->is_active || (isset($canSubscribe) && !$canSubscribe)) ? 'disabled' : '' }}>
             Complete Payment - {{ number_format($plan->price, 2) }} JOD
         </button>
     </form>
+
+    <!-- Modal -->
     <div class="modal fade" id="confirmSubscriptionModal" tabindex="-1" aria-labelledby="confirmSubscriptionModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-dark text-white">
-                <div class="modal-header border-secondary text-center">
-                    <h5 class="modal-title w-100 text-danger fw-bold" id="confirmSubscriptionModalLabel">Confirm Subscription</h5>
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title text-danger fw-bold" id="confirmSubscriptionModalLabel">Confirm Subscription</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">
@@ -314,131 +316,170 @@
     </div>
     @endif
 </div>
+
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing scripts...');
+    
+    // Check if Bootstrap is loaded
     if (typeof bootstrap === 'undefined') {
         console.error('Bootstrap is not loaded. Modal functionality may not work.');
+        return;
     }
-    document.addEventListener('DOMContentLoaded', function() {
-        const confirmPaymentBtn = document.getElementById('confirm-payment-btn');
-        const confirmSubscriptionBtn = document.getElementById('confirm-subscription');
-        const paymentForm = document.querySelector('.payment-form');
-        if (confirmPaymentBtn && confirmSubscriptionBtn && paymentForm) {
-            confirmPaymentBtn.addEventListener('click', function() {
-                if (paymentForm.checkValidity()) {
-                    try {
-                        const modalElement = document.getElementById('confirmSubscriptionModal');
-                        if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
-                            const modal = new bootstrap.Modal(modalElement);
-                            modal.show();
-                        } else if (typeof $ !== 'undefined' && $('#confirmSubscriptionModal').modal) {
-                            $('#confirmSubscriptionModal').modal('show');
-                        } else {
-                            console.error('Bootstrap Modal is not available. Trying alternate method.');
-                            modalElement.classList.add('show');
-                            modalElement.style.display = 'block';
-                            modalElement.setAttribute('aria-modal', 'true');
-                            modalElement.setAttribute('role', 'dialog');
-                            document.body.classList.add('modal-open');
-                            const backdrop = document.createElement('div');
-                            backdrop.className = 'modal-backdrop fade show';
-                            document.body.appendChild(backdrop);
-                        }
-                    } catch (error) {
-                        console.error('Error showing modal:', error);
-                        alert('There was an error processing your request. Please try again.');
-                    }
-                } else {
-                    paymentForm.reportValidity();
-                }
-            });
-            confirmSubscriptionBtn.addEventListener('click', function() {
-                const confirmedInput = document.createElement('input');
-                confirmedInput.type = 'hidden';
-                confirmedInput.name = 'confirmed';
-                confirmedInput.value = '1';
-                paymentForm.appendChild(confirmedInput);
-
-                paymentForm.submit();
-            });
+    
+    console.log('Bootstrap is loaded successfully');
+    
+    // Get form elements
+    const confirmPaymentBtn = document.getElementById('confirm-payment-btn');
+    const confirmSubscriptionBtn = document.getElementById('confirm-subscription');
+    const paymentForm = document.querySelector('.payment-form');
+    const modalElement = document.getElementById('confirmSubscriptionModal');
+    
+    // Log elements to check if they exist
+    console.log('Elements found:', {
+        confirmPaymentBtn: !!confirmPaymentBtn,
+        confirmSubscriptionBtn: !!confirmSubscriptionBtn,
+        paymentForm: !!paymentForm,
+        modalElement: !!modalElement
+    });
+    
+    if (!confirmPaymentBtn || !confirmSubscriptionBtn || !paymentForm || !modalElement) {
+        console.error('Required elements not found');
+        return;
+    }
+    
+    // Initialize modal
+    const modal = new bootstrap.Modal(modalElement);
+    console.log('Modal initialized:', modal);
+    
+    // Payment button click handler
+    confirmPaymentBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        console.log('Payment button clicked');
+        
+        // Check if button is disabled
+        if (this.disabled) {
+            console.log('Button is disabled, not proceeding');
+            return;
         }
-        const cardNumberInput = document.getElementById('card_number');
-        if (cardNumberInput) {
-            cardNumberInput.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-                let formattedValue = '';
-                for (let i = 0; i < value.length; i++) {
-                    if (i > 0 && i % 4 === 0) {
-                        formattedValue += ' ';
-                    }
-                    formattedValue += value.charAt(i);
-                }
-                if (formattedValue.length > 19) {
-                    formattedValue = formattedValue.substring(0, 19);
-                }
-                e.target.value = formattedValue;
-            });
+        
+        // Validate form
+        if (!paymentForm.checkValidity()) {
+            console.log('Form is not valid, showing validation errors');
+            paymentForm.reportValidity();
+            return;
         }
-        const expiryDateInput = document.getElementById('expiry_date');
-        if (expiryDateInput) {
-            expiryDateInput.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-                if (value.length > 0) {
-                    if (value.length > 0 && parseInt(value.substring(0, 2)) > 12) {
-                        value = '12' + value.substring(2);
-                    }
-                    if (value.length > 2) {
-                        value = value.substring(0, 2) + '/' + value.substring(2, 4);
-                    }
-                }
-                e.target.value = value;
-            });
-        }
-        const cvvInput = document.getElementById('cvv');
-        if (cvvInput) {
-            cvvInput.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-                if (value.length > 3) {
-                    value = value.substring(0, 3);
-                }
-                e.target.value = value;
-            });
-        }
-        const coachSelect = document.getElementById('coach_id');
-        const coachDetails = document.getElementById('coach-details');
-        if (coachSelect) {
-            const coachData = {
-                @foreach($coaches as $coach) {
-                    {
-                        $coach - > id
-                    }
-                }: {
-                    name: "{{ $coach->name }}",
-                    gender: "{{ ucfirst($coach->gender ?? 'Not specified') }}",
-                    experience: "{{ $coach->experience_years ? $coach->experience_years . ' years' : 'Not specified' }}",
-                    type: "{{ ucfirst($coach->employment_type ?? 'Not specified') }}",
-                    specializations: "{{ is_array($coach->specializations) ? implode(', ', $coach->specializations) : ($coach->specializations ?: 'General Fitness') }}",
-                    bio: "{{ $coach->bio ? str_replace('"
-                    ', '\
-                    "', $coach->bio) : 'No biography available.' }}"
-                },
-                @endforeach
-            };
-            coachSelect.addEventListener('change', function() {
-                const selectedCoachId = this.value;
-                if (selectedCoachId) {
-                    const coach = coachData[selectedCoachId];
-                    document.getElementById('coach-name').textContent = coach.name;
-                    document.getElementById('coach-gender').textContent = coach.gender;
-                    document.getElementById('coach-experience').textContent = coach.experience;
-                    document.getElementById('coach-type').textContent = coach.type;
-                    document.getElementById('coach-specializations').textContent = coach.specializations;
-                    document.getElementById('coach-bio').textContent = coach.bio;
-                    coachDetails.style.display = 'block';
-                } else {
-                    coachDetails.style.display = 'none';
-                }
-            });
+        
+        console.log('Form is valid, showing modal');
+        
+        // Show modal
+        try {
+            modal.show();
+            console.log('Modal show() called successfully');
+        } catch (error) {
+            console.error('Error showing modal:', error);
         }
     });
+    
+    // Confirm subscription button click handler
+    confirmSubscriptionBtn.addEventListener('click', function() {
+        console.log('Confirm subscription clicked');
+        
+        // Add confirmed input to form
+        const confirmedInput = document.createElement('input');
+        confirmedInput.type = 'hidden';
+        confirmedInput.name = 'confirmed';
+        confirmedInput.value = '1';
+        paymentForm.appendChild(confirmedInput);
+        
+        // Hide modal
+        modal.hide();
+        
+        // Submit form
+        paymentForm.submit();
+    });
+    
+    // Card number formatting
+    const cardNumberInput = document.getElementById('card_number');
+    if (cardNumberInput) {
+        cardNumberInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+            let formattedValue = '';
+            for (let i = 0; i < value.length; i++) {
+                if (i > 0 && i % 4 === 0) {
+                    formattedValue += ' ';
+                }
+                formattedValue += value.charAt(i);
+            }
+            if (formattedValue.length > 19) {
+                formattedValue = formattedValue.substring(0, 19);
+            }
+            e.target.value = formattedValue;
+        });
+    }
+    
+    // Expiry date formatting
+    const expiryDateInput = document.getElementById('expiry_date');
+    if (expiryDateInput) {
+        expiryDateInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 0) {
+                if (value.length > 0 && parseInt(value.substring(0, 2)) > 12) {
+                    value = '12' + value.substring(2);
+                }
+                if (value.length > 2) {
+                    value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                }
+            }
+            e.target.value = value;
+        });
+    }
+    
+    // CVV formatting
+    const cvvInput = document.getElementById('cvv');
+    if (cvvInput) {
+        cvvInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 3) {
+                value = value.substring(0, 3);
+            }
+            e.target.value = value;
+        });
+    }
+    
+    // Coach selection
+    const coachSelect = document.getElementById('coach_id');
+    const coachDetails = document.getElementById('coach-details');
+    if (coachSelect) {
+        const coachData = {
+            @foreach($coaches as $coach)
+            {{ $coach->id }}: {
+                name: "{{ $coach->name }}",
+                gender: "{{ ucfirst($coach->gender ?? 'Not specified') }}",
+                experience: "{{ $coach->experience_years ? $coach->experience_years . ' years' : 'Not specified' }}",
+                type: "{{ ucfirst($coach->employment_type ?? 'Not specified') }}",
+                specializations: "{{ is_array($coach->specializations) ? implode(', ', $coach->specializations) : ($coach->specializations ?: 'General Fitness') }}",
+                bio: "{{ $coach->bio ? str_replace(['"', '\n'], ['\"', '\\n'], $coach->bio) : 'No biography available.' }}"
+            },
+            @endforeach
+        };
+        
+        coachSelect.addEventListener('change', function() {
+            const selectedCoachId = this.value;
+            if (selectedCoachId && coachData[selectedCoachId]) {
+                const coach = coachData[selectedCoachId];
+                document.getElementById('coach-name').textContent = coach.name;
+                document.getElementById('coach-gender').textContent = coach.gender;
+                document.getElementById('coach-experience').textContent = coach.experience;
+                document.getElementById('coach-type').textContent = coach.type;
+                document.getElementById('coach-specializations').textContent = coach.specializations;
+                document.getElementById('coach-bio').textContent = coach.bio;
+                coachDetails.style.display = 'block';
+            } else {
+                coachDetails.style.display = 'none';
+            }
+        });
+    }
+});
 </script>
 @endsection
