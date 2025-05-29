@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use App\Traits\HasEncodedId;
@@ -119,12 +120,12 @@ class Club extends Authenticatable implements CanResetPassword
     {
         return $this->hasMany(SubscriptionPlan::class);
     }
-    
+
     public function workoutPlans()
     {
         return $this->hasMany(WorkoutPlan::class);
     }
-    
+
     public function userSubscriptions()
     {
         return $this->hasMany(UserSubscription::class);
@@ -173,35 +174,35 @@ class Club extends Authenticatable implements CanResetPassword
     public function isOpen()
     {
         $currentDay = now()->dayOfWeek;
-        
+
         $currentTime = now()->format('H:i');
-        
+
         if (!$this->working_days) {
             return false;
         }
-        
+
         $workingDays = is_array($this->working_days) ? $this->working_days : json_decode($this->working_days, true);
-        
+
         if (!isset($workingDays[$currentDay]) || !$workingDays[$currentDay]) {
             return false;
         }
-        
+
         if ($this->special_hours) {
             $specialHours = is_array($this->special_hours) ? $this->special_hours : json_decode($this->special_hours, true);
             $today = now()->format('Y-m-d');
-            
+
             if (isset($specialHours[$today])) {
                 $hours = $specialHours[$today];
                 return $currentTime >= $hours['open'] && $currentTime <= $hours['close'];
             }
         }
-        
+
         $openTime = $this->open_time->format('H:i');
         $closeTime = $this->close_time->format('H:i');
-        
+
         return $currentTime >= $openTime && $currentTime <= $closeTime;
     }
-    
+
     /**
      * Get the email address where password reset links are sent.
      *

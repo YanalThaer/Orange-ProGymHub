@@ -21,7 +21,7 @@ class UserSubscriptionFactory extends Factory
         $user = User::inRandomOrder()->first();
         $startDate = $this->faker->dateTimeBetween('-6 months', 'now');
         $endDate = (clone $startDate)->modify('+' . $this->faker->numberBetween(30, 365) . ' days');
-        
+
         return [
             'user_id' => $user?->id,
             'plan_id' => SubscriptionPlan::inRandomOrder()->first()?->id,

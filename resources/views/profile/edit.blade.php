@@ -7,12 +7,15 @@
         color: #000 !important;
         font-size: medium !important;
     }
+
     @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
     .profile-edit-container {
         max-width: 1000px;
         margin: auto;
         padding: 2rem;
     }
+
     .card {
         background-color: #1f1f1f !important;
         color: #fff !important;
@@ -20,6 +23,7 @@
         border-radius: 10px;
         margin-bottom: 1.5rem;
     }
+
     .card-header {
         background-color: #ff0000 !important;
 
@@ -27,22 +31,27 @@
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
     }
+
     .form-control,
     .form-select {
         background-color: #2c2c2c;
         border: 1px solid #444;
     }
+
     .form-control:focus,
     .form-select:focus {
         border-color: #ff0000;
         box-shadow: 0 0 0 0.25rem rgba(255, 0, 0, 0.25);
     }
+
     .form-select .current {
         color: #000 !important;
     }
+
     .form-control::placeholder {
         color: #888;
     }
+
     .form-select {
         background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
         appearance: none;
@@ -50,9 +59,11 @@
         cursor: pointer;
         transition: all 0.3s ease;
     }
+
     .form-select:hover {
         border-color: #ff0000;
     }
+
     .custom-select-icon {
         position: absolute;
         right: 15px;
@@ -62,45 +73,56 @@
         pointer-events: none;
         transition: all 0.3s ease;
     }
+
     .form-select option {
         background-color: #1f1f1f;
         padding: 10px;
         font-size: 16px;
     }
+
     .form-select {
         padding: 12px 15px;
         font-size: 16px;
         border-radius: 8px;
         border: 1px solid #444;
     }
+
     .form-select:focus+.custom-select-icon,
     .form-select:hover+.custom-select-icon {
         color: #000 !important;
     }
+
     ul {
         color: black !important;
     }
+
     .form-select:focus {
         border: 2px solid #ff0000;
     }
+
     .form-label {
         color: #aaa;
     }
+
     .btn-danger {
         background-color: #ff0000;
         border-color: #ff0000;
     }
+
     .btn-danger:hover {
         background-color: #d60000;
         border-color: #d60000;
     }
+
     .btn-outline-secondary {
         color: #aaa;
         border-color: #444;
     }
+
     .btn-outline-secondary:hover {
         background-color: #333;
     }
+
     .invalid-feedback {
         color: #ff6b6b;
     }
@@ -457,6 +479,7 @@
         document.head.appendChild(style);
         const heightInput = document.getElementById('height_cm');
         const weightInput = document.getElementById('weight_kg');
+
         function calculateBMI() {
             if (heightInput?.value && weightInput?.value) {
                 const heightInMeters = parseFloat(heightInput.value) / 100;

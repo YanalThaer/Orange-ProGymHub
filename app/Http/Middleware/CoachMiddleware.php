@@ -18,16 +18,16 @@ class CoachMiddleware
     {
         if (Auth::guard('coach')->check()) {
             $coach = Auth::guard('coach')->user();
-            
+
             if ($coach->verification_code == null || empty($coach->verification_code)) {
                 return redirect()->route('coach.verify.email.form', $coach->encoded_id)
                     ->with('error', 'You must verify your email address to access this page.');
             }
 
-            
+
             return $next($request);
         }
-        
+
         return redirect('/dashboard/admin')->with('error', 'لا يمكنك الوصول لهذه الصفحة');
     }
 }

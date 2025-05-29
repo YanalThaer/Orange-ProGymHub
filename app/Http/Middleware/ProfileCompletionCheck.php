@@ -14,7 +14,7 @@ class ProfileCompletionCheck
      *
      * @var array
      */    protected $except = [
-        'profile.complete.show', 
+        'profile.complete.show',
         'profile.complete',
         'profile.skip',
         'logoutusers',
@@ -31,13 +31,13 @@ class ProfileCompletionCheck
     {
         if (Auth::check()) {
             $user = Auth::user();
-            
+
             foreach ($this->except as $route) {
                 if ($request->routeIs($route)) {
                     return $next($request);
                 }
             }
-            
+
             if ((empty($user->goal) || empty($user->fitness_level)) && !session('skip_profile_completion')) {
                 if (!session('profile_completion_visited')) {
                     return redirect()->route('profile.complete.show')

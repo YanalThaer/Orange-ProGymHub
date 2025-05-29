@@ -17,20 +17,20 @@
                         <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password">
                         <label for="password">{{ __('Password') }}</label>
                         @error('password')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
                         @enderror
                     </div>
                     <button type="submit" class="btn btn-primary py-3 w-100 mb-4">
                         {{ __('Confirm Password') }}
                     </button>
                     @if (Route::has('password.request'))
-                        <p class="text-center mb-0">
-                            <a class="btn-link" href="{{ route('password.request') }}">
-                                {{ __('Forgot Your Password?') }}
-                            </a>
-                        </p>
+                    <p class="text-center mb-0">
+                        <a class="btn-link" href="{{ route('password.request') }}">
+                            {{ __('Forgot Your Password?') }}
+                        </a>
+                    </p>
                     @endif
                 </form>
             </div>

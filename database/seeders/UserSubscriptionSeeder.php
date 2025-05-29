@@ -23,7 +23,7 @@ class UserSubscriptionSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now()
         ]);
-        
-        \App\Models\UserSubscription::factory(10)->create();  
+
+        \App\Models\UserSubscription::factory(10)->create();
     }
 }

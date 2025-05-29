@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -33,7 +34,7 @@ class WorkoutPlan extends Model
     {
         return $this->belongsTo(Coach::class);
     }
-    
+
     public function club()
     {
         return $this->belongsTo(Club::class);
@@ -43,7 +44,7 @@ class WorkoutPlan extends Model
     {
         return $this->hasMany(WorkoutProgress::class);
     }
-    
+
     /**
      * Get the users assigned to this workout plan.
      */
@@ -52,4 +53,3 @@ class WorkoutPlan extends Model
         return $this->belongsToMany(User::class, 'user_workout_plan')->withTimestamps();
     }
 }
-

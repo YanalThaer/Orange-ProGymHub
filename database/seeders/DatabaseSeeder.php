@@ -22,17 +22,6 @@ class DatabaseSeeder extends Seeder
             CoachSeeder::class,
             SubscriptionPlanSeeder::class,
             UserSeeder::class,
-            // WorkoutPlanSeeder::class,
-            // DietPlanSeeder::class,
-            // CoursesSeeder::class,
-            // AttendanceSeeder::class,
-            // ProgressSeeder::class,
-            // UserSubscriptionSeeder::class,
-            // SessionRegistrationSeeder::class,
-            // CoachPaymentSeeder::class,
-            // DietProgressSeeder::class,
-            // QRLogSeeder::class,
-            // WorkoutProgressSeeder::class,
         ]);
     }
 }

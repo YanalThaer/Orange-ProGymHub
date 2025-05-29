@@ -16,7 +16,7 @@ class ClubPasswordResetHandlerController extends Controller
     /**
      * Handle the custom password reset link generation for clubs
      * To be used directly from other controllers
-     */   
+     */
     public static function sendPasswordResetLink($club)
     {
         try {

@@ -12,7 +12,7 @@ use Carbon\Carbon;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasEncodedId , SoftDeletes;
+    use HasFactory, Notifiable, HasEncodedId, SoftDeletes;
 
     protected $table = 'users';
 
@@ -47,7 +47,7 @@ class User extends Authenticatable
         'coach_id',
         'club_id',
     ];
-    
+
     /**
      * The attributes that should be cast.
      *
@@ -97,7 +97,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserSubscription::class);
     }
-    
+
     public function subscriptionPlan()
     {
         return $this->belongsTo(SubscriptionPlan::class);
@@ -137,21 +137,21 @@ class User extends Authenticatable
     public function canSubscribe($clubId = null)
     {
         $activeSubscription = $this->getActiveSubscription();
-        
+
         if (!$activeSubscription) {
             return [true, ''];
         }
-        
+
         if ($clubId && $activeSubscription->club_id == $clubId) {
             return [false, 'You already have an active subscription at this club.'];
         }
-        
+
         $daysRemaining = now()->diffInDays($activeSubscription->end_date, false);
-        
+
         if ($daysRemaining <= 3 && $daysRemaining >= 0) {
             return [true, ''];
         }
-        
+
         return [false, 'You already have an active subscription. You can subscribe to a new club only in the last 3 days of your current subscription.'];
     }
 
@@ -163,14 +163,14 @@ class User extends Authenticatable
     public function getNewSubscriptionStartDate()
     {
         $activeSubscription = $this->getActiveSubscription();
-        
+
         if (!$activeSubscription) {
             return now();
         }
-        
+
         return $activeSubscription->end_date->copy()->addDay();
     }
-    
+
     /**
      * Get the currently active subscription for the user
      * 
@@ -179,7 +179,7 @@ class User extends Authenticatable
     public function userSubscription()
     {
         return $this->hasOne(UserSubscription::class)
-                    ->where('end_date', '>=', now())
-                    ->orderBy('created_at', 'desc');
+            ->where('end_date', '>=', now())
+            ->orderBy('created_at', 'desc');
     }
 }

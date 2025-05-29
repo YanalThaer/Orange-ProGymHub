@@ -22,11 +22,11 @@ class ClubController extends Controller
     public function index()
     {
         $this->clearClubCreationSession();
-        
+
         $club = Auth::guard('club')->user();
-        
+
         $club->load('users', 'coaches', 'subscriptionPlans', 'userSubscriptions');
-        
+
         return view('dashboard.dashboard', compact('club'));
     }
 
@@ -44,7 +44,7 @@ class ClubController extends Controller
     public function create()
     {
         $this->clearClubCreationSession();
-        
+
         $admins = Admin::all();
         return view('dashboard.clubs.create', compact('admins'));
     }
@@ -94,9 +94,9 @@ class ClubController extends Controller
         }
 
         $hashedPassword = Hash::make($validated['password']);
-        
+
         $verificationCode = rand(100000, 999999);
-        
+
         session([
             'club_data' => [
                 ...$validated,
@@ -109,12 +109,12 @@ class ClubController extends Controller
             'verification_code' => $verificationCode,
             'verification_expires_at' => now()->addMinutes(30),
         ]);
-        
+
         Mail::raw("Your ProGymHub Club Account Verification Code is: $verificationCode\n\nThis code will expire in 30 minutes. Please verify your email to activate your club account.", function ($message) use ($validated) {
             $message->to($validated['email'])
                 ->subject('ProGymHub Club Account Verification');
         });
-        
+
         return redirect()->route('admin.club.verify.email.form')
             ->with('status', 'A verification code has been sent to the club\'s email (' . $validated['email'] . '). Please verify the email to complete club registration.');
     }
@@ -151,7 +151,7 @@ class ClubController extends Controller
                 $message->to($club->admin->email)
                     ->subject('Club Account Updated - ProGymHub: ' . $club->name);
             });
-            
+
             $club->admin->customNotifications()->create([
                 'type' => 'admin_notification',
                 'title' => 'Club Updated Profile',
@@ -306,9 +306,9 @@ class ClubController extends Controller
             return redirect()->route('clubs.index')
                 ->with('error', 'Club not found.');
         }
-        
+
         $admin = Auth::guard('admin')->user();
-        
+
         Mail::send('emails.club-deletion-notification', ['club' => $club, 'admin' => $admin], function ($message) use ($club, $admin) {
             $message->to($club->email)
                 ->subject('Club Account Deletion Notice - ProGymHub');
@@ -417,7 +417,7 @@ class ClubController extends Controller
         $activeClubs = Club::where('status', 'active')->get();
         $inactiveClubs = Club::where('status', 'inactive')->get();
         $maintenanceClubs = Club::where('status', 'under_maintenance')->get();
-        
+
         $allClubs = $activeClubs->concat($inactiveClubs)->concat($maintenanceClubs)->values();
 
         $page = request()->get('page', 1);
@@ -432,7 +432,7 @@ class ClubController extends Controller
             $page,
             ['path' => request()->url(), 'query' => request()->query()]
         );
-        
+
         return view('dashboard.clubs.index', compact('clubs'));
     }
 
@@ -473,11 +473,11 @@ class ClubController extends Controller
             return redirect()->route('admin.trashed-clubs')
                 ->with('error', 'Club not found.');
         }
-        
+
         $admin = Auth::guard('admin')->user();
-        
+
         $club->restore();
-        
+
         Mail::send('emails.club-restoration-notification', ['club' => $club, 'admin' => $admin], function ($message) use ($club, $admin) {
             $message->to($club->email)
                 ->subject('Club Account Restored - ProGymHub');
@@ -586,7 +586,7 @@ class ClubController extends Controller
                     'plan' => $subscriptionPlan
                 ], function ($message) use ($admin, $club) {
                     $message->to($admin->email)
-                            ->subject('New Subscription Plan Added by ' . $club->name);
+                        ->subject('New Subscription Plan Added by ' . $club->name);
                 });
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error('Failed to send email to admin: ' . $e->getMessage());
@@ -786,9 +786,9 @@ class ClubController extends Controller
             $query = \App\Models\User::query()
                 ->where(function ($q) use ($club) {
                     $q->where('club_id', $club->id)
-                      ->orWhereHas('subscriptions', function ($sq) use ($club) {
-                          $sq->where('club_id', $club->id);
-                      });
+                        ->orWhereHas('subscriptions', function ($sq) use ($club) {
+                            $sq->where('club_id', $club->id);
+                        });
                 })
                 ->with(['subscriptions' => function ($query) {
                     $query->with('plan', 'club');
@@ -809,7 +809,6 @@ class ClubController extends Controller
         });
 
         return view('dashboard.clubs.users.index', compact('users', 'filter'));
-    
     }
 
     /**
@@ -822,7 +821,7 @@ class ClubController extends Controller
         $subscriptionPlans = SubscriptionPlan::where('club_id', $club->id)
             ->where('is_active', true)
             ->get();
-            
+
         $coaches = \App\Models\Coach::where('club_id', $club->id)->get();
 
         return view('dashboard.clubs.users.create', compact('subscriptionPlans', 'coaches'));
@@ -834,7 +833,7 @@ class ClubController extends Controller
     public function storeUser(Request $request)
     {
         $club = Auth::guard('club')->user();
-        
+
         // If club is inactive, only restrict if they're trying to add a subscription
         if ($club->status !== 'active' && $request->has('plan_id') && !empty($request->plan_id)) {
             return redirect()->back()->with('error', 'You cannot create new user subscriptions while your club is inactive. You may create users without subscriptions.')->withInput();
@@ -876,12 +875,12 @@ class ClubController extends Controller
             if (!$plan || $plan->club_id !== $club->id) {
                 return redirect()->back()->with('error', 'The selected subscription plan is invalid.')->withInput();
             }
-            
+
             if (!$plan->is_active) {
                 return redirect()->back()->with('error', 'The selected subscription plan is currently unavailable.')->withInput();
             }
         }
-        
+
         if (!empty($validated['coach_id'])) {
             $coach = \App\Models\Coach::find($validated['coach_id']);
             if (!$coach || $coach->club_id !== $club->id) {
@@ -927,20 +926,20 @@ class ClubController extends Controller
         ];
 
         $verificationCode = rand(100000, 999999);
-        
+
         session([
             'user_data' => $userData,
             'plan_id' => $validated['plan_id'] ?? null,
             'user_verification_code' => $verificationCode,
             'user_verification_expires_at' => now()->addMinutes(30)
         ]);
-        
+
         try {
             Mail::raw("Your ProGymHub User Account Verification Code is: $verificationCode\n\nThis code will expire in 30 minutes. Please verify your email to activate your account.", function ($message) use ($userData) {
                 $message->to($userData['email'])
                     ->subject('ProGymHub User Account Verification');
             });
-            
+
             return redirect()->route('club.users.verify.email.form')
                 ->with('status', 'A verification code has been sent to the email address (' . $userData['email'] . '). Please verify to complete registration.');
         } catch (\Exception $e) {
@@ -948,7 +947,7 @@ class ClubController extends Controller
                 'exception' => $e->getMessage(),
                 'email' => $userData['email']
             ]);
-            
+
             return redirect()->back()
                 ->with('error', 'Failed to send verification email. Please try again or contact support.')
                 ->withInput();
@@ -964,7 +963,7 @@ class ClubController extends Controller
             return redirect()->route('club.users.create')
                 ->with('error', 'No pending user registration found.');
         }
-        
+
         $userData = session('user_data');
         return view('dashboard.clubs.users.verify-email', compact('userData'));
     }
@@ -977,49 +976,49 @@ class ClubController extends Controller
         $request->validate([
             'verification_code' => 'required|numeric|digits:6',
         ]);
-        
+
         if (!session()->has('user_data') || !session()->has('user_verification_code') || !session()->has('user_verification_expires_at')) {
             return redirect()->route('club.users.create')
                 ->with('error', 'Verification session expired. Please try again.');
         }
-        
+
         $userData = session('user_data');
         $planId = session('plan_id');
         $verificationCode = session('user_verification_code');
         $expiresAt = session('user_verification_expires_at');
-        
+
         if (now()->isAfter($expiresAt)) {
             session()->forget(['user_data', 'plan_id', 'user_verification_code', 'user_verification_expires_at']);
-            
+
             return redirect()->route('club.users.create')
                 ->with('error', 'Verification code has expired. Please try again.');
         }
-        
+
         if ((string)$verificationCode !== (string)$request->verification_code) {
             return back()->with('error', 'Invalid verification code. Please try again.');
         }
-        
+
         $club = Auth::guard('club')->user();
-        
+
         DB::beginTransaction();
-        
+
         try {
             $user = new \App\Models\User();
             foreach ($userData as $key => $value) {
                 $user->{$key} = $value;
             }
-            
+
             $user->save();
-            
+
             // Only process subscription plan if club is active
             if (!empty($planId) && $club->status === 'active') {
                 $plan = SubscriptionPlan::find($planId);
-                
+
                 $otherActiveSubscription = \App\Models\UserSubscription::where('user_id', $user->id)
                     ->where('club_id', '!=', $club->id)
                     ->where('end_date', '>=', now())
                     ->first();
-                
+
                 $startDate = now();
                 if ($otherActiveSubscription) {
                     $daysRemaining = now()->diffInDays($otherActiveSubscription->end_date, false);
@@ -1030,9 +1029,9 @@ class ClubController extends Controller
                     }
                     $startDate = $otherActiveSubscription->end_date->copy()->addDay();
                 }
-                
+
                 $endDate = $startDate->copy()->addDays($plan->duration_days);
-                
+
                 \App\Models\UserSubscription::create([
                     'user_id' => $user->id,
                     'club_id' => $club->id,
@@ -1043,16 +1042,16 @@ class ClubController extends Controller
                     'payment_method' => 'manual',
                 ]);
             }
-            
+
             DB::commit();
-            
+
             try {
                 Mail::send('emails.user-welcome', [
                     'user' => $user,
                     'club' => $club
                 ], function ($message) use ($user, $club) {
                     $message->to($user->email)
-                            ->subject('Welcome to ' . $club->name . ' - ProGymHub');
+                        ->subject('Welcome to ' . $club->name . ' - ProGymHub');
                 });
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error('Failed to send welcome email to user:', [
@@ -1061,7 +1060,7 @@ class ClubController extends Controller
                     'email' => $user->email
                 ]);
             }
-            
+
             \App\Models\Notification::create([
                 'notifiable_type' => 'App\\Models\\User',
                 'notifiable_id' => $user->id,
@@ -1074,7 +1073,7 @@ class ClubController extends Controller
                     'registered_at' => now()->toDateTimeString()
                 ]
             ]);
-            
+
             \App\Models\Notification::create([
                 'notifiable_type' => 'App\\Models\\Club',
                 'notifiable_id' => $club->id,
@@ -1087,7 +1086,7 @@ class ClubController extends Controller
                     'registered_at' => now()->toDateTimeString()
                 ]
             ]);
-            
+
             $admins = \App\Models\Admin::all();
             foreach ($admins as $admin) {
                 \App\Models\Notification::create([
@@ -1103,7 +1102,7 @@ class ClubController extends Controller
                         'registered_at' => now()->toDateTimeString()
                     ]
                 ]);
-                
+
                 try {
                     Mail::send('emails.new-user-admin', [
                         'user' => $user,
@@ -1111,7 +1110,7 @@ class ClubController extends Controller
                         'club' => $club
                     ], function ($message) use ($admin, $user, $club) {
                         $message->to($admin->email)
-                                ->subject('New User Registered - ' . $user->name . ' at ' . $club->name);
+                            ->subject('New User Registered - ' . $user->name . ' at ' . $club->name);
                     });
                 } catch (\Exception $e) {
                     \Illuminate\Support\Facades\Log::error('Failed to send email to admin:', [
@@ -1121,7 +1120,7 @@ class ClubController extends Controller
                     ]);
                 }
             }
-            
+
             if (!empty($user->coach_id)) {
                 $coach = \App\Models\Coach::find($user->coach_id);
                 if ($coach) {
@@ -1137,7 +1136,7 @@ class ClubController extends Controller
                             'assigned_at' => now()->toDateTimeString()
                         ]
                     ]);
-                    
+
                     try {
                         Mail::send('emails.coach-new-client', [
                             'user' => $user,
@@ -1145,7 +1144,7 @@ class ClubController extends Controller
                             'club' => $club
                         ], function ($message) use ($coach, $user) {
                             $message->to($coach->email)
-                                    ->subject('New Client Assigned - ' . $user->name);
+                                ->subject('New Client Assigned - ' . $user->name);
                         });
                     } catch (\Exception $e) {
                         \Illuminate\Support\Facades\Log::error('Failed to send email to coach:', [
@@ -1156,12 +1155,11 @@ class ClubController extends Controller
                     }
                 }
             }
-            
+
             session()->forget(['user_data', 'plan_id', 'user_verification_code', 'user_verification_expires_at']);
-            
+
             return redirect()->route('club.users')
                 ->with('success', 'User verified and created successfully. Notifications have been sent to all parties.');
-                
         } catch (\Exception $e) {
             DB::rollBack();
             \Illuminate\Support\Facades\Log::error('Error creating verified user:', [
@@ -1172,14 +1170,14 @@ class ClubController extends Controller
                 'line' => $e->getLine(),
                 'file' => $e->getFile()
             ]);
-            
+
             $errorMessage = 'Error creating user after verification. ';
             if (app()->environment('local', 'development', 'testing')) {
                 $errorMessage .= $e->getMessage();
             } else {
                 $errorMessage .= 'Please try again or contact support.';
             }
-            
+
             return redirect()->route('club.users.create')
                 ->with('error', $errorMessage);
         }
@@ -1194,22 +1192,22 @@ class ClubController extends Controller
             return redirect()->route('club.users.create')
                 ->with('error', 'No pending user registration found.');
         }
-        
+
         $userData = session('user_data');
-        
+
         $verificationCode = rand(100000, 999999);
-        
+
         session([
             'user_verification_code' => $verificationCode,
             'user_verification_expires_at' => now()->addMinutes(30)
         ]);
-        
+
         try {
             Mail::raw("Your ProGymHub User Account Verification Code is: $verificationCode\n\nThis code will expire in 30 minutes. Please verify your email to activate your account.", function ($message) use ($userData) {
                 $message->to($userData['email'])
                     ->subject('ProGymHub User Account Verification - New Code');
             });
-            
+
             return redirect()->route('club.users.verify.email.form')
                 ->with('status', 'A new verification code has been sent to ' . $userData['email'] . '.');
         } catch (\Exception $e) {
@@ -1217,7 +1215,7 @@ class ClubController extends Controller
                 'exception' => $e->getMessage(),
                 'email' => $userData['email']
             ]);
-            
+
             return redirect()->back()
                 ->with('error', 'Failed to send verification email. Please try again or contact support.');
         }
@@ -1247,7 +1245,6 @@ class ClubController extends Controller
             ->where('club_id', $club->id)
             ->exists();
 
-        // Check if user is either associated via subscription OR belongs to the club directly
         if (!$hasSubscription && $user->club_id != $club->id) {
             return redirect()->route('club.users')
                 ->with('error', 'You are not authorized to edit this user.');
@@ -1256,7 +1253,7 @@ class ClubController extends Controller
         $subscriptionPlans = SubscriptionPlan::where('club_id', $club->id)
             ->where('is_active', true)
             ->get();
-            
+
         $coaches = \App\Models\Coach::where('club_id', $club->id)->get();
 
         return view('dashboard.clubs.users.edit', compact('user', 'userSubscription', 'subscriptionPlans', 'coaches'));
@@ -1268,8 +1265,7 @@ class ClubController extends Controller
     public function updateUser(Request $request, $encodedId)
     {
         $club = Auth::guard('club')->user();
-        
-        // Only restrict subscription plan changes when club is inactive, but allow other updates
+
         if ($club->status !== 'active' && $request->has('plan_id') && !empty($request->plan_id)) {
             return redirect()->back()->with('error', 'You cannot modify user subscriptions while your club is inactive. You may update other user information.')->withInput();
         }
@@ -1286,7 +1282,6 @@ class ClubController extends Controller
             ->where('club_id', $club->id)
             ->exists();
 
-        // Check if user is either associated via subscription OR belongs to the club directly
         if (!$hasSubscription && $user->club_id != $club->id) {
             return redirect()->route('club.users')
                 ->with('error', 'You are not authorized to edit this user.');
@@ -1321,7 +1316,7 @@ class ClubController extends Controller
             if (!$plan || $plan->club_id !== $club->id) {
                 return redirect()->back()->with('error', 'The selected subscription plan is invalid.')->withInput();
             }
-            
+
             if (!$plan->is_active) {
                 return redirect()->back()->with('error', 'The selected subscription plan is currently unavailable.')->withInput();
             }
@@ -1379,36 +1374,36 @@ class ClubController extends Controller
                 'user_id' => $user->id,
                 'user_data' => $userData
             ]);
-            
+
             $notificationFailure = false;
 
             $originalUserData = $user->getOriginal();
-            
+
             $user->update($userData);
 
             \Illuminate\Support\Facades\Log::info('User updated successfully:', ['user_id' => $user->id]);
-            
+
             $updatedFields = [];
             foreach ($userData as $key => $value) {
                 if ($key === 'password') {
                     continue;
                 }
-                
+
                 if (isset($originalUserData[$key]) && $originalUserData[$key] != $value) {
                     $displayValue = $value;
-                    
+
                     if ($key === 'date_of_birth' && !is_null($value)) {
                         $displayValue = \Carbon\Carbon::parse($value)->format('F d, Y');
                     }
-                    
+
                     if (is_bool($value)) {
                         $displayValue = $value ? 'Yes' : 'No';
                     }
-                    
+
                     $updatedFields[$key] = $displayValue ?: 'Not specified';
                 }
             }
-            
+
             if (!empty($updatedFields)) {
                 try {
                     Mail::send('emails.user-updated', [
@@ -1417,18 +1412,18 @@ class ClubController extends Controller
                         'updatedFields' => $updatedFields
                     ], function ($message) use ($user, $club) {
                         $message->to($user->email)
-                                ->subject('Account Update Notification - ' . $club->name);
+                            ->subject('Account Update Notification - ' . $club->name);
                     });
-                    
+
                     Mail::send('emails.user-updated-club', [
                         'user' => $user,
                         'club' => $club,
                         'updatedFields' => $updatedFields
                     ], function ($message) use ($user, $club) {
                         $message->to($club->email)
-                                ->subject('User Account Updated - ' . $user->name);
+                            ->subject('User Account Updated - ' . $user->name);
                     });
-                    
+
                     \App\Models\Notification::create([
                         'notifiable_type' => 'App\\Models\\User',
                         'notifiable_id' => $user->id,
@@ -1442,7 +1437,7 @@ class ClubController extends Controller
                             'updated_fields' => array_keys($updatedFields)
                         ]
                     ]);
-                    
+
                     \App\Models\Notification::create([
                         'notifiable_type' => 'App\\Models\\Club',
                         'notifiable_id' => $club->id,
@@ -1456,7 +1451,7 @@ class ClubController extends Controller
                             'updated_fields' => array_keys($updatedFields)
                         ]
                     ]);
-                    
+
                     if (!empty($user->coach_id)) {
                         $coach = \App\Models\Coach::find($user->coach_id);
                         if ($coach) {
@@ -1475,7 +1470,7 @@ class ClubController extends Controller
                             ]);
                         }
                     }
-                    
+
                     if (isset($updatedFields['coach_id']) && !empty($originalUserData['coach_id'])) {
                         if ($originalUserData['coach_id'] != $updatedFields['coach_id']) {
                             $previousCoach = \App\Models\Coach::find($originalUserData['coach_id']);
@@ -1493,7 +1488,7 @@ class ClubController extends Controller
                                     ]
                                 ]);
                             }
-                            
+
                             $newCoach = \App\Models\Coach::find($userData['coach_id']);
                             if ($newCoach) {
                                 \App\Models\Notification::create([
@@ -1517,12 +1512,11 @@ class ClubController extends Controller
                         'user_id' => $user->id,
                         'email' => $user->email
                     ]);
-                    
+
                     $notificationFailure = true;
                 }
             }
 
-            // Only process subscription plan updates if club is active
             if (!empty($validated['plan_id']) && $club->status === 'active') {
                 $plan = SubscriptionPlan::find($validated['plan_id']);
 
@@ -1543,7 +1537,7 @@ class ClubController extends Controller
                     }
                     $startDate = $otherActiveSubscription->end_date->copy()->addDay();
                 }
-                
+
                 $endDate = $startDate->copy()->addDays($plan->duration_days);
 
                 if ($existingSubscription) {
@@ -1569,7 +1563,7 @@ class ClubController extends Controller
 
             $successMessage = 'User updated successfully.';
             if (!empty($updatedFields)) {
-                $successMessage .= $notificationFailure 
+                $successMessage .= $notificationFailure
                     ? ' Some notification emails could not be sent.'
                     : ' Notification emails have been sent to the user and club.';
             }
@@ -1619,7 +1613,6 @@ class ClubController extends Controller
             ->where('club_id', $club->id)
             ->exists();
 
-        // Check if user is either associated via subscription OR belongs to the club directly
         if (!$hasSubscription && $user->club_id != $club->id) {
             return redirect()->route('club.users')
                 ->with('error', 'You are not authorized to delete this user.');
@@ -1631,9 +1624,9 @@ class ClubController extends Controller
                 'club' => $club
             ], function ($message) use ($user, $club) {
                 $message->to($user->email)
-                        ->subject('Account Deactivation Notice - ' . $club->name);
+                    ->subject('Account Deactivation Notice - ' . $club->name);
             });
-            
+
             \App\Models\Notification::create([
                 'notifiable_type' => 'App\\Models\\User',
                 'notifiable_id' => $user->id,
@@ -1646,7 +1639,7 @@ class ClubController extends Controller
                     'deactivated_at' => now()->toDateTimeString()
                 ]
             ]);
-            
+
             \App\Models\Notification::create([
                 'notifiable_type' => 'App\\Models\\Club',
                 'notifiable_id' => $club->id,
@@ -1659,7 +1652,7 @@ class ClubController extends Controller
                     'deactivated_at' => now()->toDateTimeString()
                 ]
             ]);
-            
+
             $admins = \App\Models\Admin::all();
             foreach ($admins as $admin) {
                 \App\Models\Notification::create([
@@ -1675,7 +1668,7 @@ class ClubController extends Controller
                         'deactivated_at' => now()->toDateTimeString()
                     ]
                 ]);
-                
+
                 try {
                     Mail::send('emails.user-deleted-admin', [
                         'user' => $user,
@@ -1683,7 +1676,7 @@ class ClubController extends Controller
                         'club' => $club
                     ], function ($message) use ($admin, $user, $club) {
                         $message->to($admin->email)
-                                ->subject('User Account Deactivated - ' . $user->name . ' at ' . $club->name);
+                            ->subject('User Account Deactivated - ' . $user->name . ' at ' . $club->name);
                     });
                 } catch (\Exception $e) {
                     \Illuminate\Support\Facades\Log::error('Failed to send user deactivation email to admin:', [
@@ -1693,7 +1686,7 @@ class ClubController extends Controller
                     ]);
                 }
             }
-            
+
             if (!empty($user->coach_id)) {
                 $coach = \App\Models\Coach::find($user->coach_id);
                 if ($coach) {
@@ -1711,12 +1704,11 @@ class ClubController extends Controller
                     ]);
                 }
             }
-            
+
             $user->delete();
-            
+
             return redirect()->route('club.users')
                 ->with('success', 'User deleted successfully. Notifications have been sent.');
-                
         } catch (\Exception $e) {
             \Illuminate\Support\Facades\Log::error('Error deleting user:', [
                 'exception' => $e->getMessage(),
@@ -1726,9 +1718,9 @@ class ClubController extends Controller
                 'line' => $e->getLine(),
                 'file' => $e->getFile()
             ]);
-            
+
             $user->delete();
-            
+
             return redirect()->route('club.users')
                 ->with('success', 'User deleted successfully, but there were issues sending some notifications.');
         }
@@ -1746,7 +1738,7 @@ class ClubController extends Controller
             'line' => $e->getLine(),
             'file' => $e->getFile()
         ]);
-        
+
         return "The operation was successful, but there were issues sending some notifications.";
     }
 
@@ -1788,15 +1780,15 @@ class ClubController extends Controller
 
                 try {
                     $user->restore();
-                    
+
                     Mail::send('emails.user-restored', [
                         'user' => $user,
                         'club' => $club
                     ], function ($message) use ($user, $club) {
                         $message->to($user->email)
-                                ->subject('Account Restoration Notice - ' . $club->name);
+                            ->subject('Account Restoration Notice - ' . $club->name);
                     });
-                    
+
                     \App\Models\Notification::create([
                         'notifiable_type' => 'App\\Models\\User',
                         'notifiable_id' => $user->id,
@@ -1809,7 +1801,7 @@ class ClubController extends Controller
                             'restored_at' => now()->toDateTimeString()
                         ]
                     ]);
-                    
+
                     \App\Models\Notification::create([
                         'notifiable_type' => 'App\\Models\\Club',
                         'notifiable_id' => $club->id,
@@ -1822,7 +1814,7 @@ class ClubController extends Controller
                             'restored_at' => now()->toDateTimeString()
                         ]
                     ]);
-                    
+
                     $admins = \App\Models\Admin::all();
                     foreach ($admins as $admin) {
                         \App\Models\Notification::create([
@@ -1838,7 +1830,7 @@ class ClubController extends Controller
                                 'restored_at' => now()->toDateTimeString()
                             ]
                         ]);
-                        
+
                         try {
                             Mail::send('emails.user-restored-admin', [
                                 'user' => $user,
@@ -1846,7 +1838,7 @@ class ClubController extends Controller
                                 'club' => $club
                             ], function ($message) use ($admin, $user, $club) {
                                 $message->to($admin->email)
-                                        ->subject('User Account Restored - ' . $user->name . ' at ' . $club->name);
+                                    ->subject('User Account Restored - ' . $user->name . ' at ' . $club->name);
                             });
                         } catch (\Exception $e) {
                             \Illuminate\Support\Facades\Log::error('Failed to send user restoration email to admin:', [
@@ -1856,7 +1848,7 @@ class ClubController extends Controller
                             ]);
                         }
                     }
-                    
+
                     if (!empty($user->coach_id)) {
                         $coach = \App\Models\Coach::find($user->coach_id);
                         if ($coach) {
@@ -1874,10 +1866,9 @@ class ClubController extends Controller
                             ]);
                         }
                     }
-                    
+
                     return redirect()->route('club.users')
                         ->with('success', 'User restored successfully. Notifications have been sent.');
-                        
                 } catch (\Exception $e) {
                     \Illuminate\Support\Facades\Log::error('Error during user restoration process:', [
                         'exception' => $e->getMessage(),
@@ -1887,7 +1878,7 @@ class ClubController extends Controller
                         'line' => $e->getLine(),
                         'file' => $e->getFile()
                     ]);
-                    
+
                     return redirect()->route('club.users')
                         ->with('success', 'User restored successfully, but there were issues sending some notifications.');
                 }
@@ -1912,7 +1903,7 @@ class ClubController extends Controller
 
         // Get users who either belong to the club directly OR have subscriptions with the club
         $users = \App\Models\User::withTrashed()
-            ->where(function($query) use ($club) {
+            ->where(function ($query) use ($club) {
                 $query->where('club_id', $club->id)
                     ->orWhereHas('subscriptions', function ($subquery) use ($club) {
                         $subquery->where('club_id', $club->id);
@@ -2016,11 +2007,11 @@ class ClubController extends Controller
         $coachData = $request->except(['profile_image', 'password', 'certifications', 'specializations', 'working_hours']);
         $coachData['password'] = Hash::make($request->password);
         $coachData['club_id'] = $club->id;
-        
+
         $verification_code = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
         $coachData['verification_code'] = $verification_code;
         $coachData['email_verified_at'] = null;
-        
+
         if ($request->has('certifications')) {
             $coachData['certifications'] = json_encode($request->certifications);
         }
@@ -2043,21 +2034,21 @@ class ClubController extends Controller
         ]);
 
         $tempCoach = new \App\Models\Coach($coachData);
-        
+
         Mail::send('emails.coach-verification', [
-            'coach' => $tempCoach, 
+            'coach' => $tempCoach,
             'verification_code' => $verification_code,
             'club' => $club
         ], function ($message) use ($coachData) {
             $message->to($coachData['email'])
-                    ->subject('Verify your email - ProGymHub Coach Account');
+                ->subject('Verify your email - ProGymHub Coach Account');
         });
-        
+
         $encodedTempId = base64_encode('temp-coach-' . time());
         $encodedTempId = str_replace(['+', '/', '='], ['-', '_', ''], $encodedTempId);
-        
+
         session(['temp_coach_id' => $encodedTempId]);
-        
+
         return redirect()->route('club.coach.verify.form', $encodedTempId)
             ->with('status', 'A verification code has been sent to the coach\'s email (' . $coachData['email'] . '). Please enter the code to complete the registration.');
     }
@@ -2158,7 +2149,7 @@ class ClubController extends Controller
             if ($coach->profile_image) {
                 Storage::disk('public')->delete($coach->profile_image);
             }
-            
+
             $path = $request->file('profile_image')->store('coach-profiles', 'public');
             $data['profile_image'] = $path;
         }
@@ -2166,13 +2157,13 @@ class ClubController extends Controller
         $coach->update($data);
 
         Mail::send('emails.coach-updated', [
-            'coach' => $coach, 
+            'coach' => $coach,
             'club' => $club
         ], function ($message) use ($coach) {
             $message->to($coach->email)
-                    ->subject('Your Profile Has Been Updated - ProGymHub');
+                ->subject('Your Profile Has Been Updated - ProGymHub');
         });
-        
+
         $admins = \App\Models\Admin::all();
         foreach ($admins as $admin) {
             \App\Models\Notification::create([
@@ -2188,19 +2179,19 @@ class ClubController extends Controller
                     'updated_at' => now()->toDateTimeString()
                 ]
             ]);
-            
+
             if ($admin->email) {
                 Mail::send('emails.coach-updated-admin', [
-                    'coach' => $coach, 
-                    'admin' => $admin, 
+                    'coach' => $coach,
+                    'admin' => $admin,
                     'club' => $club
                 ], function ($message) use ($admin, $coach, $club) {
                     $message->to($admin->email)
-                            ->subject('Coach Profile Updated - ' . $coach->name . ' at ' . $club->name);
+                        ->subject('Coach Profile Updated - ' . $coach->name . ' at ' . $club->name);
                 });
             }
         }
-        
+
         \App\Models\Notification::create([
             'notifiable_type' => 'App\\Models\\Club',
             'notifiable_id' => $club->id,
@@ -2213,13 +2204,13 @@ class ClubController extends Controller
                 'updated_at' => now()->toDateTimeString()
             ]
         ]);
-        
+
         Mail::send('emails.coach-updated-club', [
-            'coach' => $coach, 
+            'coach' => $coach,
             'club' => $club
         ], function ($message) use ($club, $coach) {
             $message->to($club->email)
-                    ->subject('Coach Profile Update Confirmation - ' . $coach->name);
+                ->subject('Coach Profile Update Confirmation - ' . $coach->name);
         });
 
         return redirect()->route('club.coaches')
@@ -2235,27 +2226,27 @@ class ClubController extends Controller
             return redirect()->route('club.coaches')
                 ->with('error', 'No pending coach registration found or session expired.');
         }
-        
+
         if (session('temp_coach_id') !== $tempId) {
             return redirect()->route('club.coaches')
                 ->with('error', 'Invalid verification session.');
         }
-        
+
         if (now()->isAfter(session('pending_coach_expires_at'))) {
             session()->forget(['pending_coach_data', 'temp_coach_id', 'pending_coach_expires_at']);
             return redirect()->route('club.coaches')
                 ->with('error', 'Verification session has expired. Please register the coach again.');
         }
-        
+
         $coachData = session('pending_coach_data');
-        
+
         return view('dashboard.clubs.coaches.verify', [
             'tempId' => $tempId,
             'coachEmail' => $coachData['email'],
             'coachName' => $coachData['name']
         ]);
     }
-    
+
     /**
      * Verify the coach's email with the provided verification code.
      */
@@ -2264,40 +2255,40 @@ class ClubController extends Controller
         $request->validate([
             'verification_code' => 'required|string|size:6',
         ]);
-        
+
         // Get the verification code from the input - only set this once
         $verificationCode = $request->verification_code;
-        
+
         // For debugging
         \Illuminate\Support\Facades\Log::info('Verification code received:', [
             'code' => $verificationCode
         ]);
-        
+
         if (!session()->has('pending_coach_data') || !session()->has('temp_coach_id')) {
             return redirect()->route('club.coaches')
                 ->with('error', 'No pending coach registration found or session expired.');
         }
-        
+
         if (session('temp_coach_id') !== $tempId) {
             return redirect()->route('club.coaches')
                 ->with('error', 'Invalid verification session.');
         }
-        
+
         if (now()->isAfter(session('pending_coach_expires_at'))) {
             session()->forget(['pending_coach_data', 'temp_coach_id', 'pending_coach_expires_at']);
             return redirect()->route('club.coaches')
                 ->with('error', 'Verification session has expired. Please register the coach again.');
         }
-        
+
         $coachData = session('pending_coach_data');
-        
+
         if ($coachData['verification_code'] !== $verificationCode) {
             return back()->with('error', 'Invalid verification code. Please try again.');
         }
-        
+
         try {
             $coachData['email_verified_at'] = now();
-            
+
             // Add logging before coach creation
             \Illuminate\Support\Facades\Log::info('Attempting to create coach with data:', [
                 'email' => $coachData['email'],
@@ -2305,19 +2296,19 @@ class ClubController extends Controller
                 'verified_at' => $coachData['email_verified_at'],
                 'club_id' => $coachData['club_id']
             ]);
-            
+
             $coach = \App\Models\Coach::create($coachData);
-            
+
             // Log successful coach creation
             \Illuminate\Support\Facades\Log::info('Coach created successfully:', [
                 'id' => $coach->id,
                 'email' => $coach->email
             ]);
-            
+
             $club = Auth::guard('club')->user();
-            
+
             session()->forget(['pending_coach_data', 'temp_coach_id', 'pending_coach_expires_at']);
-            
+
             $admins = \App\Models\Admin::all();
             foreach ($admins as $admin) {
                 \App\Models\Notification::create([
@@ -2333,19 +2324,19 @@ class ClubController extends Controller
                         'registered_at' => now()->toDateTimeString()
                     ]
                 ]);
-                
+
                 if ($admin->email) {
                     Mail::send('emails.new-coach-admin', [
-                        'coach' => $coach, 
-                        'admin' => $admin, 
+                        'coach' => $coach,
+                        'admin' => $admin,
                         'club' => $club
                     ], function ($message) use ($admin, $coach, $club) {
                         $message->to($admin->email)
-                                ->subject('New Coach Registration - ' . $coach->name . ' at ' . $club->name);
+                            ->subject('New Coach Registration - ' . $coach->name . ' at ' . $club->name);
                     });
                 }
             }
-            
+
             \App\Models\Notification::create([
                 'notifiable_type' => 'App\\Models\\Club',
                 'notifiable_id' => $club->id,
@@ -2358,15 +2349,15 @@ class ClubController extends Controller
                     'verified_at' => now()->toDateTimeString()
                 ]
             ]);
-            
+
             Mail::send('emails.coach-verified-club', [
-                'coach' => $coach, 
+                'coach' => $coach,
                 'club' => $club
             ], function ($message) use ($club, $coach) {
                 $message->to($club->email)
-                        ->subject('Coach Email Verified - ' . $coach->name);
+                    ->subject('Coach Email Verified - ' . $coach->name);
             });
-            
+
             return redirect()->route('club.coaches')
                 ->with('success', 'Coach verified and added successfully.');
         } catch (\Exception $e) {
@@ -2376,13 +2367,13 @@ class ClubController extends Controller
                 'trace' => $e->getTraceAsString(),
                 'coachData' => array_except($coachData, ['password']), // Log data but exclude password
             ]);
-            
+
             // Show a friendlier message to the user
             return back()
                 ->with('error', 'An error occurred while creating the coach. Please try again or contact support.');
         }
     }
-    
+
     /**
      * Resend verification code to the pending coach's email.
      */
@@ -2392,33 +2383,33 @@ class ClubController extends Controller
             return redirect()->route('club.coaches')
                 ->with('error', 'No pending coach registration found or session expired.');
         }
-        
+
         if (session('temp_coach_id') !== $tempId) {
             return redirect()->route('club.coaches')
                 ->with('error', 'Invalid verification session.');
         }
-        
+
         session(['pending_coach_expires_at' => now()->addMinutes(30)]);
-        
+
         $coachData = session('pending_coach_data');
-        
+
         $verification_code = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-        
+
         $coachData['verification_code'] = $verification_code;
         session(['pending_coach_data' => $coachData]);
-        
+
         $club = Auth::guard('club')->user();
         $tempCoach = new \App\Models\Coach($coachData);
-        
+
         Mail::send('emails.coach-verification', [
-            'coach' => $tempCoach, 
+            'coach' => $tempCoach,
             'verification_code' => $verification_code,
             'club' => $club
         ], function ($message) use ($coachData) {
             $message->to($coachData['email'])
-                    ->subject('Verify your email - ProGymHub Coach Account');
+                ->subject('Verify your email - ProGymHub Coach Account');
         });
-        
+
         return redirect()->route('club.coach.verify.form', $tempId)
             ->with('success', 'A new verification code has been sent to ' . $coachData['email']);
     }
@@ -2430,13 +2421,13 @@ class ClubController extends Controller
     {
         $club = Auth::guard('club')->user();
         $coaches = \App\Models\Coach::where('club_id', $club->id)
-                                     ->onlyTrashed()
-                                     ->latest()
-                                     ->paginate(10);
-                                     
+            ->onlyTrashed()
+            ->latest()
+            ->paginate(10);
+
         return view('dashboard.clubs.coaches.trashed', compact('coaches'));
     }
-    
+
     /**
      * Remove the specified coach from storage (soft delete).
      */
@@ -2454,18 +2445,18 @@ class ClubController extends Controller
             return redirect()->route('club.coaches')
                 ->with('error', 'You are not authorized to delete this coach.');
         }
-        
+
         try {
             $coach->delete();
-            
+
             Mail::send('emails.coach-deleted', [
-                'coach' => $coach, 
+                'coach' => $coach,
                 'club' => $club
             ], function ($message) use ($coach) {
                 $message->to($coach->email)
-                        ->subject('Coach Account Deletion Notice - ProGymHub');
+                    ->subject('Coach Account Deletion Notice - ProGymHub');
             });
-            
+
             $admins = \App\Models\Admin::all();
             foreach ($admins as $admin) {
                 \App\Models\Notification::create([
@@ -2481,19 +2472,19 @@ class ClubController extends Controller
                         'deleted_at' => now()->toDateTimeString()
                     ]
                 ]);
-                
+
                 if ($admin->email) {
                     Mail::send('emails.coach-deleted-admin', [
-                        'coach' => $coach, 
-                        'admin' => $admin, 
+                        'coach' => $coach,
+                        'admin' => $admin,
                         'club' => $club
                     ], function ($message) use ($admin, $coach, $club) {
                         $message->to($admin->email)
-                                ->subject('Coach Deletion Notification - ' . $coach->name . ' at ' . $club->name);
+                            ->subject('Coach Deletion Notification - ' . $coach->name . ' at ' . $club->name);
                     });
                 }
             }
-            
+
             \App\Models\Notification::create([
                 'notifiable_type' => 'App\\Models\\Club',
                 'notifiable_id' => $club->id,
@@ -2506,15 +2497,15 @@ class ClubController extends Controller
                     'deleted_at' => now()->toDateTimeString()
                 ]
             ]);
-            
+
             Mail::send('emails.coach-deleted-club', [
-                'coach' => $coach, 
+                'coach' => $coach,
                 'club' => $club
             ], function ($message) use ($club, $coach) {
                 $message->to($club->email)
-                        ->subject('Coach Deletion Confirmation - ' . $coach->name);
+                    ->subject('Coach Deletion Confirmation - ' . $coach->name);
             });
-            
+
             return redirect()->route('club.coaches')
                 ->with('success', 'Coach deleted successfully. Notification emails have been sent.');
         } catch (\Exception $e) {
@@ -2522,53 +2513,53 @@ class ClubController extends Controller
                 ->with('error', 'An error occurred while deleting the coach: ' . $e->getMessage());
         }
     }
-    
+
     /**
      * Restore a soft-deleted coach
      */
     public function restoreCoach($encoded_id)
     {
         $club = Auth::guard('club')->user();
-        
+
         try {
             $coach = (new \App\Models\Coach)->resolveRouteBinding($encoded_id);
-            
+
             if (!$coach) {
                 $value = str_replace(['-', '_'], ['+', '/'], $encoded_id);
                 $paddingLength = strlen($value) % 4;
                 if ($paddingLength) {
                     $value .= str_repeat('=', 4 - $paddingLength);
                 }
-                
+
                 $decoded = base64_decode($value);
-                
+
                 if (preg_match('/^coach-(\d+)-\d+$/', $decoded, $matches)) {
                     $id = $matches[1];
-                    
+
                     $coach = \App\Models\Coach::withTrashed()->find($id);
                 }
             }
-            
+
             if (!$coach) {
                 return redirect()->route('club.coaches.trashed')
                     ->with('error', 'Coach not found.');
             }
-            
+
             if ($coach->club_id != $club->id) {
                 return redirect()->route('club.coaches.trashed')
                     ->with('error', 'You are not authorized to restore this coach.');
             }
-            
+
             $coach->restore();
-            
+
             Mail::send('emails.coach-restored', [
-                'coach' => $coach, 
+                'coach' => $coach,
                 'club' => $club
             ], function ($message) use ($coach) {
                 $message->to($coach->email)
-                        ->subject('Your Coach Account Has Been Restored - ProGymHub');
+                    ->subject('Your Coach Account Has Been Restored - ProGymHub');
             });
-            
+
             $admins = \App\Models\Admin::all();
             foreach ($admins as $admin) {
                 \App\Models\Notification::create([
@@ -2584,19 +2575,19 @@ class ClubController extends Controller
                         'restored_at' => now()->toDateTimeString()
                     ]
                 ]);
-                
+
                 if ($admin->email) {
                     Mail::send('emails.coach-restored-admin', [
-                        'coach' => $coach, 
-                        'admin' => $admin, 
+                        'coach' => $coach,
+                        'admin' => $admin,
                         'club' => $club
                     ], function ($message) use ($admin, $coach, $club) {
                         $message->to($admin->email)
-                                ->subject('Coach Restoration Notification - ' . $coach->name . ' at ' . $club->name);
+                            ->subject('Coach Restoration Notification - ' . $coach->name . ' at ' . $club->name);
                     });
                 }
             }
-            
+
             \App\Models\Notification::create([
                 'notifiable_type' => 'App\\Models\\Club',
                 'notifiable_id' => $club->id,
@@ -2609,15 +2600,15 @@ class ClubController extends Controller
                     'restored_at' => now()->toDateTimeString()
                 ]
             ]);
-            
+
             Mail::send('emails.coach-restored-club', [
-                'coach' => $coach, 
+                'coach' => $coach,
                 'club' => $club
             ], function ($message) use ($club, $coach) {
                 $message->to($club->email)
-                        ->subject('Coach Restoration Confirmation - ' . $coach->name);
+                    ->subject('Coach Restoration Confirmation - ' . $coach->name);
             });
-            
+
             return redirect()->route('club.coaches')
                 ->with('success', 'Coach restored successfully. Notification emails have been sent.');
         } catch (\Exception $e) {
@@ -2625,7 +2616,7 @@ class ClubController extends Controller
                 ->with('error', 'An error occurred while restoring the coach: ' . $e->getMessage());
         }
     }
-    
+
     /**
      * Display search form for club users
      *
@@ -2635,7 +2626,7 @@ class ClubController extends Controller
     {
         return view('dashboard.clubs.search.index');
     }
-    
+
     /**
      * Process the search and display results for club users
      *
@@ -2648,50 +2639,50 @@ class ClubController extends Controller
             'search_term' => 'required|string|min:2|max:100',
             'search_type' => 'required|in:all,coaches,users,subscription_plans'
         ]);
-        
+
         $searchTerm = $request->search_term;
         $searchType = $request->search_type;
         $results = [];
         $club = Auth::guard('club')->user();
-        
+
         if ($searchType === 'all' || $searchType === 'coaches') {
             $coaches = $club->coaches()
-                ->where(function($query) use ($searchTerm) {
+                ->where(function ($query) use ($searchTerm) {
                     $query->where('name', 'LIKE', "%{$searchTerm}%")
                         ->orWhere('email', 'LIKE', "%{$searchTerm}%")
                         ->orWhere('phone', 'LIKE', "%{$searchTerm}%")
                         ->orWhere('bio', 'LIKE', "%{$searchTerm}%");
                 })
                 ->get();
-                
+
             $results['coaches'] = $coaches;
         }
-        
+
         if ($searchType === 'all' || $searchType === 'users') {
             $users = $club->users()
-                ->where(function($query) use ($searchTerm) {
+                ->where(function ($query) use ($searchTerm) {
                     $query->where('name', 'LIKE', "%{$searchTerm}%")
                         ->orWhere('email', 'LIKE', "%{$searchTerm}%")
                         ->orWhere('phone_number', 'LIKE', "%{$searchTerm}%");
                 })
                 ->with('coach')
                 ->get();
-                
+
             $results['users'] = $users;
         }
-        
+
         if ($searchType === 'all' || $searchType === 'subscription_plans') {
             $plans = $club->subscriptionPlans()
-                ->where(function($query) use ($searchTerm) {
+                ->where(function ($query) use ($searchTerm) {
                     $query->where('name', 'LIKE', "%{$searchTerm}%")
                         ->orWhere('type', 'LIKE', "%{$searchTerm}%")
                         ->orWhere('price', 'LIKE', "%{$searchTerm}%");
                 })
                 ->get();
-                
+
             $results['subscription_plans'] = $plans;
         }
-        
+
         return view('dashboard.clubs.search.results', compact('results', 'searchTerm', 'searchType'));
     }
 }

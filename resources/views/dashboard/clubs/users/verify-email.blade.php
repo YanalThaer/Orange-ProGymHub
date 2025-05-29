@@ -9,7 +9,7 @@
         margin-bottom: 12px;
         justify-content: center;
     }
-    
+
     .verification-digit {
         width: 42px;
         height: 50px;
@@ -22,23 +22,23 @@
         color: white;
         transition: all 0.2s;
     }
-    
+
     .verification-digit:focus {
         border-color: #ff4d4d;
         box-shadow: 0 0 0 0.25rem rgba(255, 77, 77, 0.5);
         outline: none;
         background-color: rgba(255, 255, 255, 0.1);
     }
-    
+
     .verification-digit.filled {
         background-color: rgba(255, 255, 255, 0.15);
     }
-    
+
     @media (max-width: 576px) {
         .verification-code-container {
             gap: 5px;
         }
-        
+
         .verification-digit {
             width: 36px;
             height: 44px;
@@ -59,17 +59,17 @@
 
                 <div class="card-body p-3 text-white" style="font-size: 0.85rem;">
                     @if(session('error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="font-size: 0.8rem;">
-                            {{ session('error') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="font-size: 0.8rem;">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                     @endif
 
                     @if(session('status'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="font-size: 0.8rem;">
-                            {{ session('status') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert" style="font-size: 0.8rem;">
+                        {{ session('status') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                     @endif
 
                     <div class="text-center mb-3">
@@ -81,7 +81,7 @@
                             {{ __('We\'ve sent a verification code to the user\'s email address.') }}<br>
                             {{ __('Please enter the 6-digit code below to complete the user registration.') }}
                         </p>
-                        
+
                         <div class="mt-2 p-2 bg-black rounded-3">
                             <p class="mb-0 text-white" style="font-weight: 600;"><strong>{{ __('Email:') }}</strong> {{ $userData['email'] }}</p>
                             <p class="mb-0 text-white" style="font-weight: 600;"><strong>{{ __('User:') }}</strong> {{ $userData['name'] }}</p>
@@ -101,17 +101,16 @@
                                 <input type="text" id="digit-6" class="verification-digit" maxlength="1" autocomplete="one-time-code" inputmode="numeric" pattern="\d*">
                                 <input type="hidden" id="verification_code" name="verification_code" value="" class="@error('verification_code') is-invalid @enderror">
                             </div>
-                            
-                            <!-- Fallback direct input for verification code -->
+
                             <div class="mt-3 text-center">
                                 <p class="text-white mb-1" style="font-size: 0.8rem;">{{ __('Or enter the verification code directly:') }}</p>
                                 <input type="text" id="direct_code" class="form-control text-center" maxlength="6" inputmode="numeric" pattern="\d{6}" placeholder="Enter 6-digit code" style="max-width: 200px; margin: 0 auto;">
                             </div>
-                            
+
                             @error('verification_code')
-                                <span class="invalid-feedback d-block mt-1" style="font-size: 0.8rem;">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                            <span class="invalid-feedback d-block mt-1" style="font-size: 0.8rem;">
+                                <strong>{{ $message }}</strong>
+                            </span>
                             @enderror
                         </div>
                         <div class="d-grid gap-2">
@@ -120,7 +119,7 @@
                             </button>
                         </div>
                     </form>
-                    
+
                     <div class="row mt-3 pt-2 border-top border-light">
                         <div class="col-12 mb-2 text-center">
                             <div class="d-flex justify-content-center align-items-center mb-2">
@@ -158,59 +157,50 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.querySelector('form');
-        const digits = Array.from({ length: 6 }, (_, i) => document.getElementById(`digit-${i+1}`));
+        const digits = Array.from({
+            length: 6
+        }, (_, i) => document.getElementById(`digit-${i+1}`));
         const codeInput = document.getElementById('verification_code');
         const directInput = document.getElementById('direct_code');
-        
-        // Handle direct input changes
+
         if (directInput) {
             directInput.addEventListener('input', function() {
-                // Clear individual digit fields when direct input is used
                 if (this.value.length > 0) {
                     digits.forEach(digit => {
                         digit.value = '';
                         digit.classList.remove('filled');
                     });
                 }
-                
-                // Only allow digits
+
                 this.value = this.value.replace(/[^0-9]/g, '');
-                
-                // Always update the hidden input with the direct input value
+
                 codeInput.value = this.value;
             });
         }
-        
-        // Handle form submission
+
         form.addEventListener('submit', function(e) {
-            // First check if direct input has a value
             if (directInput && directInput.value.length === 6) {
-                // Copy direct input value to hidden input
                 codeInput.value = directInput.value;
                 console.log('Submitting with direct input:', directInput.value);
                 return true;
             }
-            
-            // If no direct input, use the digit inputs
+
             let code = '';
             digits.forEach(digit => {
                 code += digit.value;
             });
-            
-            // If all 6 digits are filled, use that value for the hidden input
+
             if (code.length === 6) {
                 codeInput.value = code;
                 console.log('Submitting with digit inputs:', code);
                 return true;
             }
-            
-            // If we get here, neither input method has a complete code
+
             e.preventDefault();
             alert('Please enter a valid 6-digit verification code');
             return false;
         });
-        
-        // Function to update hidden input with digits
+
         function updateHiddenInput() {
             let combinedValue = '';
             digits.forEach(d => {
@@ -219,25 +209,23 @@
             codeInput.value = combinedValue;
             console.log('Updated hidden input:', codeInput.value);
         }
-        
+
         digits.forEach((digit, index) => {
             digit.addEventListener('input', function() {
-                // Clear direct input when individual digits are used
                 if (directInput) {
                     directInput.value = '';
                 }
-                
+
                 this.value = this.value.replace(/[^0-9]/g, '');
                 this.classList.toggle('filled', this.value !== '');
-                
-                // Update the hidden input every time a digit changes
+
                 updateHiddenInput();
-                
+
                 if (this.value !== '' && index < digits.length - 1) {
                     digits[index + 1].focus();
                 }
             });
-            
+
             digit.addEventListener('keydown', function(e) {
                 if (e.key === 'Backspace') {
                     if (this.value === '' && index > 0) {
@@ -248,7 +236,6 @@
                     } else {
                         this.classList.remove('filled');
                     }
-                    // Update hidden input after backspace
                     setTimeout(updateHiddenInput, 0);
                 }
                 if (e.key === 'ArrowLeft' && index > 0) {
@@ -260,7 +247,7 @@
                     digits[index + 1].focus();
                 }
             });
-            
+
             digit.addEventListener('paste', function(e) {
                 e.preventDefault();
                 const pasteData = e.clipboardData.getData('text').trim();
@@ -272,7 +259,6 @@
                             digits[i].classList.add('filled');
                         }
                     });
-                    // Update hidden input after paste
                     updateHiddenInput();
                     if (pasteDigits.length < digits.length) {
                         digits[pasteDigits.length].focus();
@@ -280,15 +266,14 @@
                 }
             });
         });
-        
-        // Initialize countdown timer
-        let duration = 30*60; // 30 minutes
+
+        let duration = 30 * 60; // 30 minutes
         let countdown = document.getElementById('countdown');
         let timer = null;
-        
+
         if (countdown) {
-            timer = setInterval(function () {
-                let minutes = Math.floor(duration/60);
+            timer = setInterval(function() {
+                let minutes = Math.floor(duration / 60);
                 let seconds = duration % 60;
 
                 countdown.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
@@ -297,13 +282,12 @@
                     clearInterval(timer);
                     countdown.textContent = "00:00";
                     countdown.classList.add('text-danger');
-                    
-                    // Show expired message
+
                     let expiredMessage = document.createElement('div');
                     expiredMessage.className = 'alert alert-warning mt-3';
-                    expiredMessage.innerHTML = '<i class="fas fa-exclamation-triangle me-2"></i>' + 
+                    expiredMessage.innerHTML = '<i class="fas fa-exclamation-triangle me-2"></i>' +
                         '{{ __("The verification code has expired. Please request a new one or cancel and start over.") }}';
-                    
+
                     let container = countdown.closest('.col-12');
                     container.appendChild(expiredMessage);
                 }

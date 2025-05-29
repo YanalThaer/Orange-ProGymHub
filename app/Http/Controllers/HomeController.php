@@ -33,12 +33,12 @@ class HomeController extends Controller
             ->latest()
             ->take(6)
             ->get();
-            
+
         $clubs = \App\Models\Club::where('status', 'active')
             ->latest()
             ->take(6)
             ->get();
-            
+
         return view('welcome', compact('coaches', 'clubs'));
     }
 
@@ -72,7 +72,7 @@ class HomeController extends Controller
     {
         return view('public.pages.contact');
     }
- 
+
     public function contactSend(Request $request)
     {
         $validated = $request->validate([
@@ -117,7 +117,6 @@ class HomeController extends Controller
             });
         }
 
-        // Order by latest to show most recently added clubs first
         $clubs = $query->latest()->paginate(12)->withQueryString();
 
         return view('public.clubs.clubs', compact('clubs', 'status', 'search'));
@@ -194,7 +193,7 @@ class HomeController extends Controller
             if (!$club) {
                 return redirect()->route('all_clubs')->with('error', 'The selected club was not found.');
             }
-            
+
             if ($club->status !== 'active') {
                 return redirect()->route('all_clubs')
                     ->with('error', 'The selected club is not currently accepting new subscriptions.');
@@ -209,7 +208,7 @@ class HomeController extends Controller
             [$canSubscribe, $message] = $user->canSubscribe($club->id);
             $startDate = $user->getNewSubscriptionStartDate();
             $endDate = $startDate->copy()->addDays($plan->duration_days);
-            
+
             $coaches = \App\Models\Coach::where('club_id', $club->id)
                 ->whereNotNull('email_verified_at')
                 ->orderBy('name')
@@ -266,7 +265,7 @@ class HomeController extends Controller
             $plan = SubscriptionPlan::where('id', $validated['plan_id'])
                 ->where('club_id', $club->id)
                 ->firstOrFail();
-                
+
             if (!$plan->is_active) {
                 return back()->with('error', 'This subscription plan is currently unavailable.')->withInput();
             }
@@ -275,8 +274,7 @@ class HomeController extends Controller
             if (!$isValid) {
                 return back()->with('error', $message)->withInput();
             }
-            
-            // Check if the user confirmed the subscription in the modal dialog
+
             if (!isset($validated['confirmed']) || $validated['confirmed'] != '1') {
                 return back()->with('error', 'You must confirm your subscription to proceed.')->withInput();
             }
@@ -290,14 +288,14 @@ class HomeController extends Controller
                 'payment_status' => 'completed',
                 'payment_method' => 'credit_card',
             ]);
-            
+
             $userData = [
                 'club_id' => $club->id
             ];
-            
+
             if (isset($validated['coach_id']) && !empty($validated['coach_id'])) {
                 $userData['coach_id'] = $validated['coach_id'];
-                
+
                 \App\Models\CoachPayment::create([
                     'coach_id' => $validated['coach_id'],
                     'user_id' => $user->id,
@@ -307,9 +305,9 @@ class HomeController extends Controller
                     'payment_status' => 'completed',
                 ]);
             }
-            
+
             $user->update($userData);
-            
+
             $coachName = null;
             if (isset($validated['coach_id']) && !empty($validated['coach_id'])) {
                 $coach = \App\Models\Coach::find($validated['coach_id']);
@@ -317,11 +315,11 @@ class HomeController extends Controller
                     $coachName = $coach->name;
                 }
             }
-            
+
             $notificationData = [
                 'title' => 'New Subscription',
-                'message' => 'User ' . $user->name . ' has subscribed to the plan "' . $plan->name . '"' . 
-                             ($coachName ? ' with coach ' . $coachName : '') . '.',
+                'message' => 'User ' . $user->name . ' has subscribed to the plan "' . $plan->name . '"' .
+                    ($coachName ? ' with coach ' . $coachName : '') . '.',
                 'type' => 'new_subscription',
                 'user_id' => $user->id,
                 'user_name' => $user->name,
@@ -331,7 +329,7 @@ class HomeController extends Controller
                 'end_date' => $endDate->toDateString(),
                 'created_at' => now()->toDateTimeString()
             ];
-            
+
             \App\Models\Notification::create([
                 'title' => $notificationData['title'],
                 'message' => $notificationData['message'],
@@ -341,7 +339,7 @@ class HomeController extends Controller
                 'read_at' => null,
                 'type' => 'new_subscription'
             ]);
-            
+
             try {
                 \Illuminate\Support\Facades\Mail::send('emails.subscription_accepted', [
                     'userName' => $user->name,
@@ -359,7 +357,7 @@ class HomeController extends Controller
             } catch (\Exception $e) {
                 \Illuminate\Support\Facades\Log::error('Failed to send email notification to club: ' . $e->getMessage());
             }
-            
+
             $admins = \App\Models\Admin::all();
             foreach ($admins as $admin) {
                 \App\Models\Notification::create([
@@ -381,7 +379,7 @@ class HomeController extends Controller
                     'read_at' => null,
                     'type' => 'new_subscription'
                 ]);
-                
+
                 try {
                     \Illuminate\Support\Facades\Mail::send('emails.admin_new_subscription', [
                         'adminName' => $admin->name,
@@ -449,20 +447,20 @@ class HomeController extends Controller
     public function coaches(Request $request)
     {
         $search = $request->input('search');
-        
+
         $query = \App\Models\Coach::with('club')
             ->whereNotNull('email_verified_at')
             ->where('employment_type', '!=', 'private');
-        
+
         if ($search) {
             $query->where('name', 'LIKE', '%' . $search . '%');
         }
-        
+
         $coaches = $query
             ->latest()
             ->paginate(12)
-            ->withQueryString(); 
-            
+            ->withQueryString();
+
         return view('public.pages.coaches', compact('coaches', 'search'));
     }
 }

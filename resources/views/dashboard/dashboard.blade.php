@@ -11,7 +11,6 @@ ProGymHub | Dashboard
 @endif
 @endsection
 @section('content')
-<!-- Global CSS styles to apply to all headings and card headers -->
 <style>
     .card-header h6,
     .accordion h6,
@@ -38,7 +37,6 @@ ProGymHub | Dashboard
         font-weight: bold;
     }
 </style>
-<!-- Sale & Revenue Start -->
 <div class="container-fluid pt-4 px-4">
     <div class="row g-4">
         @if(Auth::guard('admin')->check() && isset($totalClubs))
@@ -105,7 +103,6 @@ ProGymHub | Dashboard
                 </div>
             </div>
         </div> @elseif(Auth::guard('coach')->check())
-        <!-- Coach Dashboard -->
         @if(isset($clubInfo))
         <div class="col-sm-6 col-xl-3">
             <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
@@ -147,12 +144,10 @@ ProGymHub | Dashboard
         @endif
     </div>
 </div>
-<!-- Sale & Revenue End -->
 
 @if(Auth::guard('coach')->check())
 
 @if(isset($clubInfo))
-<!-- Club Information -->
 <div class="container-fluid pt-4 px-4">
     <div class="bg-secondary rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
@@ -226,7 +221,6 @@ ProGymHub | Dashboard
     </div>
 </div>
 @endif
-<!-- Coach Information and Stats -->
 <div class="container-fluid pt-4 px-4">
     <div class="bg-secondary rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
@@ -280,7 +274,6 @@ ProGymHub | Dashboard
 </div>
 
 @elseif(Auth::guard('admin')->check())
-<!-- Clubs & Subscription Plans Overview -->
 @if(isset($clubs) && $clubs->count() > 0)
 <div class="container-fluid pt-4 px-4">
     <div class="bg-secondary rounded p-4">
@@ -386,10 +379,8 @@ ProGymHub | Dashboard
         </div>
     </div>
 </div>
-<!-- Clubs & Subscription Plans End -->
 @endif
 
-<!-- Coaches Overview -->
 @if(isset($coaches) && $coaches->count() > 0)
 <div class="container-fluid pt-4 px-4">
     <div class="bg-secondary rounded p-4">
@@ -505,10 +496,8 @@ ProGymHub | Dashboard
         </div>
     </div>
 </div>
-<!-- Coaches Overview End -->
 @endif
 
-<!-- Users Overview -->
 @if(isset($users) && $users->count() > 0)
 <div class="container-fluid pt-4 px-4">
     <div class="bg-secondary rounded p-4">
@@ -557,12 +546,10 @@ ProGymHub | Dashboard
         </div>
     </div>
 </div>
-<!-- Users Overview End -->
 @endif
 
 @elseif(Auth::guard('club')->check())
 
-<!-- Subscription Plans Overview -->
 <div class="container-fluid pt-4 px-4">
     <div class="bg-secondary rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
@@ -613,9 +600,7 @@ ProGymHub | Dashboard
         </div>
     </div>
 </div>
-<!-- Subscription Plans Overview End -->
 
-<!-- Coaches Overview -->
 <div class="container-fluid pt-4 px-4">
     <div class="bg-secondary rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
@@ -737,9 +722,7 @@ ProGymHub | Dashboard
         </div>
     </div>
 </div>
-<!-- Coaches Overview End -->
 
-<!-- Users/Members Overview -->
 <div class="container-fluid pt-4 px-4">
     <div class="bg-secondary rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
@@ -784,9 +767,7 @@ ProGymHub | Dashboard
         </div>
     </div>
 </div>
-<!-- Users/Members Overview End -->
 
-<!-- Coach-Member Assignments Overview -->
 <div class="container-fluid pt-4 px-4">
     <div class="bg-secondary rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
@@ -873,11 +854,9 @@ ProGymHub | Dashboard
         @endif
     </div>
 </div>
-<!-- Coach-Member Assignments Overview End -->
 
 @else
 
-<!-- Widgets Start -->
 <div class="container-fluid pt-4 px-4">
     <div class="row g-4">
         <div class="col-sm-12 col-md-6 col-xl-4">
@@ -931,5 +910,4 @@ ProGymHub | Dashboard
     </div>
 </div>
 @endif
-<!-- Widgets End -->
 @endsection

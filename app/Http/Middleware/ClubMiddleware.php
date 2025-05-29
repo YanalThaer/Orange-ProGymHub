@@ -18,15 +18,15 @@ class ClubMiddleware
     {
         if (Auth::guard('club')->check()) {
             $club = Auth::guard('club')->user();
-            
+
             if (!$club->email_verified) {
                 return redirect()->route('club.verify.email.form', $club->encoded_id)
                     ->with('error', 'You must verify your email address to access this page.');
             }
-            
+
             return $next($request);
         }
-        
+
         return redirect('/dashboard/admin')->with('error', 'لا يمكنك الوصول لهذه الصفحة');
     }
 }

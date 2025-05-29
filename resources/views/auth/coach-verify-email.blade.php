@@ -9,21 +9,21 @@
 
                 <div class="card-body">
                     @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
                     @endif
-                    
+
                     @if (session('error'))
-                        <div class="alert alert-danger" role="alert">
-                            {{ session('error') }}
-                        </div>
+                    <div class="alert alert-danger" role="alert">
+                        {{ session('error') }}
+                    </div>
                     @endif
-                    
+
                     @if (session('success'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('success') }}
-                        </div>
+                    <div class="alert alert-success" role="alert">
+                        {{ session('success') }}
+                    </div>
                     @endif
 
                     <p>We have sent a verification code to <strong>{{ $coach->email }}</strong>.</p>
@@ -39,9 +39,9 @@
                                 <input id="verification_code" type="text" class="form-control @error('verification_code') is-invalid @enderror" name="verification_code" value="{{ old('verification_code') }}" required autocomplete="verification_code" autofocus maxlength="6">
 
                                 @error('verification_code')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Verify Email') }}
                                 </button>
-                                
+
                                 <a href="{{ route('coach.resend.verification.code', $coach->encoded_id) }}" class="btn btn-link">
                                     {{ __('Resend Code') }}
                                 </a>

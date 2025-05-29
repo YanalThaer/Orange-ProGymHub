@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +16,7 @@ class Progress extends Model
         'user_id',
         'weight',
         'body_fat',
-        'notes',        
+        'notes',
     ];
 
     public function user()

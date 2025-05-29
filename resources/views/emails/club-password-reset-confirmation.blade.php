@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>Password Reset Successful - ProGymHub</title>
@@ -11,21 +12,25 @@
             margin: 0;
             padding: 0;
         }
+
         .container {
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
         }
+
         .header {
             background-color: #4e73df;
             color: #ffffff;
             padding: 20px;
             text-align: center;
         }
+
         .content {
             padding: 20px;
             background-color: #f8f9fc;
         }
+
         .button {
             display: inline-block;
             background-color: #4e73df;
@@ -36,6 +41,7 @@
             margin: 20px 0;
             font-weight: bold;
         }
+
         .footer {
             padding: 20px;
             text-align: center;
@@ -44,6 +50,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -66,4 +73,5 @@
         </div>
     </div>
 </body>
+
 </html>

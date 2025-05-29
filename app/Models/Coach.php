@@ -10,7 +10,7 @@ use App\Traits\HasEncodedId;
 
 class Coach extends Authenticatable
 {
-    use HasFactory , SoftDeletes , HasEncodedId;
+    use HasFactory, SoftDeletes, HasEncodedId;
 
     protected $table = 'coaches';
 
@@ -44,12 +44,12 @@ class Coach extends Authenticatable
     {
         return $this->hasMany(WorkoutPlan::class);
     }
-    
+
     public function club()
     {
         return $this->belongsTo(Club::class);
     }
-    
+
     /**
      * Override the getEncodedId method for Coach model
      * to ensure consistent encoding/decoding with the restoreCoach method
@@ -57,12 +57,12 @@ class Coach extends Authenticatable
     public function getEncodedId()
     {
         $encodedId = base64_encode('coach-' . $this->id . '-' . time());
-        
+
         $encodedId = str_replace(['+', '/', '='], ['-', '_', ''], $encodedId);
-        
+
         return $encodedId;
     }
-    
+
     /**
      * Accessor for encoded_id
      */
@@ -79,16 +79,16 @@ class Coach extends Authenticatable
         if ($field && $field !== 'encoded_id') {
             return parent::resolveRouteBinding($value, $field);
         }
-        
+
         try {
             $value = str_replace(['-', '_'], ['+', '/'], $value);
             $paddingLength = strlen($value) % 4;
             if ($paddingLength) {
                 $value .= str_repeat('=', 4 - $paddingLength);
             }
-            
+
             $decoded = base64_decode($value);
-            
+
             if (preg_match('/^coach-(\d+)-\d+$/', $decoded, $matches)) {
                 $id = $matches[1];
                 return $this->where('id', $id)->first();
@@ -96,10 +96,10 @@ class Coach extends Authenticatable
         } catch (\Exception $e) {
             return null;
         }
-        
+
         return null;
     }
-    
+
     /**
      * Static method to find a coach by encoded ID
      */
@@ -118,12 +118,12 @@ class Coach extends Authenticatable
     {
         return $this->hasMany(courses::class);
     }
-    
+
     public function users()
     {
         return $this->hasMany(User::class);
     }
-    
+
     /**
      * Get working hours as an array, handling various formats
      */
@@ -132,21 +132,21 @@ class Coach extends Authenticatable
         $defaultHours = [
             'Monday' => '9:00 AM - 5:00 PM',
             'Tuesday' => '9:00 AM - 5:00 PM',
-            'Wednesday' => '9:00 AM - 5:00 PM', 
+            'Wednesday' => '9:00 AM - 5:00 PM',
             'Thursday' => '9:00 AM - 5:00 PM',
             'Friday' => '9:00 AM - 5:00 PM',
             'Saturday' => '10:00 AM - 3:00 PM',
             'Sunday' => 'Closed'
         ];
-        
+
         if (empty($this->working_hours)) {
             return $defaultHours;
         }
-        
+
         if (is_array($this->working_hours)) {
             return array_merge($defaultHours, $this->working_hours);
         }
-        
+
         if (is_string($this->working_hours)) {
             try {
                 $decoded = json_decode($this->working_hours, true);
@@ -156,7 +156,7 @@ class Coach extends Authenticatable
             } catch (\Exception $e) {
             }
         }
-        
+
         return $defaultHours;
     }
 }

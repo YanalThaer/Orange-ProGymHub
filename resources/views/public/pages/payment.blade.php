@@ -12,14 +12,17 @@
         font-size: medium !important;
         line-height: 1.6;
     }
+
     .payment-container {
         max-width: 800px;
         margin: auto;
         padding: 30px;
     }
+
     .payment-title {
         margin-bottom: 20px;
     }
+
     h2,
     h3,
     h4,
@@ -27,6 +30,7 @@
         font-size: calc(1.5rem + 0.5vw);
         line-height: 1.3;
     }
+
     .payment-form input,
     .payment-form select {
         width: 100%;
@@ -37,11 +41,13 @@
         color: white;
         border-radius: 5px;
     }
+
     .payment-form input:focus,
     .payment-form select:focus {
         outline: none;
         border-color: #ff0000;
     }
+
     .btn-submit-payment {
         background-color: #ff0000;
         color: white;
@@ -53,9 +59,11 @@
         transition: background-color 0.3s ease;
         width: 100%;
     }
+
     .btn-submit-payment:hover {
         background-color: #e60000;
     }
+
     .alert {
         padding: 15px;
         border-radius: 5px;
@@ -271,7 +279,7 @@
                 @enderror
             </div>
         </div>
-        <button type="button" id="confirm-payment-btn" class="btn btn-danger w-100" 
+        <button type="button" id="confirm-payment-btn" class="btn btn-danger w-100"
             {{ ($club->status !== 'active' || !$plan->is_active || (isset($canSubscribe) && !$canSubscribe)) ? 'disabled' : '' }}>
             Complete Payment - {{ number_format($plan->price, 2) }} JOD
         </button>
@@ -320,21 +328,21 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, initializing scripts...');
-    
+
     // Check if Bootstrap is loaded
     if (typeof bootstrap === 'undefined') {
         console.error('Bootstrap is not loaded. Modal functionality may not work.');
         return;
     }
-    
+
     console.log('Bootstrap is loaded successfully');
-    
+
     // Get form elements
     const confirmPaymentBtn = document.getElementById('confirm-payment-btn');
     const confirmSubscriptionBtn = document.getElementById('confirm-subscription');
     const paymentForm = document.querySelector('.payment-form');
     const modalElement = document.getElementById('confirmSubscriptionModal');
-    
+
     // Log elements to check if they exist
     console.log('Elements found:', {
         confirmPaymentBtn: !!confirmPaymentBtn,
@@ -342,63 +350,77 @@ document.addEventListener('DOMContentLoaded', function() {
         paymentForm: !!paymentForm,
         modalElement: !!modalElement
     });
-    
+
     if (!confirmPaymentBtn || !confirmSubscriptionBtn || !paymentForm || !modalElement) {
         console.error('Required elements not found');
         return;
     }
-    
+
     // Initialize modal
-    const modal = new bootstrap.Modal(modalElement);
-    console.log('Modal initialized:', modal);
-    
+    let modal;
+    try {
+        modal = new bootstrap.Modal(modalElement);
+        console.log('Modal initialized:', modal);
+    } catch (error) {
+        console.error('Error initializing modal:', error);
+        return;
+    }
+
     // Payment button click handler
     confirmPaymentBtn.addEventListener('click', function(e) {
         e.preventDefault();
         console.log('Payment button clicked');
-        
+
         // Check if button is disabled
         if (this.disabled) {
             console.log('Button is disabled, not proceeding');
             return;
         }
-        
+
         // Validate form
         if (!paymentForm.checkValidity()) {
             console.log('Form is not valid, showing validation errors');
             paymentForm.reportValidity();
             return;
         }
-        
+
         console.log('Form is valid, showing modal');
-        
+
         // Show modal
         try {
             modal.show();
             console.log('Modal show() called successfully');
         } catch (error) {
             console.error('Error showing modal:', error);
+            // Fallback: submit form directly if modal fails
+            if (confirm('Are you sure you want to complete this payment?')) {
+                paymentForm.submit();
+            }
         }
     });
-    
+
     // Confirm subscription button click handler
     confirmSubscriptionBtn.addEventListener('click', function() {
         console.log('Confirm subscription clicked');
-        
+
         // Add confirmed input to form
         const confirmedInput = document.createElement('input');
         confirmedInput.type = 'hidden';
         confirmedInput.name = 'confirmed';
         confirmedInput.value = '1';
         paymentForm.appendChild(confirmedInput);
-        
+
         // Hide modal
-        modal.hide();
-        
+        try {
+            modal.hide();
+        } catch (error) {
+            console.error('Error hiding modal:', error);
+        }
+
         // Submit form
         paymentForm.submit();
     });
-    
+
     // Card number formatting
     const cardNumberInput = document.getElementById('card_number');
     if (cardNumberInput) {
@@ -417,7 +439,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.target.value = formattedValue;
         });
     }
-    
+
     // Expiry date formatting
     const expiryDateInput = document.getElementById('expiry_date');
     if (expiryDateInput) {
@@ -434,7 +456,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.target.value = value;
         });
     }
-    
+
     // CVV formatting
     const cvvInput = document.getElementById('cvv');
     if (cvvInput) {
@@ -446,26 +468,30 @@ document.addEventListener('DOMContentLoaded', function() {
             e.target.value = value;
         });
     }
-    
-    // Coach selection
+
+    // Coach selection with proper data structure
     const coachSelect = document.getElementById('coach_id');
     const coachDetails = document.getElementById('coach-details');
-    if (coachSelect) {
-        const coachData = {
-            @foreach($coaches as $coach)
-            {{ $coach->id }}: {
-                name: "{{ $coach->name }}",
-                gender: "{{ ucfirst($coach->gender ?? 'Not specified') }}",
-                experience: "{{ $coach->experience_years ? $coach->experience_years . ' years' : 'Not specified' }}",
-                type: "{{ ucfirst($coach->employment_type ?? 'Not specified') }}",
-                specializations: "{{ is_array($coach->specializations) ? implode(', ', $coach->specializations) : ($coach->specializations ?: 'General Fitness') }}",
-                bio: "{{ $coach->bio ? str_replace(['"', '\n'], ['\"', '\\n'], $coach->bio) : 'No biography available.' }}"
-            },
-            @endforeach
-        };
+    
+    if (coachSelect && coachDetails) {
+        // Build coach data properly
+        const coachData = {};
         
+        @if(isset($coaches) && $coaches->count() > 0)
+        @foreach($coaches as $coach)
+        coachData[{{ $coach->id }}] = {
+            name: {!! json_encode($coach->name) !!},
+            gender: {!! json_encode(ucfirst($coach->gender ?? 'Not specified')) !!},
+            experience: {!! json_encode($coach->experience_years ? $coach->experience_years . ' years' : 'Not specified') !!},
+            type: {!! json_encode(ucfirst($coach->employment_type ?? 'Not specified')) !!},
+            specializations: {!! json_encode(is_array($coach->specializations) ? implode(', ', $coach->specializations) : ($coach->specializations ?: 'General Fitness')) !!},
+            bio: {!! json_encode($coach->bio ?: 'No biography available.') !!}
+        };
+        @endforeach
+        @endif
+
         coachSelect.addEventListener('change', function() {
-            const selectedCoachId = this.value;
+            const selectedCoachId = parseInt(this.value);
             if (selectedCoachId && coachData[selectedCoachId]) {
                 const coach = coachData[selectedCoachId];
                 document.getElementById('coach-name').textContent = coach.name;

@@ -24,7 +24,7 @@ class ClubFactory extends Factory
     protected static int $inactiveCount = 0;
     protected static int $maintenanceCount = 0;
     protected static bool $statusCountsInitialized = false;
-    
+
     /**
      * Available logo files for clubs
      */
@@ -40,10 +40,10 @@ class ClubFactory extends Factory
         $admin = Admin::first() ?? Admin::factory()->create();
 
         $clubNames = [
-            'Amman Fitness Center', 
-            'Royal Gym Jordan', 
-            'Petra Health Club', 
-            'Jordan Valley Fitness', 
+            'Amman Fitness Center',
+            'Royal Gym Jordan',
+            'Petra Health Club',
+            'Jordan Valley Fitness',
             'Aqaba Beach Club',
             'Irbid Sports Center',
             'Dead Sea Wellness Club',
@@ -91,18 +91,18 @@ class ClubFactory extends Factory
             'Yoga & Pilates Studio',
             'Dance & Movement Studio',
         ];
-        
+
         $availableNames = array_diff($clubNames, self::$usedNames);
-        
+
         if (empty($availableNames)) {
             self::$usedNames = [];
             $availableNames = $clubNames;
         }
-        
+
         $name = $this->faker->randomElement($availableNames);
-        
+
         self::$usedNames[] = $name;
-        
+
         return [
             'name' => $name,
             'email' => fake()->unique()->safeEmail(),
@@ -177,16 +177,14 @@ class ClubFactory extends Factory
         if (self::$inactiveCount < 8) {
             self::$inactiveCount++;
             return 'inactive';
-        } 
-        else if (self::$maintenanceCount < 10) {
+        } else if (self::$maintenanceCount < 10) {
             self::$maintenanceCount++;
             return 'under_maintenance';
-        } 
-        else {
+        } else {
             return 'active';
         }
     }
-    
+
     /**
      * Get a random logo file path from storage/logos directory
      * 
@@ -196,26 +194,26 @@ class ClubFactory extends Factory
     {
         if (empty(self::$logoFiles)) {
             $logoDir = public_path('storage/logos');
-            
+
             if (!file_exists($logoDir)) {
                 return null;
             }
-            
+
             $files = glob($logoDir . '/*.{jpg,jpeg,png,gif}', GLOB_BRACE);
-            
+
             if (empty($files)) {
                 return null;
             }
-            
+
             foreach ($files as $file) {
                 self::$logoFiles[] = 'logos/' . basename($file);
             }
         }
-        
+
         if (empty(self::$logoFiles)) {
             return null;
         }
-        
+
         return $this->faker->randomElement(self::$logoFiles);
     }
 }

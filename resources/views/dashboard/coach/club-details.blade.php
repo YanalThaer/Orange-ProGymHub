@@ -8,16 +8,15 @@
         <div class="col-12">
             <div class="bg-secondary rounded h-100 p-4">
                 <h5 class="mb-4">Club Information</h5>
-                
+
                 <div class="row">
-                    <!-- Club Logo and Basic Info -->
                     <div class="col-md-3">
                         <div class="card bg-dark mb-3">
                             <div class="card-body text-center">
                                 @if($club->logo)
-                                    <img src="{{ asset('storage/' . $club->logo) }}" alt="{{ $club->name }}" class="img-fluid rounded mb-4" style="max-height: 150px;">
+                                <img src="{{ asset('storage/' . $club->logo) }}" alt="{{ $club->name }}" class="img-fluid rounded mb-4" style="max-height: 150px;">
                                 @else
-                                    <img src="{{ asset('img/default-avatar.png') }}" alt="{{ $club->name }}" class="img-fluid rounded mb-4" style="max-height: 150px;">
+                                <img src="{{ asset('img/default-avatar.png') }}" alt="{{ $club->name }}" class="img-fluid rounded mb-4" style="max-height: 150px;">
                                 @endif
                                 <h4 class="text-white">{{ $club->name }}</h4>
                                 <p class="text-light"><i class="fa fa-envelope me-2"></i> {{ $club->email }}</p>
@@ -30,11 +29,9 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Club Stats and Details -->
+
                     <div class="col-md-9">
                         <div class="row g-3">
-                            <!-- Stats Cards -->
                             <div class="col-sm-6 col-md-4">
                                 <div class="bg-dark rounded d-flex align-items-center justify-content-between p-4">
                                     <i class="fa fa-users fa-3x text-primary"></i>
@@ -62,8 +59,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            <!-- Address Details -->
+
                             <div class="col-sm-12 col-md-6">
                                 <div class="bg-dark rounded p-4 h-100">
                                     <h6 class="mb-3 text-white"><i class="fa fa-map-marker-alt me-2"></i> Location</h6>
@@ -84,17 +80,16 @@
                                             <td><strong>Website:</strong></td>
                                             <td>
                                                 @if($club->website)
-                                                    <a href="{{ $club->website }}" target="_blank" class="text-info">{{ $club->website }}</a>
+                                                <a href="{{ $club->website }}" target="_blank" class="text-info">{{ $club->website }}</a>
                                                 @else
-                                                    Not specified
+                                                Not specified
                                                 @endif
                                             </td>
                                         </tr>
                                     </table>
                                 </div>
                             </div>
-                            
-                            <!-- Schedule Details -->
+
                             <div class="col-sm-12 col-md-6">
                                 <div class="bg-dark rounded p-4 h-100">
                                     <h6 class="mb-3 text-white"><i class="fa fa-clock me-2"></i> Working Hours</h6>
@@ -109,15 +104,15 @@
                                     <div class="mb-3">
                                         <strong>Working Days:</strong>
                                         @if(isset($club->working_days) && is_array($club->working_days))
-                                            <div class="d-flex flex-wrap mt-2">
-                                                @foreach(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as $day)
-                                                    <span class="badge {{ in_array($day, $club->working_days) ? 'bg-primary' : 'bg-secondary' }} me-2 mb-2 p-2">
-                                                        {{ ucfirst($day) }}
-                                                    </span>
-                                                @endforeach
-                                            </div>
+                                        <div class="d-flex flex-wrap mt-2">
+                                            @foreach(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as $day)
+                                            <span class="badge {{ in_array($day, $club->working_days) ? 'bg-primary' : 'bg-secondary' }} me-2 mb-2 p-2">
+                                                {{ ucfirst($day) }}
+                                            </span>
+                                            @endforeach
+                                        </div>
                                         @else
-                                            <p>No working days specified</p>
+                                        <p>No working days specified</p>
                                         @endif
                                     </div>
                                 </div>
@@ -126,7 +121,6 @@
                     </div>
                 </div>
 
-                <!-- Club Facilities and Description -->
                 <div class="row mt-4">
                     <div class="col-md-12">
                         <div class="card bg-dark">
@@ -136,65 +130,64 @@
                             <div class="card-body">
                                 <div class="d-flex flex-wrap">
                                     @if($club->has_parking)
-                                        <div class="me-4 mb-3 text-center">
-                                            <div class="bg-primary p-3 rounded-circle mb-2">
-                                                <i class="fa fa-car text-white fa-2x"></i>
-                                            </div>
-                                            <p class="mb-0 text-white">Parking</p>
+                                    <div class="me-4 mb-3 text-center">
+                                        <div class="bg-primary p-3 rounded-circle mb-2">
+                                            <i class="fa fa-car text-white fa-2x"></i>
                                         </div>
+                                        <p class="mb-0 text-white">Parking</p>
+                                    </div>
                                     @endif
                                     @if($club->has_wifi)
-                                        <div class="me-4 mb-3 text-center">
-                                            <div class="bg-primary p-3 rounded-circle mb-2">
-                                                <i class="fa fa-wifi text-white fa-2x"></i>
-                                            </div>
-                                            <p class="mb-0 text-white">WiFi</p>
+                                    <div class="me-4 mb-3 text-center">
+                                        <div class="bg-primary p-3 rounded-circle mb-2">
+                                            <i class="fa fa-wifi text-white fa-2x"></i>
                                         </div>
+                                        <p class="mb-0 text-white">WiFi</p>
+                                    </div>
                                     @endif
                                     @if($club->has_showers)
-                                        <div class="me-4 mb-3 text-center">
-                                            <div class="bg-primary p-3 rounded-circle mb-2">
-                                                <i class="fa fa-shower text-white fa-2x"></i>
-                                            </div>
-                                            <p class="mb-0 text-white">Showers</p>
+                                    <div class="me-4 mb-3 text-center">
+                                        <div class="bg-primary p-3 rounded-circle mb-2">
+                                            <i class="fa fa-shower text-white fa-2x"></i>
                                         </div>
+                                        <p class="mb-0 text-white">Showers</p>
+                                    </div>
                                     @endif
                                     @if($club->has_lockers)
-                                        <div class="me-4 mb-3 text-center">
-                                            <div class="bg-primary p-3 rounded-circle mb-2">
-                                                <i class="fa fa-lock text-white fa-2x"></i>
-                                            </div>
-                                            <p class="mb-0 text-white">Lockers</p>
+                                    <div class="me-4 mb-3 text-center">
+                                        <div class="bg-primary p-3 rounded-circle mb-2">
+                                            <i class="fa fa-lock text-white fa-2x"></i>
                                         </div>
+                                        <p class="mb-0 text-white">Lockers</p>
+                                    </div>
                                     @endif
                                     @if($club->has_pool)
-                                        <div class="me-4 mb-3 text-center">
-                                            <div class="bg-primary p-3 rounded-circle mb-2">
-                                                <i class="fa fa-swimming-pool text-white fa-2x"></i>
-                                            </div>
-                                            <p class="mb-0 text-white">Pool</p>
+                                    <div class="me-4 mb-3 text-center">
+                                        <div class="bg-primary p-3 rounded-circle mb-2">
+                                            <i class="fa fa-swimming-pool text-white fa-2x"></i>
                                         </div>
+                                        <p class="mb-0 text-white">Pool</p>
+                                    </div>
                                     @endif
                                     @if($club->has_sauna)
-                                        <div class="me-4 mb-3 text-center">
-                                            <div class="bg-primary p-3 rounded-circle mb-2">
-                                                <i class="fa fa-hot-tub text-white fa-2x"></i>
-                                            </div>
-                                            <p class="mb-0 text-white">Sauna</p>
+                                    <div class="me-4 mb-3 text-center">
+                                        <div class="bg-primary p-3 rounded-circle mb-2">
+                                            <i class="fa fa-hot-tub text-white fa-2x"></i>
                                         </div>
+                                        <p class="mb-0 text-white">Sauna</p>
+                                    </div>
                                     @endif
                                 </div>
-                                
-                                @if(empty($club->has_parking) && empty($club->has_wifi) && empty($club->has_showers) && 
-                                     empty($club->has_lockers) && empty($club->has_pool) && empty($club->has_sauna))
-                                    <p class="text-muted">No facilities information available</p>
+
+                                @if(empty($club->has_parking) && empty($club->has_wifi) && empty($club->has_showers) &&
+                                empty($club->has_lockers) && empty($club->has_pool) && empty($club->has_sauna))
+                                <p class="text-muted">No facilities information available</p>
                                 @endif
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Description -->
+
                 @if($club->description)
                 <div class="row mt-4">
                     <div class="col-12">

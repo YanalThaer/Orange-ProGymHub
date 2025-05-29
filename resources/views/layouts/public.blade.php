@@ -1,5 +1,6 @@
 <!doctype html>
 <html class="no-js" lang="zxx">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -38,9 +39,11 @@
             display: none;
             z-index: 1000;
         }
+
         .dropdown-menu.show {
             display: block;
         }
+
         .dropdown-item {
             color: #fff !important;
             padding: 10px 20px;
@@ -48,14 +51,17 @@
             display: block;
             text-decoration: none;
         }
+
         .dropdown-item:hover,
         .dropdown-item:focus {
             background-color: #ff0000 !important;
             color: #fff !important;
         }
+
         .dropdown-divider {
             border-top: 1px solid #333;
         }
+
         .dropdown-toggle::after {
             display: inline-block;
             margin-left: 0.255em;
@@ -69,6 +75,7 @@
     </style>
 </head>
 @include('layouts.public.__navbar')
+
 <body class="black-bg">
     @yield('content')
     @include('layouts.public.__footer')

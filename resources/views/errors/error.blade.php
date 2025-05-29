@@ -11,7 +11,7 @@
         margin: 0 auto;
         color: #fff;
     }
-    
+
     .error-code {
         font-size: 150px;
         font-weight: 700;
@@ -20,36 +20,36 @@
         line-height: 1;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     }
-    
+
     .error-message {
         font-size: 36px;
         margin-bottom: 30px;
         color: #fff;
     }
-    
+
     .error-description {
         font-size: 18px;
         margin-bottom: 40px;
         color: #ccc;
     }
-    
+
     .error-action .btn {
         font-size: 18px;
         padding: 12px 30px;
         margin: 0 10px;
         transition: all 0.3s ease;
     }
-    
+
     .error-action .btn-home {
         background-color: #ff0000;
         border: none;
     }
-    
+
     .error-action .btn-home:hover {
         background-color: #cc0000;
         transform: translateY(-3px);
     }
-    
+
     .error-image {
         max-width: 100%;
         height: auto;

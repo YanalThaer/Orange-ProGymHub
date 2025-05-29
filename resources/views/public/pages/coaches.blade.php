@@ -77,7 +77,7 @@
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>
                 @empty
                 <div class="col-12 text-center">
                     @if(isset($search) && !empty($search))

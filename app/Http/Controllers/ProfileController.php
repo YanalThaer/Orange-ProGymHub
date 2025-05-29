@@ -43,8 +43,8 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         return view('profile.edit', compact('user'));
-    }    
-    
+    }
+
     /**
      * Update the user's profile.
      *
@@ -55,13 +55,13 @@ class ProfileController extends Controller
     {
         try {
             $user = Auth::user();
-            
+
             \Log::info('Profile update request received', [
                 'user_id' => $user->id,
                 'request_method' => $request->method(),
                 'request_data' => $request->all()
             ]);
-            
+
             $rules = [
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
@@ -89,67 +89,66 @@ class ProfileController extends Controller
                 'food_preferences' => ['nullable', 'string'],
                 'food_dislikes' => ['nullable', 'string'],
             ];
-            
+
             $request->validate($rules);
-            
+
             $data = $request->only(array_keys($rules));
-            
+
             if (!empty($request->current_password) && !empty($request->password)) {
                 if (!Hash::check($request->current_password, $user->password)) {
                     return redirect()->route('profile.edit')
                         ->withErrors(['current_password' => 'The current password is incorrect.'])
                         ->withInput();
                 }
-                
+
                 $data['password'] = Hash::make($request->password);
             } else {
                 unset($data['password']);
                 unset($data['current_password']);
             }
-            
+
             if (!empty($data['height_cm']) && !empty($data['weight_kg'])) {
                 $heightInMeters = $data['height_cm'] / 100;
                 $data['bmi'] = round($data['weight_kg'] / ($heightInMeters * $heightInMeters), 2);
             }
             \Log::info('Processed data before saving:', $data);
-            
+
             $fieldsToUpdate = collect($data)
                 ->filter(function ($value, $key) use ($request) {
-                    return $request->has($key) && 
-                           ($value !== null && $value !== '') && 
-                           $key !== 'current_password' && 
-                           $key !== 'password_confirmation';
+                    return $request->has($key) &&
+                        ($value !== null && $value !== '') &&
+                        $key !== 'current_password' &&
+                        $key !== 'password_confirmation';
                 })
                 ->toArray();
-                
+
             \Log::info('Fields actually being updated:', $fieldsToUpdate);
-            
+
             foreach ($fieldsToUpdate as $key => $value) {
                 $user->$key = $value;
             }
-            
+
             $result = $user->save();
-            
+
             \Log::info('Profile update result: ' . ($result ? 'Success' : 'Failed') . ' for user ' . $user->id);
-            
+
             if (!$result) {
                 throw new \Exception('Failed to save user data');
             }
-            
+
             return redirect()->route('profile.show')
                 ->with('success', 'Profile updated successfully!');
-                
         } catch (\Exception $e) {
             \Log::error('Error updating user profile: ' . $e->getMessage());
-            
+
             if (isset($user)) {
                 \Log::error('User ID: ' . $user->id);
             }
-            
+
             if (isset($data)) {
                 \Log::error('Data: ' . json_encode($data));
             }
-            
+
             return redirect()->route('profile.edit')
                 ->with('error', 'Failed to update profile: ' . $e->getMessage())
                 ->withInput();

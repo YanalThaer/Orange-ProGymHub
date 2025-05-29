@@ -3,7 +3,6 @@
 
 @push('styles')
 <style>
-    /* Dark Theme Styles */
     .dark-theme {
         background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
         min-height: 100vh;
@@ -14,9 +13,9 @@
         background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
         border: 1px solid #333;
         border-radius: 20px;
-        box-shadow: 
-            0 20px 40px rgba(0,0,0,0.4),
-            inset 0 1px 0 rgba(255,255,255,0.1);
+        box-shadow:
+            0 20px 40px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(10px);
     }
 
@@ -175,8 +174,15 @@
     }
 
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 </style>
 @endpush
@@ -195,35 +201,35 @@
                             <i class="fas fa-arrow-left me-1"></i> Back to Users
                         </a>
                     </div>
-                    
+
                     <div class="dark-card-body">
                         @if($errors->any())
-                            <div class="alert alert-danger alert-dark">
-                                <i class="fas fa-exclamation-triangle me-2"></i>
-                                <ul class="mb-0">
-                                    @foreach($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
+                        <div class="alert alert-danger alert-dark">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <ul class="mb-0">
+                                @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                         @endif
 
                         @if(session('error'))
-                            <div class="alert alert-danger alert-dark">
-                                <i class="fas fa-times-circle me-2"></i>
-                                {{ session('error') }}
-                            </div>
+                        <div class="alert alert-danger alert-dark">
+                            <i class="fas fa-times-circle me-2"></i>
+                            {{ session('error') }}
+                        </div>
                         @endif
 
                         @if(session('success'))
-                            <div class="alert alert-success alert-dark">
-                                <i class="fas fa-check-circle me-2"></i>
-                                {{ session('success') }}
-                            </div>
+                        <div class="alert alert-success alert-dark">
+                            <i class="fas fa-check-circle me-2"></i>
+                            {{ session('success') }}
+                        </div>
                         @endif
-                        
+
                         <div class="alert alert-primary-dark">
-                            <i class="fas fa-bell me-2"></i> 
+                            <i class="fas fa-bell me-2"></i>
                             <strong>Notification System:</strong> When you create a new user, after email verification:
                             <ul class="mb-0 mt-2">
                                 <li>The user will receive a welcome email and in-app notification</li>
@@ -232,39 +238,39 @@
                                 <li>If a coach is assigned, they will also be notified</li>
                             </ul>
                         </div>
-                        
+
                         <div class="alert alert-info-dark">
-                            <i class="fas fa-info-circle me-2"></i> 
+                            <i class="fas fa-info-circle me-2"></i>
                             <strong>Note:</strong> Basic training and nutrition preferences will be set to default values. These can be updated later in the user's profile.
                         </div>
 
                         <form action="{{ route('club.users.store') }}" method="POST" id="create-user-form">
                             @csrf
-                            
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <h5 class="section-header">
                                         <i class="fas fa-user me-2"></i>Personal Information
                                     </h5>
-                                    
+
                                     <div class="form-group mb-3">
                                         <label for="name" class="form-label-dark">Full Name <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-dark @error('name') is-invalid @enderror" 
+                                        <input type="text" class="form-control form-control-dark @error('name') is-invalid @enderror"
                                             id="name" name="name" value="{{ old('name') }}" required>
                                     </div>
-                                    
+
                                     <div class="form-group mb-3">
                                         <label for="email" class="form-label-dark">Email <span class="text-danger">*</span></label>
-                                        <input type="email" class="form-control form-control-dark @error('email') is-invalid @enderror" 
+                                        <input type="email" class="form-control form-control-dark @error('email') is-invalid @enderror"
                                             id="email" name="email" value="{{ old('email') }}" required>
                                     </div>
-                                    
+
                                     <div class="form-group mb-3">
                                         <label for="phone_number" class="form-label-dark">Phone Number <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-dark @error('phone_number') is-invalid @enderror" 
+                                        <input type="text" class="form-control form-control-dark @error('phone_number') is-invalid @enderror"
                                             id="phone_number" name="phone_number" value="{{ old('phone_number') }}" required>
                                     </div>
-                                    
+
                                     <div class="form-group mb-3">
                                         <label for="gender" class="form-label-dark">Gender</label>
                                         <select class="form-control form-control-dark @error('gender') is-invalid @enderror" id="gender" name="gender">
@@ -273,67 +279,67 @@
                                             <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Female</option>
                                         </select>
                                     </div>
-                                    
+
                                     <div class="form-group mb-3">
                                         <label for="date_of_birth" class="form-label-dark">Date of Birth</label>
-                                        <input type="date" class="form-control form-control-dark @error('date_of_birth') is-invalid @enderror" 
+                                        <input type="date" class="form-control form-control-dark @error('date_of_birth') is-invalid @enderror"
                                             id="date_of_birth" name="date_of_birth" value="{{ old('date_of_birth') }}">
                                     </div>
-                                    
+
                                     <div class="form-group mb-3">
                                         <label for="password" class="form-label-dark">Password <span class="text-danger">*</span></label>
-                                        <input type="password" class="form-control form-control-dark @error('password') is-invalid @enderror" 
+                                        <input type="password" class="form-control form-control-dark @error('password') is-invalid @enderror"
                                             id="password" name="password" required>
                                     </div>
-                                    
+
                                     <div class="form-group mb-3">
                                         <label for="password_confirmation" class="form-label-dark">Confirm Password <span class="text-danger">*</span></label>
-                                        <input type="password" class="form-control form-control-dark" 
+                                        <input type="password" class="form-control form-control-dark"
                                             id="password_confirmation" name="password_confirmation" required>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-6">
                                     <h5 class="section-header">
                                         <i class="fas fa-dumbbell me-2"></i>Fitness Information
                                     </h5>
-                                    
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label for="height" class="form-label-dark">Height (cm)</label>
-                                                <input type="number" step="0.01" class="form-control form-control-dark @error('height') is-invalid @enderror" 
+                                                <input type="number" step="0.01" class="form-control form-control-dark @error('height') is-invalid @enderror"
                                                     id="height" name="height" value="{{ old('height') }}">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label for="weight" class="form-label-dark">Weight (kg)</label>
-                                                <input type="number" step="0.01" class="form-control form-control-dark @error('weight') is-invalid @enderror" 
+                                                <input type="number" step="0.01" class="form-control form-control-dark @error('weight') is-invalid @enderror"
                                                     id="weight" name="weight" value="{{ old('weight') }}">
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label for="target_weight_kg" class="form-label-dark">Target Weight (kg)</label>
-                                                <input type="number" step="0.01" class="form-control form-control-dark @error('target_weight_kg') is-invalid @enderror" 
+                                                <input type="number" step="0.01" class="form-control form-control-dark @error('target_weight_kg') is-invalid @enderror"
                                                     id="target_weight_kg" name="target_weight_kg" value="{{ old('target_weight_kg') }}">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label for="body_fat_percentage" class="form-label-dark">Body Fat (%)</label>
-                                                <input type="number" step="0.01" class="form-control form-control-dark @error('body_fat_percentage') is-invalid @enderror" 
+                                                <input type="number" step="0.01" class="form-control form-control-dark @error('body_fat_percentage') is-invalid @enderror"
                                                     id="body_fat_percentage" name="body_fat_percentage" value="{{ old('body_fat_percentage') }}">
                                             </div>
                                         </div>
                                         <input type="hidden" id="bmi" name="bmi" value="{{ old('bmi') }}">
                                         <div id="bmi-status-display" class="bmi-display" style="font-weight: bold;"></div>
                                     </div>
-                                    
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
@@ -346,46 +352,46 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="form-group mb-3">
                                         <label for="goal" class="form-label-dark">Fitness Goal <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-dark @error('goal') is-invalid @enderror" 
+                                        <input type="text" class="form-control form-control-dark @error('goal') is-invalid @enderror"
                                             id="goal" name="goal" value="{{ old('goal', 'General fitness') }}" placeholder="Weight loss, muscle gain, general fitness, etc.">
                                         <small class="form-text">Required. Example: weight loss, muscle gain, etc.</small>
                                     </div>
-                                    
+
                                     <div class="form-group mb-3">
                                         <label for="health_conditions" class="form-label-dark">Health Conditions</label>
-                                        <textarea class="form-control form-control-dark @error('health_conditions') is-invalid @enderror" 
+                                        <textarea class="form-control form-control-dark @error('health_conditions') is-invalid @enderror"
                                             id="health_conditions" name="health_conditions" rows="2">{{ old('health_conditions') }}</textarea>
                                     </div>
-                                    
+
                                     <div class="form-group mb-3">
                                         <label for="injuries" class="form-label-dark">Injuries</label>
-                                        <textarea class="form-control form-control-dark @error('injuries') is-invalid @enderror" 
+                                        <textarea class="form-control form-control-dark @error('injuries') is-invalid @enderror"
                                             id="injuries" name="injuries" rows="2">{{ old('injuries') }}</textarea>
                                     </div>
-                                    
+
                                     <div class="form-group mb-3">
                                         <label for="allergies" class="form-label-dark">Allergies</label>
-                                        <textarea class="form-control form-control-dark @error('allergies') is-invalid @enderror" 
+                                        <textarea class="form-control form-control-dark @error('allergies') is-invalid @enderror"
                                             id="allergies" name="allergies" rows="2">{{ old('allergies') }}</textarea>
                                     </div>
-                                    
+
                                     <div class="form-group mb-3">
                                         <label for="medications" class="form-label-dark">Medications</label>
-                                        <textarea class="form-control form-control-dark @error('medications') is-invalid @enderror" 
+                                        <textarea class="form-control form-control-dark @error('medications') is-invalid @enderror"
                                             id="medications" name="medications" rows="2">{{ old('medications') }}</textarea>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="row mt-4">
                                 <div class="col-md-12">
                                     <h5 class="section-header">
                                         <i class="fas fa-calendar-alt me-2"></i>Training & Nutrition Preferences
                                     </h5>
-                                    
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
@@ -393,7 +399,7 @@
                                                 <select class="form-control form-control-dark @error('training_days_per_week') is-invalid @enderror" id="training_days_per_week" name="training_days_per_week">
                                                     @for($i = 1; $i <= 7; $i++)
                                                         <option value="{{ $i }}" {{ old('training_days_per_week', 3) == $i ? 'selected' : '' }}>{{ $i }} day(s)</option>
-                                                    @endfor
+                                                        @endfor
                                                 </select>
                                             </div>
                                         </div>
@@ -409,7 +415,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
@@ -437,24 +443,24 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label for="exercise_preferences" class="form-label-dark">Exercise Preferences</label>
-                                                <textarea class="form-control form-control-dark @error('exercise_preferences') is-invalid @enderror" 
+                                                <textarea class="form-control form-control-dark @error('exercise_preferences') is-invalid @enderror"
                                                     id="exercise_preferences" name="exercise_preferences" rows="2">{{ old('exercise_preferences', 'General fitness exercises') }}</textarea>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label for="exercise_dislikes" class="form-label-dark">Exercise Dislikes</label>
-                                                <textarea class="form-control form-control-dark @error('exercise_dislikes') is-invalid @enderror" 
+                                                <textarea class="form-control form-control-dark @error('exercise_dislikes') is-invalid @enderror"
                                                     id="exercise_dislikes" name="exercise_dislikes" rows="2">{{ old('exercise_dislikes') }}</textarea>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
@@ -462,65 +468,65 @@
                                                 <select class="form-control form-control-dark @error('meals_per_day') is-invalid @enderror" id="meals_per_day" name="meals_per_day">
                                                     @for($i = 1; $i <= 8; $i++)
                                                         <option value="{{ $i }}" {{ old('meals_per_day', 3) == $i ? 'selected' : '' }}>{{ $i }} meal(s)</option>
-                                                    @endfor
+                                                        @endfor
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label for="food_preferences" class="form-label-dark">Food Preferences</label>
-                                                <textarea class="form-control form-control-dark @error('food_preferences') is-invalid @enderror" 
+                                                <textarea class="form-control form-control-dark @error('food_preferences') is-invalid @enderror"
                                                     id="food_preferences" name="food_preferences" rows="2">{{ old('food_preferences') }}</textarea>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group mb-3">
                                                 <label for="food_dislikes" class="form-label-dark">Food Dislikes</label>
-                                                <textarea class="form-control form-control-dark @error('food_dislikes') is-invalid @enderror" 
+                                                <textarea class="form-control form-control-dark @error('food_dislikes') is-invalid @enderror"
                                                     id="food_dislikes" name="food_dislikes" rows="2">{{ old('food_dislikes') }}</textarea>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="row mt-4">
                                 <div class="col-md-12">
                                     <h5 class="section-header">
                                         <i class="fas fa-crown me-2"></i>Subscription & Coach
                                     </h5>
-                                    
+
                                     <div class="alert alert-warning-dark mb-3">
                                         <i class="fas fa-exclamation-triangle me-2"></i>
                                         The user will be notified about their subscription plan and assigned coach after email verification.
                                     </div>
-                                    
+
                                     <div class="form-group mb-3">
                                         <label for="coach_id" class="form-label-dark">Assign Coach</label>
                                         <select class="form-control form-control-dark @error('coach_id') is-invalid @enderror" id="coach_id" name="coach_id">
                                             <option value="">No Coach Assigned</option>
                                             @foreach($coaches as $coach)
-                                                <option value="{{ $coach->id }}" {{ old('coach_id') == $coach->id ? 'selected' : '' }}>
-                                                    {{ $coach->name }}
-                                                </option>
+                                            <option value="{{ $coach->id }}" {{ old('coach_id') == $coach->id ? 'selected' : '' }}>
+                                                {{ $coach->name }}
+                                            </option>
                                             @endforeach
                                         </select>
                                         <small class="form-text">
                                             If selected, this coach will be assigned to the user.
                                         </small>
                                     </div>
-                                    
+
                                     <div class="form-group mb-3">
                                         <label for="plan_id" class="form-label-dark">Subscription Plan</label>
                                         <select class="form-control form-control-dark @error('plan_id') is-invalid @enderror" id="plan_id" name="plan_id">
                                             <option value="">No Subscription</option>
                                             @foreach($subscriptionPlans as $plan)
-                                                <option value="{{ $plan->id }}" {{ old('plan_id') == $plan->id ? 'selected' : '' }}>
-                                                    {{ $plan->name }} - {{ number_format($plan->price, 2) }} JOD ({{ $plan->duration_days }} days)
-                                                </option>
+                                            <option value="{{ $plan->id }}" {{ old('plan_id') == $plan->id ? 'selected' : '' }}>
+                                                {{ $plan->name }} - {{ number_format($plan->price, 2) }} JOD ({{ $plan->duration_days }} days)
+                                            </option>
                                             @endforeach
                                         </select>
                                         <small class="form-text">
@@ -529,7 +535,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="form-group text-center mt-5">
                                 <a href="{{ route('club.users') }}" class="btn btn-secondary-dark me-3">
                                     <i class="fas fa-times me-1"></i> Cancel
@@ -547,27 +553,24 @@
 </div>
 
 <script>
-    // Auto-calculate BMI when height and weight are entered
     document.addEventListener('DOMContentLoaded', function() {
         const heightInput = document.getElementById('height');
         const weightInput = document.getElementById('weight');
         const bmiInput = document.getElementById('bmi');
         const bmiDisplay = document.getElementById('bmi-status-display');
         const form = document.getElementById('create-user-form');
-        
-        // Calculate BMI and update status text
+
         function calculateBMI() {
-            const height = parseFloat(heightInput.value) / 100; // convert to meters
+            const height = parseFloat(heightInput.value) / 100;
             const weight = parseFloat(weightInput.value);
-            
+
             if (height > 0 && weight > 0) {
                 const bmi = weight / (height * height);
-                bmiInput.value = bmi.toFixed(2); // Store BMI value in hidden field
-                
-                // Update BMI status text and color based on calculated value
+                bmiInput.value = bmi.toFixed(2); 
+
                 let status = '';
                 let color = '';
-                
+
                 if (bmi < 18.5) {
                     status = 'BMI Status: Underweight (' + bmi.toFixed(1) + ')';
                     color = '#3498db'; // blue
@@ -581,26 +584,23 @@
                     status = 'BMI Status: Obese (' + bmi.toFixed(1) + ')';
                     color = '#e74c3c'; // red
                 }
-                
+
                 bmiDisplay.textContent = status;
                 bmiDisplay.style.color = color;
                 bmiDisplay.style.display = 'block';
             } else {
-                // Clear BMI status if height or weight is missing
                 bmiDisplay.textContent = '';
                 bmiDisplay.style.display = 'none';
             }
         }
-        
+
         heightInput.addEventListener('input', calculateBMI);
         weightInput.addEventListener('input', calculateBMI);
-        
-        // Initial calculation if values are present
+
         if (heightInput.value && weightInput.value) {
             calculateBMI();
         }
-        
-        // Validate form on submit
+
         form.addEventListener('submit', function(e) {
             const name = document.getElementById('name').value.trim();
             const email = document.getElementById('email').value.trim();
@@ -608,15 +608,15 @@
             const password = document.getElementById('password').value;
             const passwordConfirm = document.getElementById('password_confirmation').value;
             const goal = document.getElementById('goal').value.trim();
-            
+
             let isValid = true;
             let errorMessage = '';
-            
+
             if (!name) {
                 errorMessage += 'Full Name is required.\n';
                 isValid = false;
             }
-            
+
             if (!email) {
                 errorMessage += 'Email is required.\n';
                 isValid = false;
@@ -624,12 +624,12 @@
                 errorMessage += 'Please enter a valid email address.\n';
                 isValid = false;
             }
-            
+
             if (!phone) {
                 errorMessage += 'Phone Number is required.\n';
                 isValid = false;
             }
-            
+
             if (!password) {
                 errorMessage += 'Password is required.\n';
                 isValid = false;
@@ -637,31 +637,29 @@
                 errorMessage += 'Password must be at least 8 characters long.\n';
                 isValid = false;
             }
-            
+
             if (password !== passwordConfirm) {
                 errorMessage += 'Password and Confirm Password do not match.\n';
                 isValid = false;
             }
-            
+
             if (!goal) {
                 errorMessage += 'Fitness Goal is required.\n';
                 isValid = false;
             }
-            
+
             if (!isValid) {
                 e.preventDefault();
-                // Create custom styled alert
                 showCustomAlert('Please correct the following errors:\n\n' + errorMessage);
             }
         });
-        
+
         function isValidEmail(email) {
             const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(String(email).toLowerCase());
         }
-        
+
         function showCustomAlert(message) {
-            // Create custom modal alert with dark theme
             const alertModal = document.createElement('div');
             alertModal.style.cssText = `
                 position: fixed;
@@ -675,7 +673,7 @@
                 align-items: center;
                 z-index: 10000;
             `;
-            
+
             const alertBox = document.createElement('div');
             alertBox.style.cssText = `
                 background: linear-gradient(145deg, #2a2a2a, #1e1e1e);
@@ -686,7 +684,7 @@
                 color: white;
                 box-shadow: 0 20px 40px rgba(0,0,0,0.5);
             `;
-            
+
             alertBox.innerHTML = `
                 <div style="text-align: center;">
                     <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #f59e0b; margin-bottom: 20px;"></i>
@@ -706,12 +704,11 @@
                     </button>
                 </div>
             `;
-            
+
             alertModal.className = 'alert-modal';
             alertModal.appendChild(alertBox);
             document.body.appendChild(alertModal);
-            
-            // Add hover effect to button
+
             const button = alertBox.querySelector('button');
             button.addEventListener('mouseenter', function() {
                 this.style.background = 'linear-gradient(135deg, #5855eb, #7c3aed)';
@@ -722,8 +719,7 @@
                 this.style.transform = 'translateY(0)';
             });
         }
-        
-        // Add smooth transitions to form inputs
+
         const inputs = document.querySelectorAll('.form-control-dark');
         inputs.forEach(input => {
             input.addEventListener('focus', function() {

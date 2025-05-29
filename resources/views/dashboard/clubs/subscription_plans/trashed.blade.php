@@ -15,52 +15,52 @@
                 </div>
                 <div class="card-body">
                     @if(session('success'))
-                        <div class="alert alert-success">{{ session('success') }}</div>
+                    <div class="alert alert-success">{{ session('success') }}</div>
                     @endif
 
                     @if(session('error'))
-                        <div class="alert alert-danger">{{ session('error') }}</div>
+                    <div class="alert alert-danger">{{ session('error') }}</div>
                     @endif
 
                     @if($trashedPlans->isEmpty())
-                        <div class="alert alert-info">No deleted subscription plans found.</div>
+                    <div class="alert alert-info">No deleted subscription plans found.</div>
                     @else
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-dark table-hover" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Price</th>
-                                        <th>Duration (days)</th>
-                                        <th>Type</th>
-                                        <th>Deleted At</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($trashedPlans as $plan)
-                                        <tr>
-                                            <td>{{ $plan->name }}</td>
-                                            <td>${{ number_format($plan->price, 2) }}</td>
-                                            <td>{{ $plan->duration_days }}</td>
-                                            <td>{{ ucfirst($plan->type) }}</td>
-                                            <td>{{ $plan->deleted_at->format('Y-m-d H:i') }}</td>
-                                            <td class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-success btn-sm mx-1"
-                                                    onclick="showRestoreModal('{{ $plan->getEncodedId() }}', '{{ $plan->name }}')"
-                                                    title="Restore Plan">
-                                                    <i class="fas fa-trash-restore"></i>
-                                                </button>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-dark table-hover" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Duration (days)</th>
+                                    <th>Type</th>
+                                    <th>Deleted At</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($trashedPlans as $plan)
+                                <tr>
+                                    <td>{{ $plan->name }}</td>
+                                    <td>${{ number_format($plan->price, 2) }}</td>
+                                    <td>{{ $plan->duration_days }}</td>
+                                    <td>{{ ucfirst($plan->type) }}</td>
+                                    <td>{{ $plan->deleted_at->format('Y-m-d H:i') }}</td>
+                                    <td class="d-flex justify-content-center">
+                                        <button type="button" class="btn btn-success btn-sm mx-1"
+                                            onclick="showRestoreModal('{{ $plan->getEncodedId() }}', '{{ $plan->name }}')"
+                                            title="Restore Plan">
+                                            <i class="fas fa-trash-restore"></i>
+                                        </button>
 
-                                                <form id="restore-form-{{ $plan->getEncodedId() }}" action="{{ route('club.subscription-plans.restore', $plan->getEncodedId()) }}" method="POST" style="display:none;">
-                                                    @csrf
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                        <form id="restore-form-{{ $plan->getEncodedId() }}" action="{{ route('club.subscription-plans.restore', $plan->getEncodedId()) }}" method="POST" style="display:none;">
+                                            @csrf
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     @endif
                 </div>
             </div>
@@ -88,13 +88,14 @@
 @section('scripts')
 <script>
     let planIdToRestore = null;
+
     function showRestoreModal(planId, planName) {
         planIdToRestore = planId;
         document.getElementById('planNameToRestore').textContent = planName;
         const modal = new bootstrap.Modal(document.getElementById('restoreModal'));
         modal.show();
     }
-    document.getElementById('confirmRestoreBtn').addEventListener('click', function () {
+    document.getElementById('confirmRestoreBtn').addEventListener('click', function() {
         if (planIdToRestore) {
             const form = document.getElementById('restore-form-' + planIdToRestore);
             if (form) {

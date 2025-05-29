@@ -1,24 +1,22 @@
 <div class="sidebar pe-4 pb-3">
     <nav class="navbar bg-secondary navbar-dark">
-        <!-- Logo and Project Name Horizontally -->
-            <div class="navbar-brand mx-4 mb-3 d-flex align-items-center justify-content-center">
-                <img src="{{ asset('img/favicon.png') }}" alt="Logo" style="width: 40px; height: 40px;" class="me-2">
-                <h4 class="text-primary mb-0"><img src="{{ asset('img/image.png') }}" alt="Logo" style="width: 150px; height: 70px;" class="me-2"></h4>
-            </div>
+        <div class="navbar-brand mx-4 mb-3 d-flex align-items-center justify-content-center">
+            <img src="{{ asset('img/favicon.png') }}" alt="Logo" style="width: 40px; height: 40px;" class="me-2">
+            <h4 class="text-primary mb-0"><img src="{{ asset('img/image.png') }}" alt="Logo" style="width: 150px; height: 70px;" class="me-2"></h4>
+        </div>
 
-        <!-- User Info Section in the center -->
         <div class="flex-grow-1 d-flex flex-column justify-content-center align-items-center mb-3">
             <div class="d-flex flex-column align-items-center">
                 <div class="position-relative mb-2">
                     @php
-                        $guard = Auth::guard('admin')->check() ? 'admin' : (Auth::guard('club')->check() ? 'club' : (Auth::guard('coach')->check() ? 'coach' : null));
-                        $user = $guard ? Auth::guard($guard)->user() : null;
-                        $imageField = $guard === 'admin' ? 'profile_picture' : ($guard === 'club' ? 'logo' : 'profile_image');
-                        $imagePath = $user && $user->$imageField 
-                            ? (str_starts_with($user->$imageField, 'http') 
-                                ? $user->$imageField 
-                                : asset('storage/' . $user->$imageField)) 
-                            : asset('img/default-avatar.png');
+                    $guard = Auth::guard('admin')->check() ? 'admin' : (Auth::guard('club')->check() ? 'club' : (Auth::guard('coach')->check() ? 'coach' : null));
+                    $user = $guard ? Auth::guard($guard)->user() : null;
+                    $imageField = $guard === 'admin' ? 'profile_picture' : ($guard === 'club' ? 'logo' : 'profile_image');
+                    $imagePath = $user && $user->$imageField
+                    ? (str_starts_with($user->$imageField, 'http')
+                    ? $user->$imageField
+                    : asset('storage/' . $user->$imageField))
+                    : asset('img/default-avatar.png');
                     @endphp
 
                     <img class="rounded-circle border border-white" src="{{ $imagePath }}" alt="Profile"
@@ -35,7 +33,6 @@
             </div>
         </div>
 
-        <!-- Navigation Links -->
         <div class="navbar-nav w-100">
             <a href="@if($guard === 'admin')
                         {{ route('admin.dashboard') }}
@@ -49,47 +46,47 @@
             </a>
 
             @if($guard === 'admin')
-                <a href="{{ route('admin.clubs') }}" class="nav-item nav-link {{ request()->routeIs('admin.clubs') ? 'active' : '' }}">
-                    <i class="fa fa-th me-2"></i>Clubs
-                </a>
-                <a href="{{ route('admin.users') }}" class="nav-item nav-link {{ request()->routeIs('admin.users*') ? 'active' : '' }}">
-                    <i class="fa fa-users me-2"></i>Users
-                </a>
-                <a href="{{ route('admin.coaches') }}" class="nav-item nav-link {{ request()->routeIs('admin.coaches*') ? 'active' : '' }}">
-                    <i class="fa fa-dumbbell me-2"></i>Coaches
-                </a>
-                <a href="{{ route('admin.search') }}" class="nav-item nav-link {{ request()->routeIs('admin.search*') ? 'active' : '' }}">
-                    <i class="fa fa-search me-2"></i>Search
-                </a>
+            <a href="{{ route('admin.clubs') }}" class="nav-item nav-link {{ request()->routeIs('admin.clubs') ? 'active' : '' }}">
+                <i class="fa fa-th me-2"></i>Clubs
+            </a>
+            <a href="{{ route('admin.users') }}" class="nav-item nav-link {{ request()->routeIs('admin.users*') ? 'active' : '' }}">
+                <i class="fa fa-users me-2"></i>Users
+            </a>
+            <a href="{{ route('admin.coaches') }}" class="nav-item nav-link {{ request()->routeIs('admin.coaches*') ? 'active' : '' }}">
+                <i class="fa fa-dumbbell me-2"></i>Coaches
+            </a>
+            <a href="{{ route('admin.search') }}" class="nav-item nav-link {{ request()->routeIs('admin.search*') ? 'active' : '' }}">
+                <i class="fa fa-search me-2"></i>Search
+            </a>
             @elseif($guard === 'club')
-                <a href="{{ route('club.profile') }}" class="nav-item nav-link {{ request()->routeIs('club.profile') ? 'active' : '' }}">
-                    <i class="fa fa-building me-2"></i>My Club
-                </a>
-                <a href="{{ route('club.subscription-plans') }}" class="nav-item nav-link {{ request()->routeIs('club.subscription-plans*') ? 'active' : '' }}">
-                    <i class="fa fa-tags me-2"></i>Subscription Plans
-                </a>
-                <a href="{{ route('club.coaches') }}" class="nav-item nav-link {{ request()->routeIs('club.coaches*') ? 'active' : '' }}">
-                    <i class="fa fa-dumbbell me-2"></i>Coach Management
-                </a>
-                <a href="{{ route('club.users') }}" class="nav-item nav-link {{ request()->routeIs('club.users*') ? 'active' : '' }}">
-                    <i class="fa fa-user-cog me-2"></i>User Management
-                </a>
-                <a href="{{ route('club.search') }}" class="nav-item nav-link {{ request()->routeIs('club.search*') ? 'active' : '' }}">
-                    <i class="fa fa-search me-2"></i>Search
-                </a>
+            <a href="{{ route('club.profile') }}" class="nav-item nav-link {{ request()->routeIs('club.profile') ? 'active' : '' }}">
+                <i class="fa fa-building me-2"></i>My Club
+            </a>
+            <a href="{{ route('club.subscription-plans') }}" class="nav-item nav-link {{ request()->routeIs('club.subscription-plans*') ? 'active' : '' }}">
+                <i class="fa fa-tags me-2"></i>Subscription Plans
+            </a>
+            <a href="{{ route('club.coaches') }}" class="nav-item nav-link {{ request()->routeIs('club.coaches*') ? 'active' : '' }}">
+                <i class="fa fa-dumbbell me-2"></i>Coach Management
+            </a>
+            <a href="{{ route('club.users') }}" class="nav-item nav-link {{ request()->routeIs('club.users*') ? 'active' : '' }}">
+                <i class="fa fa-user-cog me-2"></i>User Management
+            </a>
+            <a href="{{ route('club.search') }}" class="nav-item nav-link {{ request()->routeIs('club.search*') ? 'active' : '' }}">
+                <i class="fa fa-search me-2"></i>Search
+            </a>
             @elseif($guard === 'coach')
-                <a href="{{ route('coach.profile') }}" class="nav-item nav-link {{ request()->routeIs('coach.profile*') ? 'active' : '' }}">
-                    <i class="fa fa-user me-2"></i>My Profile
-                </a>
-                <a href="{{ route('coach.club') }}" class="nav-item nav-link {{ request()->routeIs('coach.club') ? 'active' : '' }}">
-                    <i class="fa fa-building me-2"></i>My Club
-                </a>
-                <a href="{{ route('coach.clients') }}" class="nav-item nav-link {{ request()->routeIs('coach.clients*') ? 'active' : '' }}">
-                    <i class="fa fa-users me-2"></i>My Clients
-                </a>
-                <a href="{{ route('coach.search') }}" class="nav-item nav-link {{ request()->routeIs('coach.search*') ? 'active' : '' }}">
-                    <i class="fa fa-search me-2"></i>Search
-                </a>
+            <a href="{{ route('coach.profile') }}" class="nav-item nav-link {{ request()->routeIs('coach.profile*') ? 'active' : '' }}">
+                <i class="fa fa-user me-2"></i>My Profile
+            </a>
+            <a href="{{ route('coach.club') }}" class="nav-item nav-link {{ request()->routeIs('coach.club') ? 'active' : '' }}">
+                <i class="fa fa-building me-2"></i>My Club
+            </a>
+            <a href="{{ route('coach.clients') }}" class="nav-item nav-link {{ request()->routeIs('coach.clients*') ? 'active' : '' }}">
+                <i class="fa fa-users me-2"></i>My Clients
+            </a>
+            <a href="{{ route('coach.search') }}" class="nav-item nav-link {{ request()->routeIs('coach.search*') ? 'active' : '' }}">
+                <i class="fa fa-search me-2"></i>Search
+            </a>
             @endif
         </div>
     </nav>

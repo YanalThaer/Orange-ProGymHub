@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,10 +25,9 @@ class SubscriptionPlan extends Model
     protected $casts = [
         'is_active' => 'boolean',
     ];
-    
+
     public function club()
     {
         return $this->belongsTo(Club::class);
     }
 }
-

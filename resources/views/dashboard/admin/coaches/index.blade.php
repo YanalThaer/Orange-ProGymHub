@@ -15,7 +15,7 @@
                 </div>
                 <div class="card-body">
                     @if(session('success'))
-                        <div class="alert alert-success" role="alert">{{ session('success') }}</div>
+                    <div class="alert alert-success" role="alert">{{ session('success') }}</div>
                     @endif
                     <div class="table-responsive">
                         <table id="coachesTable" class="table table-bordered table-dark table-hover" width="100%" cellspacing="0">
@@ -32,27 +32,27 @@
                             </thead>
                             <tbody>
                                 @foreach($coaches as $coach)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $coach->name }}</td>
-                                        <td>{{ $coach->email }}</td>
-                                        <td>{{ $coach->phone ?? 'N/A' }}</td>
-                                        <td>{{ $coach->club ? $coach->club->name : 'N/A' }}</td>
-                                        <td>{{ $coach->experience_years ?? 'N/A' }} years</td>
-                                        <td class="d-flex justify-content-center">
-                                            <a href="{{ route('admin.coaches.show', $coach->getEncodedId()) }}" class="btn btn-sm btn-info mx-1">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <button type="button" class="btn btn-sm btn-danger mx-1"
-                                                onclick="showDeleteModal('{{ $coach->getEncodedId() }}', '{{ $coach->name }}')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                            <form id="delete-form-{{ $coach->getEncodedId() }}" action="{{ route('admin.coaches.delete', $coach->getEncodedId()) }}" method="POST" style="display:none;">
-                                                @csrf
-                                                @method('DELETE')
-                                            </form>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $coach->name }}</td>
+                                    <td>{{ $coach->email }}</td>
+                                    <td>{{ $coach->phone ?? 'N/A' }}</td>
+                                    <td>{{ $coach->club ? $coach->club->name : 'N/A' }}</td>
+                                    <td>{{ $coach->experience_years ?? 'N/A' }} years</td>
+                                    <td class="d-flex justify-content-center">
+                                        <a href="{{ route('admin.coaches.show', $coach->getEncodedId()) }}" class="btn btn-sm btn-info mx-1">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-sm btn-danger mx-1"
+                                            onclick="showDeleteModal('{{ $coach->getEncodedId() }}', '{{ $coach->name }}')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <form id="delete-form-{{ $coach->getEncodedId() }}" action="{{ route('admin.coaches.delete', $coach->getEncodedId()) }}" method="POST" style="display:none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                    </td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -66,21 +66,21 @@
     </div>
 </div>
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content bg-dark text-white">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to delete coach: <strong id="coachNameToDelete"></strong>?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
-      </div>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete coach: <strong id="coachNameToDelete"></strong>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 @endsection
 @push('styles')
@@ -96,16 +96,19 @@
         --bs-pagination-active-border-color: black;
         --bs-pagination-active-color: #fff;
     }
+
     .pagination .page-link {
         background-color: var(--bs-pagination-bg);
         border-color: var(--bs-pagination-border-color);
         color: var(--bs-pagination-color);
     }
+
     .pagination .page-link:hover {
         background-color: var(--bs-pagination-hover-bg);
         border-color: var(--bs-pagination-hover-border-color);
         color: var(--bs-pagination-hover-color);
     }
+
     .pagination .page-item.active .page-link {
         background-color: var(--bs-pagination-active-bg);
         border-color: var(--bs-pagination-active-border-color);
@@ -116,16 +119,17 @@
 @section('scripts')
 <script>
     let coachIdToDelete = null;
+
     function showDeleteModal(coachId, coachName) {
         coachIdToDelete = coachId;
         document.getElementById('coachNameToDelete').textContent = coachName;
         const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
         deleteModal.show();
     }
-    document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
-        if(coachIdToDelete) {
+    document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+        if (coachIdToDelete) {
             const form = document.getElementById('delete-form-' + coachIdToDelete);
-            if(form) {
+            if (form) {
                 form.submit();
             }
         }

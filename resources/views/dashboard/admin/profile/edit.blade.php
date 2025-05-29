@@ -36,7 +36,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                </div> 
+                                </div>
                                 <div class="mb-3">
                                     <label for="profile_picture" class="form-label text-white">Change Profile Picture</label>
                                     <input class="form-control form-control-sm bg-dark text-white" type="file" id="profile_picture" name="profile_picture" accept="image/*">

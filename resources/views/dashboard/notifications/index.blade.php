@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    ProGymHub | Notifications
+ProGymHub | Notifications
 @endsection
 
 @section('content')
@@ -17,7 +17,7 @@
                     </a>
                     @endif
                 </div>
-                
+
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -31,32 +31,32 @@
                         </thead>
                         <tbody>
                             @forelse($notifications as $notification)
-                                <tr>
-                                    <td>{{ $notification->title }}</td>
-                                    <td>{{ $notification->message }}</td>
-                                    <td>{{ $notification->created_at->format('M d, Y H:i') }}</td>
-                                    <td>
-                                        @if($notification->read_at)
-                                            <span class="badge bg-success">Read</span>
-                                        @else
-                                            <span class="badge bg-danger">Unread</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('notifications.read', $notification->id) }}" class="btn btn-sm btn-info">
-                                            <i class="fa fa-eye"></i> View
-                                        </a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>{{ $notification->title }}</td>
+                                <td>{{ $notification->message }}</td>
+                                <td>{{ $notification->created_at->format('M d, Y H:i') }}</td>
+                                <td>
+                                    @if($notification->read_at)
+                                    <span class="badge bg-success">Read</span>
+                                    @else
+                                    <span class="badge bg-danger">Unread</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <a href="{{ route('notifications.read', $notification->id) }}" class="btn btn-sm btn-info">
+                                        <i class="fa fa-eye"></i> View
+                                    </a>
+                                </td>
+                            </tr>
                             @empty
-                                <tr>
-                                    <td colspan="5" class="text-center">No notifications found</td>
-                                </tr>
+                            <tr>
+                                <td colspan="5" class="text-center">No notifications found</td>
+                            </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
-                
+
                 <div class="d-flex justify-content-center mt-4">
                     {{ $notifications->links() }}
                 </div>

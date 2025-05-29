@@ -19,7 +19,7 @@ class AdminMiddleware
         if (Auth::guard('admin')->check()) {
             return $next($request);
         }
-        
+
         return redirect('/dashboard/club')->with('error', 'لا يمكنك الوصول لهذه الصفحة');
     }
 }

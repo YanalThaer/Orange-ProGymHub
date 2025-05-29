@@ -12,12 +12,12 @@ trait HasEncodedId
     public function getEncodedId()
     {
         $encodedId = base64_encode('club-' . $this->id . '-' . time());
-        
+
         $encodedId = str_replace(['+', '/', '='], ['-', '_', ''], $encodedId);
-        
+
         return $encodedId;
     }
-    
+
     /**
      * Get the route key for the model.
      *
@@ -27,7 +27,7 @@ trait HasEncodedId
     {
         return 'encoded_id';
     }
-    
+
     /**
      * Retrieve the model for a bound value.
      *
@@ -40,16 +40,16 @@ trait HasEncodedId
         if ($field && $field !== 'encoded_id') {
             return parent::resolveRouteBinding($value, $field);
         }
-        
+
         try {
             $value = str_replace(['-', '_'], ['+', '/'], $value);
             $paddingLength = strlen($value) % 4;
             if ($paddingLength) {
                 $value .= str_repeat('=', 4 - $paddingLength);
             }
-            
+
             $decoded = base64_decode($value);
-            
+
             if (preg_match('/^club-(\d+)-\d+$/', $decoded, $matches)) {
                 $id = $matches[1];
                 return $this->where('id', $id)->first();
@@ -57,7 +57,7 @@ trait HasEncodedId
         } catch (\Exception $e) {
             return null;
         }
-        
+
         return null;
     }
 }

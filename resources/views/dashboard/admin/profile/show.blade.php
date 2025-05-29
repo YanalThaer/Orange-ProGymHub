@@ -24,7 +24,7 @@
                             <img src="{{ asset('storage/' . $admin->profile_picture) }}" alt="Admin Profile" class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
                             @else
                             <img src="{{ asset('img/default-avatar.png') }}" alt="Admin Profile" class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
-                            @endif 
+                            @endif
                             <h4 class="text-white">{{ $admin->name }}</h4>
                             <span class="badge bg-primary px-3 py-2">Administrator</span>
                             @if($admin->role)

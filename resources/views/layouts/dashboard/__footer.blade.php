@@ -5,8 +5,7 @@
                 &copy; <a href="#" class="text-white text-decoration-none">ProGymHub</a>, All Rights Reserved.
             </div>
             <div class="col-12 col-sm-6 text-center text-sm-end">
-                <!-- مكان لإضافة روابط التواصل أو سياسة الخصوصية مستقبلاً -->
-                 <img src="{{ asset('img/favicon.png') }}" alt="Logo" style="width: 40px; height: 40px;" class="me-2">
+                <img src="{{ asset('img/favicon.png') }}" alt="Logo" style="width: 40px; height: 40px;" class="me-2">
                 <small class="text-white-50">Designed by Yanal Thaer Alhasan</small>
             </div>
         </div>

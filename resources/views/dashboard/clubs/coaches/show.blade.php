@@ -7,59 +7,74 @@
         background-color: #121212 !important;
         color: #eee !important;
     }
+
     .card {
         background-color: #1e1e1e;
         color: #eee;
         border: 1px solid #333;
     }
+
     .card-header {
         background-color: black !important;
         color: #fff !important;
         border-bottom: 1px solid #444;
     }
+
     .table {
         color: #eee;
     }
+
     .table-bordered {
         border-color: #444;
     }
+
     .table-bordered th,
     .table-bordered td {
         border-color: #444;
     }
+
     .badge {
         font-weight: 500;
     }
+
     .badge.bg-primary {
         background-color: #0d6efd !important;
     }
+
     .badge.bg-info {
         background-color: #17a2b8 !important;
     }
+
     .badge.bg-light {
         background-color: #2d2d2d !important;
         color: #eee !important;
     }
+
     .alert {
         background-color: #2a2a2a;
         border-color: #444;
         color: #eee;
     }
+
     .btn-primary {
         background-color: #0d6efd;
         border-color: #0d6efd;
     }
+
     .btn-secondary {
         background-color: #6c757d;
         border-color: #6c757d;
     }
+
     .btn-danger {
         background-color: #dc3545;
         border-color: #dc3545;
     }
+
     .img-fluid.rounded-circle {
         border: 3px solid #444;
     }
+
     .text-muted {
         color: #aaa !important;
     }

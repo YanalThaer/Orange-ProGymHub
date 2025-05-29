@@ -2,7 +2,6 @@
 @section('title', 'ProGymHome')
 @section('content')
 <main>
-    <!--? Hero Start -->
     <div class="slider-area2">
         <div class="slider-height2 d-flex align-items-center">
             <div class="container">
@@ -16,8 +15,6 @@
             </div>
         </div>
     </div>
-    <!-- Hero End -->
-    <!--? Blog Area Start-->
     <section class="blog_area section-padding">
         <div class="container">
             <div class="row">
@@ -36,7 +33,7 @@
                                     <h2 class="blog-head" style="color: #2d2d2d;">Google inks pact for new 35-storey office</h2>
                                 </a>
                                 <p>That dominion stars lights dominion divide years for fourth have don't stars is that
-                                he earth it first without heaven in place seed it second morning saying.</p>
+                                    he earth it first without heaven in place seed it second morning saying.</p>
                                 <ul class="blog-info-link">
                                     <li><a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a></li>
                                     <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
@@ -56,7 +53,7 @@
                                     <h2 class="blog-head" style="color: #2d2d2d;">Google inks pact for new 35-storey office</h2>
                                 </a>
                                 <p>That dominion stars lights dominion divide years for fourth have don't stars is that
-                                he earth it first without heaven in place seed it second morning saying.</p>
+                                    he earth it first without heaven in place seed it second morning saying.</p>
                                 <ul class="blog-info-link">
                                     <li><a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a></li>
                                     <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
@@ -76,7 +73,7 @@
                                     <h2 class="blog-head" style="color: #2d2d2d;">Google inks pact for new 35-storey office</h2>
                                 </a>
                                 <p>That dominion stars lights dominion divide years for fourth have don't stars is that
-                                he earth it first without heaven in place seed it second morning saying.</p>
+                                    he earth it first without heaven in place seed it second morning saying.</p>
                                 <ul class="blog-info-link">
                                     <li><a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a></li>
                                     <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
@@ -96,7 +93,7 @@
                                     <h2 class="blog-head" style="color: #2d2d2d;">Google inks pact for new 35-storey office</h2>
                                 </a>
                                 <p>That dominion stars lights dominion divide years for fourth have don't stars is that
-                                he earth it first without heaven in place seed it second morning saying.</p>
+                                    he earth it first without heaven in place seed it second morning saying.</p>
                                 <ul class="blog-info-link">
                                     <li><a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a></li>
                                     <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
@@ -116,7 +113,7 @@
                                     <h2 class="blog-head" style="color: #2d2d2d;">Google inks pact for new 35-storey office</h2>
                                 </a>
                                 <p>That dominion stars lights dominion divide years for fourth have don't stars is that
-                                he earth it first without heaven in place seed it second morning saying.</p>
+                                    he earth it first without heaven in place seed it second morning saying.</p>
                                 <ul class="blog-info-link">
                                     <li><a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a></li>
                                     <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
@@ -152,15 +149,15 @@
                                 <div class="form-group">
                                     <div class="input-group mb-3">
                                         <input type="text" class="form-control" placeholder='Search Keyword'
-                                        onfocus="this.placeholder = ''"
-                                        onblur="this.placeholder = 'Search Keyword'">
+                                            onfocus="this.placeholder = ''"
+                                            onblur="this.placeholder = 'Search Keyword'">
                                         <div class="input-group-append">
                                             <button class="btns" type="button"><i class="ti-search"></i></button>
                                         </div>
                                     </div>
                                 </div>
                                 <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                                type="submit">Search</button>
+                                    type="submit">Search</button>
                             </form>
                         </aside>
                         <aside class="single_sidebar_widget post_category_widget">
@@ -313,10 +310,10 @@
                             <form action="#">
                                 <div class="form-group">
                                     <input type="email" class="form-control" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = 'Enter email'" placeholder='Enter email' required>
+                                        onblur="this.placeholder = 'Enter email'" placeholder='Enter email' required>
                                 </div>
                                 <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                                type="submit">Subscribe</button>
+                                    type="submit">Subscribe</button>
                             </form>
                         </aside>
                     </div>
@@ -324,8 +321,6 @@
             </div>
         </div>
     </section>
-    <!-- Blog Area End -->
-    <!-- ? services-area -->
     <section class="services-area">
         <div class="container">
             <div class="row justify-content-between">
@@ -348,7 +343,7 @@
                         <div class="features-caption">
                             <h3>Phone</h3>
                             <p>(90) 277 278 2566</p>
-                            <p>  (78) 267 256 2578</p>
+                            <p> (78) 267 256 2578</p>
                         </div>
                     </div>
                 </div>

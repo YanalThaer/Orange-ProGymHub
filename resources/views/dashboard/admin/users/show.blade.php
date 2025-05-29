@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid px-4 mt-4">
     <div class="row">
-        <div class="col-xl-12">            
+        <div class="col-xl-12">
             <div class="card mb-4 bg-dark text-white border-secondary">
                 <div class="card-header bg-secondary text-white d-flex align-items-center">
                     <i class="fas fa-user me-2"></i>

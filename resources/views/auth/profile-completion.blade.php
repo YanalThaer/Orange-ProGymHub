@@ -144,7 +144,6 @@
                     <form method="POST" action="{{ route('profile.complete') }}">
                         @csrf
 
-                        <!-- Personal Information Section -->
                         <div class="form-section">
                             <h5 class="section-title">Personal Information</h5>
                             <div class="row">
@@ -173,7 +172,6 @@
                             </div>
                         </div>
 
-                        <!-- Physical Attributes Section -->
                         <div class="form-section">
                             <h5 class="section-title">Physical Attributes</h5>
                             <div class="row">
@@ -207,7 +205,6 @@
                             </div>
                         </div>
 
-                        <!-- Health Information Section -->
                         <div class="form-section">
                             <h5 class="section-title">Health Information</h5>
                             <div class="row">
@@ -241,7 +238,6 @@
                             </div>
                         </div>
 
-                        <!-- Fitness Profile Section -->
                         <div class="form-section">
                             <h5 class="section-title">Fitness Profile</h5>
                             <div class="row">
@@ -292,7 +288,6 @@
                             </div>
                         </div>
 
-                        <!-- Nutrition Information Section -->
                         <div class="form-section">
                             <h5 class="section-title">Nutrition Information</h5>
                             <div class="row">
@@ -340,7 +335,6 @@
                             </div>
                         </div>
 
-                        <!-- Workout Preferences Section -->
                         <div class="form-section">
                             <h5 class="section-title">Workout Preferences</h5>
                             <div class="row">

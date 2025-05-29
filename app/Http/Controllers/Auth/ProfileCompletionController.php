@@ -26,16 +26,16 @@ class ProfileCompletionController extends Controller
      */    public function show()
     {
         $user = Auth::user();
-        
+
         if ($this->isProfileComplete($user)) {
             return redirect()->route('home');
         }
-        
+
         $firstVisit = !session()->has('profile_completion_visited');
         if ($firstVisit) {
             session(['profile_completion_visited' => true]);
         }
-        
+
         return view('auth.profile-completion', [
             'firstVisit' => $firstVisit
         ]);
@@ -76,14 +76,14 @@ class ProfileCompletionController extends Controller
         }
 
         $user = Auth::user();
-        
+
         $data = $validator->validated();
-        
+
         if (!empty($data['height_cm']) && !empty($data['weight_kg'])) {
             $heightInMeters = $data['height_cm'] / 100;
             $data['bmi'] = round($data['weight_kg'] / ($heightInMeters * $heightInMeters), 2);
         }
-        
+
         $user->update($data);
 
         return redirect()->route('home')->with('status', 'Profile information saved successfully!');
@@ -103,7 +103,7 @@ class ProfileCompletionController extends Controller
     public function skip(Request $request)
     {
         session(['skip_profile_completion' => true]);
-        
+
         return redirect()->route('home')->with('status', 'You can complete your profile later from your account settings.');
     }
 
@@ -115,9 +115,9 @@ class ProfileCompletionController extends Controller
      */
     private function isProfileComplete($user)
     {
-        return !empty($user->goal) && 
-               !empty($user->fitness_level) &&
-               !empty($user->weight_kg) && 
-               !empty($user->height_cm);
+        return !empty($user->goal) &&
+            !empty($user->fitness_level) &&
+            !empty($user->weight_kg) &&
+            !empty($user->height_cm);
     }
 }

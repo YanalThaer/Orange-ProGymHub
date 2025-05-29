@@ -18,35 +18,35 @@ return new class extends Migration
             $table->string('password');
             $table->date('join_date');
             $table->string('goal'); // 'Gain Weight', 'Lose Weight', 'Build Muscle', etc.
-            
+
             $table->string('phone_number');
             $table->date('date_of_birth')->nullable();
             $table->enum('gender', ['male', 'female'])->nullable();
-            
+
             $table->float('height_cm')->nullable(); // Height in centimeters
             $table->float('weight_kg')->nullable(); // Current weight in kg
             $table->float('target_weight_kg')->nullable(); // Target weight in kg
             $table->float('bmi')->nullable(); // Body Mass Index
             $table->float('body_fat_percentage')->nullable(); // Body fat percentage
-            
+
             $table->text('health_conditions')->nullable(); // Any existing health conditions
             $table->text('injuries')->nullable(); // Current or previous injuries
             $table->text('allergies')->nullable(); // Food allergies for meal planning
             $table->text('medications')->nullable(); // Current medications
-            
+
             $table->enum('fitness_level', ['beginner', 'intermediate', 'advanced'])->nullable();
             $table->integer('training_days_per_week')->nullable();
             $table->string('preferred_training_time')->nullable(); // Morning, afternoon, evening
             $table->string('preferred_workout_duration')->nullable(); // In minutes
             $table->text('exercise_preferences')->nullable(); // Types of exercises preferred
             $table->text('exercise_dislikes')->nullable(); // Exercises to avoid
-            
+
             $table->enum('diet_preference', ['no_restriction', 'vegetarian', 'vegan', 'keto', 'paleo', 'mediterranean', 'other'])->nullable();
             $table->integer('meals_per_day')->nullable();
             $table->text('food_preferences')->nullable();
             $table->text('food_dislikes')->nullable();
 
-            
+
             $table->foreignId('coach_id')->nullable()->constrained('coaches')->onDelete('cascade');
             $table->foreignId('club_id')->nullable()->constrained('clubs')->onDelete('cascade');
             $table->softDeletes();

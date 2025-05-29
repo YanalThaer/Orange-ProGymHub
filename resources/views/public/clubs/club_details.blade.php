@@ -8,12 +8,15 @@
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
         font-size: medium !important;
     }
+
     .zoom-on-hover {
         transition: transform 0.3s ease;
     }
+
     .zoom-on-hover:hover {
         transform: scale(1.05);
     }
+
     .gym-details-container {
         background-color: #1f1f1f;
         border-radius: 20px;
@@ -23,6 +26,7 @@
         gap: 30px;
         height: auto;
     }
+
     .gym-details-image {
         flex: 1 1 350px;
         max-width: 400px;
@@ -30,30 +34,36 @@
         object-fit: cover;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     }
+
     @media (max-width: 768px) {
         .gym-details-image {
             max-width: 703px;
         }
     }
+
     @media (max-width: 576px) {
         .gym-details-image {
             max-width: 100%;
         }
     }
+
     .gym-details-info {
         flex: 2 1 400px;
     }
+
     .gym-details-title {
 
         font-weight: bold !important;
         color: #ff0000;
         margin-bottom: 20px;
     }
+
     .gym-details-description {
         line-height: 1.7;
         color: #ccc;
         margin-bottom: 20px;
     }
+
     .coaches-section {
         background-color: #1a1a1a;
         padding: 100px 0;
@@ -62,6 +72,7 @@
         overflow: hidden;
         background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff0000' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
+
     .coaches-section::before {
         content: '';
         position: absolute;
@@ -73,6 +84,7 @@
         background-size: 200% 100%;
         animation: gradientShift 8s infinite linear;
     }
+
     @keyframes gradientShift {
         0% {
             background-position: 0% 50%;
@@ -86,6 +98,7 @@
             background-position: 0% 50%;
         }
     }
+
     @keyframes fadeInUp {
         from {
             opacity: 0;
@@ -97,6 +110,7 @@
             transform: translateY(0);
         }
     }
+
     @keyframes pulse {
         0% {
             transform: scale(1);
@@ -110,6 +124,7 @@
             transform: scale(1);
         }
     }
+
     .coach-card {
         background: linear-gradient(145deg, #252525, #2d2d2d);
         border-radius: 16px;
@@ -125,17 +140,20 @@
         animation-delay: calc(var(--coach-index, 0) * 0.1s);
         opacity: 0;
     }
+
     .coach-card:hover {
         transform: translateY(-12px) scale(1.02);
         box-shadow: 0 20px 40px rgba(255, 0, 0, 0.25);
         border-color: rgba(255, 0, 0, 0.4);
     }
+
     .coach-img {
         height: 270px;
         object-fit: cover;
         transition: all 0.5s ease;
         position: relative;
     }
+
     .coach-img-overlay {
         position: absolute;
         bottom: 0;
@@ -146,12 +164,15 @@
         opacity: 0;
         transition: opacity 0.3s ease;
     }
+
     .coach-card:hover .coach-img-overlay {
         opacity: 1;
     }
+
     .coach-card:hover .coach-img {
         transform: scale(1.05);
     }
+
     .coach-info {
         padding: 28px;
         flex-grow: 1;
@@ -163,6 +184,7 @@
         border-top: 4px solid;
         border-image: linear-gradient(90deg, #ff0000, transparent) 1;
     }
+
     .coach-name {
         font-weight: 600;
         margin-bottom: 10px;
@@ -170,6 +192,7 @@
         border-bottom: 2px solid rgba(255, 0, 0, 0.3);
         padding-bottom: 10px;
     }
+
     .specialization-badge {
         background: linear-gradient(135deg, #ff0000, #cc0000);
         color: white;
@@ -182,11 +205,13 @@
         box-shadow: 0 2px 5px rgba(255, 0, 0, 0.2);
         font-weight: 500;
     }
+
     .specialization-badge:hover {
         background: linear-gradient(135deg, #e60000, #b30000);
         transform: translateY(-2px) scale(1.05);
         box-shadow: 0 4px 8px rgba(255, 0, 0, 0.3);
     }
+
     .coach-bio {
         font-size: large;
         color: #bbb;
@@ -194,6 +219,7 @@
         line-height: 1.6;
         flex-grow: 1;
     }
+
     .view-profile-btn {
         background-color: transparent;
         color: #ff0000;
@@ -211,6 +237,7 @@
         z-index: 1;
         letter-spacing: 0.5px;
     }
+
     .view-profile-btn::after {
         content: '';
         position: absolute;
@@ -222,14 +249,17 @@
         transition: all 0.4s ease;
         z-index: -1;
     }
+
     .view-profile-btn:hover {
         color: white;
         transform: translateY(-3px);
         box-shadow: 0 7px 15px rgba(255, 0, 0, 0.35);
     }
+
     .view-profile-btn:hover::after {
         width: 100%;
     }
+
     .view-profile-btn i {
         transition: transform 0.3s ease;
     }
@@ -237,6 +267,7 @@
     .view-profile-btn:hover i {
         transform: translateX(3px);
     }
+
     .coaches-title,
     .section-title {
         font-weight: 700;
@@ -247,6 +278,7 @@
         position: relative;
         display: inline-block;
     }
+
     .section-title::after {
         content: '';
         position: absolute;
@@ -258,15 +290,18 @@
         background: linear-gradient(90deg, #ff0000, #ff6b6b);
         border-radius: 2px;
     }
+
     .section-subtitle {
         color: #aaa;
         margin-top: 15px;
     }
+
     .social-icons {
         display: flex;
         justify-content: center;
         margin-top: 15px;
     }
+
     .social-icon {
         width: 35px;
         height: 35px;
@@ -280,20 +315,24 @@
         transition: all 0.3s ease;
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
+
     .social-icon:hover {
         background: #ff0000;
         transform: translateY(-3px);
     }
+
     .coach-experience {
         color: #ff6b6b;
         margin-top: 3px;
         margin-bottom: 12px;
     }
+
     @media (max-width: 992px) {
         .coach-card {
             margin-bottom: 30px;
         }
     }
+
     @media (max-width: 768px) {
         .coaches-section {
             padding: 60px 0;
@@ -301,11 +340,13 @@
 
         .section-title {}
     }
+
     @media (max-width: 576px) {
         .coach-img {
             height: 240px;
         }
     }
+
     .gym-price-box {
         background-color: #2a2a2a;
         padding: 20px;
@@ -313,10 +354,12 @@
         border-radius: 10px;
         margin-bottom: 30px;
     }
+
     .gym-price-box h5 {
         margin-bottom: 10px !important;
         color: #ff0000;
     }
+
     .btn-gym-book {
         background-color: #ff0000;
         border: none;
@@ -325,17 +368,21 @@
         color: white;
         transition: background-color 0.3s;
     }
+
     .btn-gym-book:hover {
         background-color: #cc0000;
     }
+
     li {
 
         color: #ccc !important;
     }
+
     .feature-icon {
         color: #ff0000;
         margin-right: 8px;
     }
+
     .status-badge {
         display: inline-block;
         padding: 8px 12px;
@@ -343,62 +390,77 @@
         font-weight: bold;
         margin-bottom: 15px;
     }
+
     .status-active {
         background-color: #28a745;
         color: white;
     }
+
     .status-inactive {
         background-color: #ffc107;
         color: #212529;
     }
+
     .status-maintenance {
         background-color: #17a2b8;
         color: white;
     }
+
     .breadcrumb {
         background-color: #1a1a1a !important;
         border: 1px solid rgba(255, 255, 255, 0.1);
         padding: 15px !important;
     }
+
     .breadcrumb-item+.breadcrumb-item::before {
         color: #ff0000;
         content: ">";
         font-weight: bold;
         padding: 0 10px;
     }
+
     .breadcrumb-item a {
         text-decoration: none;
         transition: all 0.3s ease;
     }
+
     .breadcrumb-item a:hover {
         color: #ff0000 !important;
     }
+
     .breadcrumb-item.active {
         font-weight: 600;
     }
+
     .breadcrumb i {
         margin-right: 6px;
     }
+
     ul {
         font-size: medium;
     }
+
     .subscription-plan {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         border-left: 3px solid #ff0000;
     }
+
     .subscription-plan:hover {
         transform: translateY(-5px);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     }
+
     .subscription-plan .btn-danger {
         background-color: #ff0000;
         border: none;
         transition: all 0.3s ease;
     }
+
     .subscription-plan .btn-danger:hover {
         background-color: #cc0000;
         transform: scale(1.05);
     }
+
     .day-item {
         padding: 5px 12px;
         border-radius: 20px;
@@ -409,18 +471,22 @@
         margin-right: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
+
     .day-item i {
         margin-right: 7px;
     }
+
     .day-active {
         background: linear-gradient(145deg, rgba(255, 0, 0, 0.1), rgba(255, 0, 0, 0.2));
         color: #ff6666;
         border: 1px solid rgba(255, 0, 0, 0.4);
     }
+
     .day-active:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(255, 0, 0, 0.3);
     }
+
     .day-inactive {
         background-color: rgba(128, 128, 128, 0.1);
         color: #999;

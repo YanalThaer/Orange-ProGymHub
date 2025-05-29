@@ -12,7 +12,7 @@ class ClubSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    { 
+    {
         Club::factory(50)->create();
     }
 }

@@ -31,7 +31,7 @@ class Admin extends Authenticatable
         'email_verified_at' => 'datetime',
         'last_login_at' => 'datetime',
     ];
-    
+
     /**
      * Get all of the admin's custom notifications.
      */
@@ -56,4 +56,3 @@ class Admin extends Authenticatable
         return $this->customNotifications()->latest();
     }
 }
-

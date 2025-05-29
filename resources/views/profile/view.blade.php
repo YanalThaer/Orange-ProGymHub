@@ -7,16 +7,19 @@
         color: #ffffff;
         font-size: medium;
     }
+
     .profile-container {
         max-width: 1000px;
         margin: auto;
         padding: 2rem;
     }
+
     .profile-header {
         display: flex;
         align-items: center;
         margin-bottom: 2rem;
     }
+
     .profile-avatar {
         width: 100px;
         height: 100px;
@@ -28,6 +31,7 @@
         color: white;
         margin-right: 1.5rem;
     }
+
     @media (max-width:576px) {
         .profile-header {
             flex-direction: column;
@@ -39,16 +43,19 @@
         }
 
     }
+
     .profile-name {
 
         font-weight: bold;
     }
+
     .card {
         background-color: #1f1f1f;
         border: none;
         border-radius: 10px;
         margin-bottom: 1.5rem;
     }
+
     .card-header {
         background-color: #ff0000;
         color: white;
@@ -56,26 +63,32 @@
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
     }
+
     .edit-button {
         background-color: #ff0000;
         border-color: #ff0000;
     }
+
     .edit-button:hover {
         background-color: #d60000;
         border-color: #d60000;
     }
+
     .info-item {
         display: flex;
         margin-bottom: 0.5rem;
     }
+
     .info-label {
         font-weight: bold;
         width: 150px;
         color: #aaa;
     }
+
     .info-value {
         flex-grow: 1;
     }
+
     .status-badge {
         background-color: #28a745;
         color: white;
@@ -83,6 +96,7 @@
         border-radius: 20px;
         ;
     }
+
     .status-badge.inactive {
         background-color: #dc3545;
     }

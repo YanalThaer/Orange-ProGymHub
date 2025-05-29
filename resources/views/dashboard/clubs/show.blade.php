@@ -2,62 +2,85 @@
 @section('title', 'Admin - Club Details')
 @section('content')
 <style>
-    body, .container, .card, .card-header, .card-body {
+    body,
+    .container,
+    .card,
+    .card-header,
+    .card-body {
         background-color: black !important;
         color: #ffffff;
     }
+
     .card {
         border: none;
         border-radius: 10px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
+
     .card-header {
         background-color: #2a2a3f !important;
         color: #ffffff;
         border-bottom: 1px solid #444;
         font-weight: 600;
     }
+
     .table {
         color: #fff;
     }
-    .table th, .table td {
+
+    .table th,
+    .table td {
         background-color: transparent !important;
         border-color: #444 !important;
     }
+
     .table thead th {
         color: #ffbe33;
         border-bottom: 2px solid #666;
     }
+
     .badge {
         font-size: 0.9rem;
     }
+
     .list-group-item {
         background-color: #2e2e40;
         color: #ffffff;
         border-color: #444;
     }
+
     .btn {
         border-radius: 5px;
         font-weight: 500;
     }
+
     .btn-secondary {
         background-color: #444;
         border-color: #555;
         color: white;
     }
+
     .btn-info {
         background-color: #17a2b8;
         border-color: #138496;
     }
+
     .btn:hover {
         opacity: 0.85;
     }
+
     .img-fluid {
         border-radius: 10px;
         border: 2px solid #555;
     }
+
     @media (max-width: 767px) {
-        .card-header h5, .card-body h6, .card-body p, .table th, .table td {
+
+        .card-header h5,
+        .card-body h6,
+        .card-body p,
+        .table th,
+        .table td {
             font-size: 0.95rem;
         }
 
@@ -131,8 +154,8 @@
                                             <th>Status:</th>
                                             <td>
                                                 <span class="badge {{ $club->status == 'active' ? 'bg-success' : ($club->status == 'inactive' ? 'bg-danger' : 'bg-warning') }}">
-                                            {{ ucfirst($club->status) }}
-                                        </span>
+                                                    {{ ucfirst($club->status) }}
+                                                </span>
                                             </td>
                                         </tr>
                                         <tr>

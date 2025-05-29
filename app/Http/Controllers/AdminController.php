@@ -29,7 +29,7 @@ class AdminController extends Controller
         $admin = auth()->guard('admin')->user();
         return view('dashboard.admin.profile.show', compact('admin'));
     }
-    
+
     /**
      * Show the form for editing the admin's profile.
      *
@@ -40,7 +40,7 @@ class AdminController extends Controller
         $admin = auth()->guard('admin')->user();
         return view('dashboard.admin.profile.edit', compact('admin'));
     }
-    
+
     /**
      * Update the admin's profile.
      *
@@ -50,58 +50,58 @@ class AdminController extends Controller
     public function updateProfile(Request $request)
     {
         $admin = auth()->guard('admin')->user();
-        
+
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:admins,email,'.$admin->id,
+            'email' => 'required|email|max:255|unique:admins,email,' . $admin->id,
             'phone_number' => 'nullable|string|max:20',
             'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        
+
         $admin->name = $request->name;
         $admin->email = $request->email;
         $admin->phone_number = $request->phone_number;
-        
+
         if ($request->hasFile('profile_picture')) {
             $file = $request->file('profile_picture');
             $filename = 'admin_' . $admin->id . '_' . time() . '.' . $file->getClientOriginalExtension();
             $path = $file->storeAs('profile_pictures', $filename, 'public');
             $admin->profile_picture = $path;
         }
-        
+
         $admin->save();
-        
+
         return redirect()->route('admin.profile')
-                         ->with('success', 'Profile updated successfully');
+            ->with('success', 'Profile updated successfully');
     }
-    
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $clubs = Club::with('subscriptionPlans', 'users', 'coaches')->get();
-        
+
         $coaches = Coach::with(['club', 'workoutPlans'])->latest()->take(10)->get();
-        
+
         $users = User::with(['club', 'coach', 'userSubscription'])->latest()->take(10)->get();
-        
+
         $totalUsers = User::count();
         $totalClubs = $clubs->count();
         $totalCoaches = Coach::count();
         $totalSubscriptionPlans = \App\Models\SubscriptionPlan::count();
-        
+
         return view('dashboard.dashboard', compact(
-            'clubs', 
+            'clubs',
             'coaches',
             'users',
-            'totalUsers', 
-            'totalClubs', 
+            'totalUsers',
+            'totalClubs',
             'totalCoaches',
             'totalSubscriptionPlans'
         ));
     }
-    
+
     /**
      * Display all users in the system
      *
@@ -125,7 +125,7 @@ class AdminController extends Controller
         $user = User::with(['club', 'coach'])->findOrFail($decoded_id);
         return view('dashboard.admin.users.show', compact('user'));
     }
-    
+
     /**
      * Decode an encoded ID
      *
@@ -139,17 +139,17 @@ class AdminController extends Controller
         if ($paddingLength) {
             $encoded_id .= str_repeat('=', 4 - $paddingLength);
         }
-        
+
         $decoded = base64_decode($encoded_id);
-        
+
         if (preg_match('/^club-(\d+)-\d+$/', $decoded, $matches)) {
             return (int)$matches[1];
         }
-        
+
         if (preg_match('/^coach-(\d+)-\d+$/', $decoded, $matches)) {
             return (int)$matches[1];
         }
-        
+
         return (int)$encoded_id;
     }
 
@@ -163,11 +163,11 @@ class AdminController extends Controller
     {
         $decoded_id = $this->decodeId($encoded_id);
         $user = User::with('club')->findOrFail($decoded_id);
-        
+
         $club = $user->club;
-        
+
         $user->delete();
-        
+
         if ($user->email) {
             try {
                 Mail::to($user->email)
@@ -176,7 +176,7 @@ class AdminController extends Controller
                 Log::error('Failed to send user deletion email: ' . $e->getMessage());
             }
         }
-        
+
         if ($club) {
             try {
                 Mail::to($club->email)
@@ -184,7 +184,7 @@ class AdminController extends Controller
             } catch (\Exception $e) {
                 Log::error('Failed to send club notification: ' . $e->getMessage());
             }
-            
+
             Notification::create([
                 'type' => 'user_deleted',
                 'title' => 'Member Deleted',
@@ -193,9 +193,9 @@ class AdminController extends Controller
                 'notifiable_id' => $club->id
             ]);
         }
-        
+
         return redirect()->route('admin.users')
-                         ->with('success', 'User deleted successfully');
+            ->with('success', 'User deleted successfully');
     }
 
     /**
@@ -208,7 +208,7 @@ class AdminController extends Controller
         $users = User::onlyTrashed()->paginate(15);
         return view('dashboard.admin.users.trashed', compact('users'));
     }
-    
+
     /**
      * Restore deleted user
      *
@@ -220,7 +220,7 @@ class AdminController extends Controller
         $decoded_id = $this->decodeId($encoded_id);
         $user = User::with('club')->onlyTrashed()->findOrFail($decoded_id);
         $user->restore();
-        
+
         if ($user->email) {
             try {
                 Mail::to($user->email)
@@ -229,7 +229,7 @@ class AdminController extends Controller
                 Log::error('Failed to send user restoration email: ' . $e->getMessage());
             }
         }
-        
+
         // Send notification to club if user belongs to a club
         if ($user->club) {
             try {
@@ -238,7 +238,7 @@ class AdminController extends Controller
             } catch (\Exception $e) {
                 Log::error('Failed to send club notification: ' . $e->getMessage());
             }
-            
+
             Notification::create([
                 'type' => 'user_restored',
                 'title' => 'Member Restored',
@@ -247,9 +247,9 @@ class AdminController extends Controller
                 'notifiable_id' => $user->club->id
             ]);
         }
-        
+
         return redirect()->route('admin.users.trashed')
-                         ->with('success', 'User restored successfully');
+            ->with('success', 'User restored successfully');
     }
 
     /**
@@ -299,7 +299,7 @@ class AdminController extends Controller
     {
         //
     }
-    
+
     /**
      * Display all coaches in the system
      *
@@ -312,7 +312,7 @@ class AdminController extends Controller
             ->orderByRaw('CASE WHEN club_id IS NOT NULL THEN 0 ELSE 1 END') // This prioritizes non-null club_id
             ->latest()
             ->paginate(15);
-            
+
         return view('dashboard.admin.coaches.index', compact('coaches'));
     }
 
@@ -326,7 +326,7 @@ class AdminController extends Controller
     {
         $decoded_id = $this->decodeId($encoded_id);
         $coach = Coach::with(['club', 'workoutPlans'])->findOrFail($decoded_id);
-        
+
         if (is_string($coach->certifications)) {
             try {
                 $coach->certifications = json_decode($coach->certifications, true) ?: [];
@@ -334,7 +334,7 @@ class AdminController extends Controller
                 $coach->certifications = [];
             }
         }
-        
+
         if (is_string($coach->specializations)) {
             try {
                 $coach->specializations = json_decode($coach->specializations, true) ?: [];
@@ -342,12 +342,12 @@ class AdminController extends Controller
                 $coach->specializations = [];
             }
         }
-        
+
         $assignedUsers = User::with('userSubscription')
-                          ->where('coach_id', $coach->id)
-                          ->where('club_id', $coach->club_id)
-                          ->get();
-                                       
+            ->where('coach_id', $coach->id)
+            ->where('club_id', $coach->club_id)
+            ->get();
+
         return view('dashboard.admin.coaches.show', compact('coach', 'assignedUsers'));
     }
 
@@ -361,11 +361,11 @@ class AdminController extends Controller
     {
         $decoded_id = $this->decodeId($encoded_id);
         $coach = Coach::with('club')->findOrFail($decoded_id);
-        
+
         $club = $coach->club;
-        
+
         $coach->delete();
-        
+
         if ($coach->email) {
             try {
                 Mail::to($coach->email)
@@ -374,7 +374,7 @@ class AdminController extends Controller
                 Log::error('Failed to send coach deletion email: ' . $e->getMessage());
             }
         }
-        
+
         if ($club) {
             try {
                 Mail::to($club->email)
@@ -382,7 +382,7 @@ class AdminController extends Controller
             } catch (\Exception $e) {
                 Log::error('Failed to send club notification: ' . $e->getMessage());
             }
-            
+
             Notification::create([
                 'type' => 'coach_deleted',
                 'title' => 'Coach Deleted',
@@ -391,9 +391,9 @@ class AdminController extends Controller
                 'notifiable_id' => $club->id
             ]);
         }
-        
+
         return redirect()->route('admin.coaches')
-                         ->with('success', 'Coach deleted successfully');
+            ->with('success', 'Coach deleted successfully');
     }
 
     /**
@@ -406,7 +406,7 @@ class AdminController extends Controller
         $coaches = Coach::with('club')->onlyTrashed()->paginate(15);
         return view('dashboard.admin.coaches.trashed', compact('coaches'));
     }
-    
+
     /**
      * Restore deleted coach
      *
@@ -418,7 +418,7 @@ class AdminController extends Controller
         $decoded_id = $this->decodeId($encoded_id);
         $coach = Coach::with('club')->onlyTrashed()->findOrFail($decoded_id);
         $coach->restore();
-        
+
         if ($coach->email) {
             try {
                 Mail::to($coach->email)
@@ -427,7 +427,7 @@ class AdminController extends Controller
                 Log::error('Failed to send coach restoration email: ' . $e->getMessage());
             }
         }
-        
+
         if ($coach->club) {
             try {
                 Mail::to($coach->club->email)
@@ -435,7 +435,7 @@ class AdminController extends Controller
             } catch (\Exception $e) {
                 Log::error('Failed to send club notification: ' . $e->getMessage());
             }
-            
+
             Notification::create([
                 'type' => 'coach_restored',
                 'title' => 'Coach Restored',
@@ -444,11 +444,11 @@ class AdminController extends Controller
                 'notifiable_id' => $coach->club->id
             ]);
         }
-        
+
         return redirect()->route('admin.coaches.trashed')
-                         ->with('success', 'Coach restored successfully');
+            ->with('success', 'Coach restored successfully');
     }
-    
+
     /**
      * Display the search form for clubs, coaches, and users
      *
@@ -458,7 +458,7 @@ class AdminController extends Controller
     {
         return view('dashboard.admin.search.index');
     }
-    
+
     /**
      * Process the search and display results
      *
@@ -471,21 +471,21 @@ class AdminController extends Controller
             'search_term' => 'required|string|min:2|max:100',
             'search_type' => 'required|in:all,clubs,coaches,users'
         ]);
-        
+
         $searchTerm = $request->search_term;
         $searchType = $request->search_type;
         $results = [];
-        
+
         if ($searchType === 'all' || $searchType === 'clubs') {
             $clubs = Club::where('name', 'LIKE', "%{$searchTerm}%")
                 ->orWhere('email', 'LIKE', "%{$searchTerm}%")
                 ->orWhere('location', 'LIKE', "%{$searchTerm}%")
                 ->orWhere('city', 'LIKE', "%{$searchTerm}%")
                 ->get();
-                
+
             $results['clubs'] = $clubs;
         }
-        
+
         if ($searchType === 'all' || $searchType === 'coaches') {
             $coaches = Coach::where('name', 'LIKE', "%{$searchTerm}%")
                 ->orWhere('email', 'LIKE', "%{$searchTerm}%")
@@ -493,20 +493,20 @@ class AdminController extends Controller
                 ->orWhere('bio', 'LIKE', "%{$searchTerm}%")
                 ->with('club')
                 ->get();
-                
+
             $results['coaches'] = $coaches;
         }
-        
+
         if ($searchType === 'all' || $searchType === 'users') {
             $users = User::where('name', 'LIKE', "%{$searchTerm}%")
                 ->orWhere('email', 'LIKE', "%{$searchTerm}%")
                 ->orWhere('phone_number', 'LIKE', "%{$searchTerm}%")
                 ->with(['club', 'coach'])
                 ->get();
-                
+
             $results['users'] = $users;
         }
-        
+
         return view('dashboard.admin.search.results', compact('results', 'searchTerm', 'searchType'));
     }
 }

@@ -1,6 +1,5 @@
 <nav class="navbar navbar-expand-lg bg-secondary navbar-dark sticky-top px-4 py-0" style="color: white;">
     <style>
-        /* نصوص الروابط، العناصر، الفورم وكل شيء في الـ navbar باللون الأبيض */
         nav.navbar .nav-link,
         nav.navbar .dropdown-menu,
         nav.navbar .dropdown-item,
@@ -11,24 +10,20 @@
             color: white !important;
         }
 
-        /* زر البحث وخلفيته */
         nav.navbar .btn-primary {
             color: white !important;
-            background-color: #0d6efd !important; /* يمكنك تغييره للون تريده */
+            background-color: #0d6efd !important;
             border-color: #0d6efd !important;
         }
 
-        /* لون placeholder في البحث */
         nav.navbar .form-control::placeholder {
             color: #ddd !important;
         }
 
-        /* لون ايقونات fontawesome */
         nav.navbar .fa {
             color: white !important;
         }
 
-        /* لون البادج */
         nav.navbar .badge.bg-danger {
             background-color: #dc3545 !important;
             color: white !important;
@@ -50,22 +45,22 @@
         <div class="collapse navbar-collapse" id="navbarContent">
             {{-- Search --}}
             @php
-                $searchRoute = Auth::guard('admin')->check() ? route('admin.search.results') :
-                              (Auth::guard('club')->check() ? route('club.search.results') :
-                              (Auth::guard('coach')->check() ? route('coach.search.results') : '#'));
+            $searchRoute = Auth::guard('admin')->check() ? route('admin.search.results') :
+            (Auth::guard('club')->check() ? route('club.search.results') :
+            (Auth::guard('coach')->check() ? route('coach.search.results') : '#'));
             @endphp
             @if(Auth::guard('admin')->check() || Auth::guard('club')->check() || Auth::guard('coach')->check())
-                <form action="{{ $searchRoute }}" method="POST" class="d-none d-md-flex ms-3 w-100">
-                    @csrf
-                    <div class="input-group w-75">
-                        <input type="search" name="search_term" class="form-control bg-dark border-0"
-                               placeholder="Search..." required minlength="2">
-                        <input type="hidden" name="search_type" value="all">
-                        <button type="submit" class="btn btn-danger">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
-                </form>
+            <form action="{{ $searchRoute }}" method="POST" class="d-none d-md-flex ms-3 w-100">
+                @csrf
+                <div class="input-group w-75">
+                    <input type="search" name="search_term" class="form-control bg-dark border-0"
+                        placeholder="Search..." required minlength="2">
+                    <input type="hidden" name="search_type" value="all">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </form>
             @endif
 
             {{-- Right Section --}}
@@ -83,36 +78,36 @@
                         <i class="fa fa-bell me-lg-2"></i>
                         <span class="d-none d-lg-inline-flex">Notifications</span>
                         @php
-                            $unreadCount = 0;
-                            $notifications = [];
-                            if (Auth::guard('admin')->check()) {
-                                $unreadCount = Auth::guard('admin')->user()->unreadNotifications()->count();
-                                $notifications = Auth::guard('admin')->user()->unreadNotifications()->limit(5)->get();
-                            } elseif (Auth::guard('club')->check()) {
-                                $unreadCount = Auth::guard('club')->user()->unreadNotifications()->count();
-                                $notifications = Auth::guard('club')->user()->unreadNotifications()->limit(5)->get();
-                            }
+                        $unreadCount = 0;
+                        $notifications = [];
+                        if (Auth::guard('admin')->check()) {
+                        $unreadCount = Auth::guard('admin')->user()->unreadNotifications()->count();
+                        $notifications = Auth::guard('admin')->user()->unreadNotifications()->limit(5)->get();
+                        } elseif (Auth::guard('club')->check()) {
+                        $unreadCount = Auth::guard('club')->user()->unreadNotifications()->count();
+                        $notifications = Auth::guard('club')->user()->unreadNotifications()->limit(5)->get();
+                        }
                         @endphp
                         @if($unreadCount > 0)
-                            <span class="badge bg-danger rounded-pill">{{ $unreadCount }}</span>
+                        <span class="badge bg-danger rounded-pill">{{ $unreadCount }}</span>
                         @endif
                     </a>
                     <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                         @forelse($notifications as $notification)
-                            <a href="javascript:void(0);" class="dropdown-item notification-item fw-bold"
-                               data-id="{{ $notification->id }}"
-                               data-url="{{ route('notifications.read', $notification->id) }}">
-                                <h6 class="fw-normal mb-0">{{ $notification->title }}</h6>
-                                <small>{{ $notification->message }}</small>
-                                <small class="text-muted d-block">{{ $notification->created_at->diffForHumans() }}</small>
-                            </a>
-                            @if(!$loop->last)
-                                <hr class="dropdown-divider">
-                            @endif
+                        <a href="javascript:void(0);" class="dropdown-item notification-item fw-bold"
+                            data-id="{{ $notification->id }}"
+                            data-url="{{ route('notifications.read', $notification->id) }}">
+                            <h6 class="fw-normal mb-0">{{ $notification->title }}</h6>
+                            <small>{{ $notification->message }}</small>
+                            <small class="text-muted d-block">{{ $notification->created_at->diffForHumans() }}</small>
+                        </a>
+                        @if(!$loop->last)
+                        <hr class="dropdown-divider">
+                        @endif
                         @empty
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">No unread notifications</h6>
-                            </a>
+                        <a href="#" class="dropdown-item">
+                            <h6 class="fw-normal mb-0">No unread notifications</h6>
+                        </a>
                         @endforelse
                         <hr class="dropdown-divider">
                         <a href="{{ route('notifications.all') }}" class="dropdown-item text-center">See all notifications</a>
@@ -128,8 +123,8 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                         @if(Auth::guard('admin')->check())
-                            <a href="{{ route('admin.profile') }}" class="dropdown-item">My Profile</a>
-                            <div class="dropdown-divider"></div>
+                        <a href="{{ route('admin.profile') }}" class="dropdown-item">My Profile</a>
+                        <div class="dropdown-divider"></div>
                         @endif
                         <form action="{{ route('logoutusers') }}" method="POST" class="m-0">
                             @csrf

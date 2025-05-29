@@ -6,21 +6,25 @@
         background-color: #121212;
         color: #ffffff;
     }
+
     .card {
         background-color: #1e1e1e;
         border: none;
         color: #ffffff;
     }
+
     .card-header {
         background-color: black;
         border-bottom: 1px solid #444;
     }
+
     .form-control,
     .form-select {
         background-color: #2b2b2b;
         border: 1px solid #555;
         color: #ffffff;
     }
+
     .form-control:focus,
     .form-select:focus {
         background-color: #2b2b2b;
@@ -28,27 +32,33 @@
         border-color: #888;
         box-shadow: none;
     }
+
     .form-check-label,
     .form-text,
     .invalid-feedback {
         color: #cccccc;
     }
+
     .input-group-text {
         background-color: #2b2b2b;
         border: 1px solid #555;
         color: #ffffff;
     }
+
     .btn-primary {
         background-color: #007bff;
         border: none;
     }
+
     .btn-secondary {
         background-color: #6c757d;
         border: none;
     }
+
     .btn:hover {
         opacity: 0.9;
     }
+
     label span.text-danger {
         color: #ff6b6b;
     }
@@ -68,7 +78,7 @@
                             <label for="name">Name <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
                             @error('name')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
@@ -81,7 +91,7 @@
                                         <input type="number" step="0.01" min="0" class="form-control @error('price') is-invalid @enderror" id="price" name="price" value="{{ old('price') }}" required>
                                     </div>
                                     @error('price')
-                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
@@ -91,7 +101,7 @@
                                     <label for="duration_days">Duration (days) <span class="text-danger">*</span></label>
                                     <input type="number" min="1" class="form-control @error('duration_days') is-invalid @enderror" id="duration_days" name="duration_days" value="{{ old('duration_days') }}" required>
                                     @error('duration_days')
-                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
@@ -107,7 +117,7 @@
                                 <option value="custom" {{ old('type') == 'custom' ? 'selected' : '' }}>Custom</option>
                             </select>
                             @error('type')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 

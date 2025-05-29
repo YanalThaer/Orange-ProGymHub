@@ -19,7 +19,7 @@ class SubscriptionPlanFactory extends Factory
     public function definition(): array
     {
         $club = Club::inRandomOrder()->first() ?? Club::factory()->create();
-        
+
         $planTypes = [
             'monthly' => [
                 'names' => ['Monthly Standard', 'Monthly Basic', 'Monthly Access', 'Monthly Fitness', 'Monthly Pass'],
@@ -42,14 +42,14 @@ class SubscriptionPlanFactory extends Factory
                 'duration_days' => null
             ],
         ];
-        
+
         $planType = $this->faker->randomElement(array_keys($planTypes));
         $planDetails = $planTypes[$planType];
-        
-        $duration = $planType === 'custom' 
-            ? $this->faker->randomElement([7, 14, 21, 45, 60, 120, 180]) 
+
+        $duration = $planType === 'custom'
+            ? $this->faker->randomElement([7, 14, 21, 45, 60, 120, 180])
             : $planDetails['duration_days'];
-        
+
         return [
             'name' => $this->faker->randomElement($planDetails['names']),
             'price' => $this->faker->numberBetween($planDetails['price_range'][0], $planDetails['price_range'][1]),
@@ -59,7 +59,7 @@ class SubscriptionPlanFactory extends Factory
             'club_id' => $club->id,
         ];
     }
-    
+
     /**
      * Configure the model factory.
      *
@@ -67,11 +67,9 @@ class SubscriptionPlanFactory extends Factory
      */
     public function configure()
     {
-        return $this->afterMaking(function (SubscriptionPlan $plan) {
-        })->afterCreating(function (SubscriptionPlan $plan) {
-        });
+        return $this->afterMaking(function (SubscriptionPlan $plan) {})->afterCreating(function (SubscriptionPlan $plan) {});
     }
-    
+
     /**
      * Set the subscription plan as active.
      *
@@ -85,7 +83,7 @@ class SubscriptionPlanFactory extends Factory
             ];
         });
     }
-    
+
     /**
      * Set the subscription plan as inactive.
      *
@@ -99,7 +97,7 @@ class SubscriptionPlanFactory extends Factory
             ];
         });
     }
-    
+
     /**
      * Create a subscription plan of a specific type
      *
@@ -111,16 +109,16 @@ class SubscriptionPlanFactory extends Factory
         if (!in_array($type, ['monthly', 'quarterly', 'yearly', 'custom'])) {
             throw new \InvalidArgumentException("Type must be one of: monthly, quarterly, yearly, custom");
         }
-        
+
         return $this->state(function (array $attributes) use ($type) {
-            $duration = match($type) {
+            $duration = match ($type) {
                 'monthly' => 30,
                 'quarterly' => 90,
                 'yearly' => 365,
                 'custom' => $this->faker->randomElement([7, 14, 21, 45, 60, 120, 180]),
                 default => 30,
             };
-            
+
             return [
                 'type' => $type,
                 'duration_days' => $duration,

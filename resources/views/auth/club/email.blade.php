@@ -9,28 +9,28 @@
                     <h5 class="me-3" style="color: red;">ProGymHub</h5>
                     <img src="{{ asset('img/logo.png') }}" alt="logo">
                 </div>
-                <h3 class="text-center mb-4">Club Password Reset</h3>               
+                <h3 class="text-center mb-4">Club Password Reset</h3>
                 @if (session('status'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ session('status') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('status') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
                 @endif
                 <form method="POST" action="{{ route('club.password.email') }}">
                     @csrf
                     <div class="form-floating mb-4">
                         <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Enter your club email">
-                        <label for="email">Club Email address</label>                     
+                        <label for="email">Club Email address</label>
                         @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
                         @enderror
                     </div>
                     <button type="submit" class="btn btn-primary py-3 w-100 mb-4">
                         Send Password Reset Link
                     </button>
-                </form>            
+                </form>
                 <p class="text-center mb-0">Remember your password? <a href="{{ route('login') }}">Back to Login</a></p>
             </div>
         </div>

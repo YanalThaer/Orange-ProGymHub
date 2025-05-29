@@ -13,6 +13,5 @@ class CoursesSeeder extends Seeder
     public function run(): void
     {
         \App\Models\Courses::factory(10)->create();
-
     }
 }

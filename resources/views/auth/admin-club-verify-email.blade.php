@@ -11,29 +11,29 @@
 
                 <div class="card-body p-3 text-white" style="font-size: 0.85rem;">
                     @if(session('status'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="font-size: 0.8rem;">
-                            {{ session('status') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert" style="font-size: 0.8rem;">
+                        {{ session('status') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                     @endif
-                      @if(session('error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="font-size: 0.8rem;">
-                            {{ session('error') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
+                    @if(session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="font-size: 0.8rem;">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                     @endif
-                    
+
                     @if($errors->any())
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="font-size: 0.8rem;">
-                            <ul class="mb-0">
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="font-size: 0.8rem;">
+                        <ul class="mb-0">
+                            @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                     @endif
-                    
+
                     <div class="text-center mb-3">
                         <div class="mb-2">
                             <i class="bi bi-shield-check fs-2" style="color: #fff;"></i>
@@ -44,21 +44,21 @@
                             {{ __('A verification code has been sent to the club email address.') }}<br>
                             {{ __('Please enter the 6-digit code to complete the registration process.') }}
                         </p>
-                <div class="mt-2 p-2 bg-black rounded-3">
+                        <div class="mt-2 p-2 bg-black rounded-3">
                             <p class="mb-0 textwhite" style="font-weight: 600;"><strong>{{ __('Club Email:') }}</strong> {{ session('club_data')['email'] ?? 'Unknown' }}</p>
                             <p class="mb-0 mt-1 textwhite" style="font-weight: 600;"><strong>{{ __('Club Name:') }}</strong> {{ session('club_data')['name'] ?? 'Unknown' }}</p>
                             @if(session()->has('verification_code'))
-                                <p class="mb-0 mt-1 textwhite" style="font-weight: 600;"><strong>{{ __('Verification Code Available:') }}</strong> Yes 
-                                
-                                </p>
+                            <p class="mb-0 mt-1 textwhite" style="font-weight: 600;"><strong>{{ __('Verification Code Available:') }}</strong> Yes
+
+                            </p>
                             @else
-                                <p class="mb-0 mt-1 text-warning" style="font-weight: 600;"><strong>{{ __('Verification Code Available:') }}</strong> No</p>
+                            <p class="mb-0 mt-1 text-warning" style="font-weight: 600;"><strong>{{ __('Verification Code Available:') }}</strong> No</p>
                             @endif
                         </div>
                     </div>
 
                     <form method="POST" action="{{ route('admin.club.verify.email') }}" class="mb-3">
-                        @csrf                        <div class="mb-3">
+                        @csrf <div class="mb-3">
                             <label for="verification_code" class="form-label fw-semibold mb-1 text-white" style="font-size: 0.9rem;">{{ __('Verification Code') }}</label>
                             <div class="verification-code-container">
                                 <input type="text" id="digit-1" class="verification-digit" maxlength="1" autofocus autocomplete="one-time-code" inputmode="numeric" pattern="\d*" oninput="updateVerificationCode()">
@@ -69,11 +69,11 @@
                                 <input type="text" id="digit-6" class="verification-digit" maxlength="1" autocomplete="one-time-code" inputmode="numeric" pattern="\d*" oninput="updateVerificationCode()">
                                 <input type="hidden" id="verification_code" name="verification_code" value="" class="@error('verification_code') is-invalid @enderror">
                             </div>
-                            
+
                             @error('verification_code')
-                                <span class="invalid-feedback d-block mt-1 text-white bg-danger p-1 rounded" style="font-size: 0.9rem;">
-                                    <i class="bi bi-exclamation-triangle me-1"></i><strong>{{ $message }}</strong>
-                                </span>
+                            <span class="invalid-feedback d-block mt-1 text-white bg-danger p-1 rounded" style="font-size: 0.9rem;">
+                                <i class="bi bi-exclamation-triangle me-1"></i><strong>{{ $message }}</strong>
+                            </span>
                             @enderror
                             <div id="code-status" class="d-none text-center mt-2 small"></div>
                         </div>
@@ -123,7 +123,7 @@
         margin-bottom: 12px;
         justify-content: center;
     }
-    
+
     .verification-digit {
         width: 42px;
         height: 50px;
@@ -136,23 +136,23 @@
         color: white;
         transition: all 0.2s;
     }
-    
+
     .verification-digit:focus {
         border-color: #ff4d4d;
         box-shadow: 0 0 0 0.25rem rgba(255, 77, 77, 0.5);
         outline: none;
         background-color: rgba(255, 255, 255, 0.1);
     }
-    
+
     .verification-digit.filled {
         background-color: rgba(255, 255, 255, 0.15);
     }
-    
+
     @media (max-width: 576px) {
         .verification-code-container {
             gap: 5px;
         }
-        
+
         .verification-digit {
             width: 36px;
             height: 44px;
@@ -166,18 +166,20 @@
 <script>
     // Function to update the hidden verification code field whenever any digit is entered
     function updateVerificationCode() {
-        const digits = Array.from({ length: 6 }, (_, i) => document.getElementById(`digit-${i+1}`));
+        const digits = Array.from({
+            length: 6
+        }, (_, i) => document.getElementById(`digit-${i+1}`));
         const codeInput = document.getElementById('verification_code');
         const codeStatus = document.getElementById('code-status');
-        
+
         let code = '';
         digits.forEach(digit => {
             code += digit.value || '';
         });
-        
+
         // Update the hidden input with current value
         codeInput.value = code;
-        
+
         // Update status message
         if (code.length === 6 && /^\d{6}$/.test(code)) {
             codeStatus.textContent = 'Valid verification code entered';
@@ -188,21 +190,23 @@
         } else {
             codeStatus.className = 'd-none';
         }
-        
+
         console.log('Verification code updated:', code);
     }
 
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.querySelector('form');
-        const digits = Array.from({ length: 6 }, (_, i) => document.getElementById(`digit-${i+1}`));
+        const digits = Array.from({
+            length: 6
+        }, (_, i) => document.getElementById(`digit-${i+1}`));
         const codeInput = document.getElementById('verification_code');
-        
+
         // Initial update in case there are prefilled values
         updateVerificationCode();
-        
+
         form.addEventListener('submit', function(e) {
             let code = codeInput.value;
-            
+
             if (code.length !== 6 || !/^\d{6}$/.test(code)) {
                 e.preventDefault();
                 const codeStatus = document.getElementById('code-status');
@@ -212,19 +216,19 @@
             }
             console.log('Submitting verification code:', code);
         });
-          digits.forEach((digit, index) => {
+        digits.forEach((digit, index) => {
             digit.addEventListener('input', function() {
                 this.value = this.value.replace(/[^0-9]/g, '');
                 this.classList.toggle('filled', this.value !== '');
-                
+
                 // Always update the hidden field when a digit changes
                 updateVerificationCode();
-                
+
                 if (this.value !== '' && index < digits.length - 1) {
                     digits[index + 1].focus();
                 }
             });
-            
+
             digit.addEventListener('keydown', function(e) {
                 if (e.key === 'Backspace') {
                     if (this.value === '' && index > 0) {
@@ -247,7 +251,7 @@
                     digits[index + 1].focus();
                 }
             });
-              
+
             digit.addEventListener('paste', function(e) {
                 e.preventDefault();
                 const pasteData = e.clipboardData.getData('text').trim();
@@ -259,10 +263,10 @@
                             digits[i].classList.add('filled');
                         }
                     });
-                    
+
                     // Always update the verification code after paste
                     updateVerificationCode();
-                    
+
                     if (pasteDigits.length < digits.length) {
                         digits[pasteDigits.length].focus();
                     } else {
@@ -272,13 +276,13 @@
                 }
             });
         });
-        
+
         let duration = 30 * 60; // 30 minutes
         let countdown = document.getElementById('countdown');
         let timer = null;
-        
+
         if (countdown) {
-            timer = setInterval(function () {
+            timer = setInterval(function() {
                 let minutes = Math.floor(duration / 60);
                 let seconds = duration % 60;
                 countdown.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;

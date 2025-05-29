@@ -18,14 +18,14 @@ ProGymHub | My Clients
                         @endif
                     </div>
                 </div>
-                
+
                 @if(session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     {{ session('success') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 @endif
-                
+
                 <!-- Nav tabs for client management -->
                 <ul class="nav nav-tabs mb-4" id="clientTabs" role="tablist">
                     <li class="nav-item" role="presentation">
@@ -47,7 +47,7 @@ ProGymHub | My Clients
                     </li>
                     @endif
                 </ul>
-                
+
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="my-clients" role="tabpanel" aria-labelledby="my-clients-tab">
                         @if($clients->count() > 0)
@@ -72,19 +72,19 @@ ProGymHub | My Clients
                                         <td>{{ $client->phone_number ?? 'N/A' }}</td>
                                         <td>
                                             @if($client->fitness_level)
-                                                <span class="badge bg-{{ $client->fitness_level == 'beginner' ? 'primary' : ($client->fitness_level == 'intermediate' ? 'info' : 'success') }}">
-                                                    {{ ucfirst($client->fitness_level) }}
-                                                </span>
+                                            <span class="badge bg-{{ $client->fitness_level == 'beginner' ? 'primary' : ($client->fitness_level == 'intermediate' ? 'info' : 'success') }}">
+                                                {{ ucfirst($client->fitness_level) }}
+                                            </span>
                                             @else
-                                                <span class="badge bg-secondary">Not specified</span>
+                                            <span class="badge bg-secondary">Not specified</span>
                                             @endif
                                         </td>
                                         <td>{{ $client->goal ?? 'Not specified' }}</td>
                                         <td>
                                             @if($client->end_date && \Carbon\Carbon::parse($client->end_date)->gte(now()))
-                                                <span class="badge bg-success">Active</span>
+                                            <span class="badge bg-success">Active</span>
                                             @else
-                                                <span class="badge bg-warning text-dark">Inactive</span>
+                                            <span class="badge bg-warning text-dark">Inactive</span>
                                             @endif
                                         </td>
                                         <td>
@@ -99,7 +99,7 @@ ProGymHub | My Clients
                                 </tbody>
                             </table>
                         </div>
-                        
+
                         <!-- Client Detail Modals -->
                         @foreach($clients as $client)
                         <div class="modal fade" id="clientModal{{ $client->id }}" tabindex="-1" aria-labelledby="clientModalLabel{{ $client->id }}" aria-hidden="true">
@@ -150,77 +150,77 @@ ProGymHub | My Clients
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="mt-4">
                                             <h6>Active Workout Plans</h6>
                                             @if(isset($clientWorkoutPlans[$client->id]) && $clientWorkoutPlans[$client->id]->count() > 0)
-                                                <div class="table-responsive">
-                                                    <table class="table table-sm table-dark">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Plan Name</th>
-                                                                <th>Category</th>
-                                                                <th>Duration</th>
-                                                                <th>Status</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach($clientWorkoutPlans[$client->id] as $plan)
-                                                            <tr>
-                                                                <td>{{ $plan->name }}</td>
-                                                                <td>{{ $plan->category }}</td>
-                                                                <td>{{ $plan->duration_weeks }} weeks</td>
-                                                                <td><span class="badge bg-success">Active</span></td>
-                                                            </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                            <div class="table-responsive">
+                                                <table class="table table-sm table-dark">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Plan Name</th>
+                                                            <th>Category</th>
+                                                            <th>Duration</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($clientWorkoutPlans[$client->id] as $plan)
+                                                        <tr>
+                                                            <td>{{ $plan->name }}</td>
+                                                            <td>{{ $plan->category }}</td>
+                                                            <td>{{ $plan->duration_weeks }} weeks</td>
+                                                            <td><span class="badge bg-success">Active</span></td>
+                                                        </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                             @else
-                                                <p class="text-muted">No workout plans assigned yet.</p>
+                                            <p class="text-muted">No workout plans assigned yet.</p>
                                             @endif
                                         </div>
-                                        
+
                                         <div class="mt-4">
                                             <h6>Progress Tracking</h6>
                                             @if(isset($clientProgress[$client->id]))
-                                                <div class="mb-3">
-                                                    <label>Overall Progress:</label>
-                                                    <div class="progress">
-                                                        <div class="progress-bar bg-success" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65%</div>
-                                                    </div>
+                                            <div class="mb-3">
+                                                <label>Overall Progress:</label>
+                                                <div class="progress">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65%</div>
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label>Latest Metrics ({{ $clientProgress[$client->id]->created_at->format('M d, Y') }}):</label>
-                                                    <div class="row mt-2">
-                                                        <div class="col-md-4 mb-2">
-                                                            <div class="bg-secondary rounded p-2">
-                                                                <div class="d-flex justify-content-between">
-                                                                    <span>Weight:</span>
-                                                                    <span>{{ $clientProgress[$client->id]->weight_kg }} kg</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 mb-2">
-                                                            <div class="bg-secondary rounded p-2">
-                                                                <div class="d-flex justify-content-between">
-                                                                    <span>Body Fat:</span>
-                                                                    <span>{{ $clientProgress[$client->id]->body_fat_percentage }}%</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 mb-2">
-                                                            <div class="bg-secondary rounded p-2">
-                                                                <div class="d-flex justify-content-between">
-                                                                    <span>BMI:</span>
-                                                                    <span>{{ $clientProgress[$client->id]->bmi }}</span>
-                                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label>Latest Metrics ({{ $clientProgress[$client->id]->created_at->format('M d, Y') }}):</label>
+                                                <div class="row mt-2">
+                                                    <div class="col-md-4 mb-2">
+                                                        <div class="bg-secondary rounded p-2">
+                                                            <div class="d-flex justify-content-between">
+                                                                <span>Weight:</span>
+                                                                <span>{{ $clientProgress[$client->id]->weight_kg }} kg</span>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-4 mb-2">
+                                                        <div class="bg-secondary rounded p-2">
+                                                            <div class="d-flex justify-content-between">
+                                                                <span>Body Fat:</span>
+                                                                <span>{{ $clientProgress[$client->id]->body_fat_percentage }}%</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 mb-2">
+                                                        <div class="bg-secondary rounded p-2">
+                                                            <div class="d-flex justify-content-between">
+                                                                <span>BMI:</span>
+                                                                <span>{{ $clientProgress[$client->id]->bmi }}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                            </div>
                                             @else
-                                                <p class="text-muted">No progress data available yet.</p>
+                                            <p class="text-muted">No progress data available yet.</p>
                                             @endif
                                         </div>
                                     </div>
@@ -239,7 +239,7 @@ ProGymHub | My Clients
                         </div>
                         @endif
                     </div><!-- End my-clients tab -->
-                    
+
                     @if($hasClub)
                     <!-- Club Users Tab -->
                     <div class="tab-pane fade" id="club-users" role="tabpanel" aria-labelledby="club-users-tab">
@@ -265,19 +265,19 @@ ProGymHub | My Clients
                                         <td>{{ $user->phone_number ?? 'N/A' }}</td>
                                         <td>
                                             @if($user->fitness_level)
-                                                <span class="badge bg-{{ $user->fitness_level == 'beginner' ? 'primary' : ($user->fitness_level == 'intermediate' ? 'info' : 'success') }}">
-                                                    {{ ucfirst($user->fitness_level) }}
-                                                </span>
+                                            <span class="badge bg-{{ $user->fitness_level == 'beginner' ? 'primary' : ($user->fitness_level == 'intermediate' ? 'info' : 'success') }}">
+                                                {{ ucfirst($user->fitness_level) }}
+                                            </span>
                                             @else
-                                                <span class="badge bg-secondary">Not specified</span>
+                                            <span class="badge bg-secondary">Not specified</span>
                                             @endif
                                         </td>
                                         <td>{{ $user->goal ?? 'Not specified' }}</td>
                                         <td>
                                             @if($user->end_date && \Carbon\Carbon::parse($user->end_date)->gte(now()))
-                                                <span class="badge bg-success">Active</span>
+                                            <span class="badge bg-success">Active</span>
                                             @else
-                                                <span class="badge bg-warning text-dark">Inactive</span>
+                                            <span class="badge bg-warning text-dark">Inactive</span>
                                             @endif
                                         </td>
                                         <td>
@@ -318,9 +318,9 @@ ProGymHub | My Clients
                                                 <h5>{{ $user->name }}</h5>
                                                 <p class="text-muted">{{ $user->email }}</p>
                                                 @if($user->coach_id)
-                                                    <span class="badge bg-warning">Assigned to another coach</span>
+                                                <span class="badge bg-warning">Assigned to another coach</span>
                                                 @else
-                                                    <span class="badge bg-info">Available</span>
+                                                <span class="badge bg-info">Available</span>
                                                 @endif
                                             </div>
                                             <div class="col-md-8">
@@ -380,7 +380,7 @@ ProGymHub | My Clients
                         <div class="alert alert-info">
                             <i class="fa fa-info-circle me-2"></i> You are not assigned to any club. Here are all users in the system without a coach.
                         </div>
-                        
+
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover">
                                 <thead class="thead-dark">
@@ -402,25 +402,25 @@ ProGymHub | My Clients
                                         <td>{{ $user->phone_number ?? 'N/A' }}</td>
                                         <td>
                                             @if($user->club_id)
-                                                {{ $user->club->name ?? 'Unknown Club' }}
+                                            {{ $user->club->name ?? 'Unknown Club' }}
                                             @else
-                                                <span class="text-muted">No Club</span>
+                                            <span class="text-muted">No Club</span>
                                             @endif
                                         </td>
                                         <td>
                                             @if($user->fitness_level)
-                                                <span class="badge bg-{{ $user->fitness_level == 'beginner' ? 'primary' : ($user->fitness_level == 'intermediate' ? 'info' : 'success') }}">
-                                                    {{ ucfirst($user->fitness_level) }}
-                                                </span>
+                                            <span class="badge bg-{{ $user->fitness_level == 'beginner' ? 'primary' : ($user->fitness_level == 'intermediate' ? 'info' : 'success') }}">
+                                                {{ ucfirst($user->fitness_level) }}
+                                            </span>
                                             @else
-                                                <span class="badge bg-secondary">Not specified</span>
+                                            <span class="badge bg-secondary">Not specified</span>
                                             @endif
                                         </td>
                                         <td>
                                             @if($user->end_date && \Carbon\Carbon::parse($user->end_date)->gte(now()))
-                                                <span class="badge bg-success">Active</span>
+                                            <span class="badge bg-success">Active</span>
                                             @else
-                                                <span class="badge bg-warning text-dark">Inactive</span>
+                                            <span class="badge bg-warning text-dark">Inactive</span>
                                             @endif
                                         </td>
                                         <td>
@@ -455,12 +455,12 @@ ProGymHub | My Clients
                                     <div class="modal-body">
                                         <div class="row">
                                             <div class="col-md-4 text-center mb-3">
-\                                                <h5>{{ $user->name }}</h5>
+                                                \ <h5>{{ $user->name }}</h5>
                                                 <p class="text-muted">{{ $user->email }}</p>
                                                 @if($user->club_id)
-                                                    <div class="badge bg-primary mb-2">{{ $user->club->name ?? 'Unknown Club' }}</div>
+                                                <div class="badge bg-primary mb-2">{{ $user->club->name ?? 'Unknown Club' }}</div>
                                                 @else
-                                                    <div class="badge bg-secondary mb-2">No Club</div>
+                                                <div class="badge bg-secondary mb-2">No Club</div>
                                                 @endif
                                             </div>
                                             <div class="col-md-8">

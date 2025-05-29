@@ -93,48 +93,46 @@
 </style>
 <div>
 
-<div class="edit-container">
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <ul>
-            <li class="active">Edit Profile</li>
-            <li>Password</li>
-            <li>Social Profiles</li>
-            <li>Billing</li>
-            <li style="color: red; margin-top: 20px;">Delete Account</li>
-        </ul>
-    </div>
-
-    <!-- Form Content -->
-    <div class="content">
-        <h4 class="mb-4">Edit Profile</h4>
-
-        <div class="text-center mb-4">
-            <div class="profile-pic">O</div>
-            <button class="btn btn-outline">Upload new picture</button>
-            <button class="btn btn-outline">Delete</button>
+    <div class="edit-container">
+        <div class="sidebar">
+            <ul>
+                <li class="active">Edit Profile</li>
+                <li>Password</li>
+                <li>Social Profiles</li>
+                <li>Billing</li>
+                <li style="color: red; margin-top: 20px;">Delete Account</li>
+            </ul>
         </div>
 
-        <form>
-            <div class="mb-3">
-                <label class="form-label">Name</label>
-                <input type="text" class="form-control" value="ola yousef">
+        <div class="content">
+            <h4 class="mb-4">Edit Profile</h4>
+
+            <div class="text-center mb-4">
+                <div class="profile-pic">O</div>
+                <button class="btn btn-outline">Upload new picture</button>
+                <button class="btn btn-outline">Delete</button>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Location</label>
-                <input type="text" class="form-control" placeholder="Enter location">
-            </div>
+            <form>
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-control" value="ola yousef">
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">Address</label>
-                <input type="text" class="form-control" placeholder="Enter address">
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Location</label>
+                    <input type="text" class="form-control" placeholder="Enter location">
+                </div>
 
-            <button type="submit" class="btn btn-primary mt-3 w-100">Save Changes</button>
-        </form>
+                <div class="mb-3">
+                    <label class="form-label">Address</label>
+                    <input type="text" class="form-control" placeholder="Enter address">
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3 w-100">Save Changes</button>
+            </form>
+        </div>
     </div>
-</div>
 
 </div>
 @endsection

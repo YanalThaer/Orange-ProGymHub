@@ -64,13 +64,13 @@ Route::prefix('dashboard')->middleware('dashboard')->group(function () {
     Route::get('/notifications/mark-all-read', [App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
     Route::get('/notifications/check-new', [App\Http\Controllers\NotificationController::class, 'checkNewNotifications'])->name('notifications.checkNew');
     Route::get('/notifications/dropdown-content', [App\Http\Controllers\NotificationController::class, 'getDropdownContent'])->name('notifications.dropdownContent');
-    
+
     Route::middleware('App\Http\Middleware\CoachMiddleware')->group(function () {
         Route::get('/coach', [CoachController::class, 'index'])->name('coach.dashboard');
         Route::get('/coach/club', [CoachController::class, 'clubDetails'])->name('coach.club');
         Route::get('/coach/clients', [CoachController::class, 'clients'])->name('coach.clients');
         Route::post('/coach/clients/assign', [CoachController::class, 'assignClient'])->name('coach.clients.assign');
-        
+
         Route::get('/coach/search', [CoachController::class, 'search'])->name('coach.search');
         Route::post('/coach/search', [CoachController::class, 'searchResults'])->name('coach.search.results');
 
@@ -81,26 +81,26 @@ Route::prefix('dashboard')->middleware('dashboard')->group(function () {
 
     Route::middleware('App\Http\Middleware\AdminMiddleware')->group(function () {
         Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
-        
+
         Route::get('/all-users', [AdminController::class, 'allUsers'])->name('admin.users');
         Route::get('/user/{encoded_id}', [AdminController::class, 'showUser'])->name('admin.users.show');
         Route::delete('/user/{encoded_id}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
         Route::get('/admin/users/trashed', [AdminController::class, 'trashedUsers'])->name('admin.users.trashed');
         Route::post('/user/{encoded_id}/restore', [AdminController::class, 'restoreUser'])->name('admin.users.restore');
-        
+
         Route::get('/all-coaches', [AdminController::class, 'allCoaches'])->name('admin.coaches');
         Route::get('/coach/{encoded_id}', [AdminController::class, 'showCoach'])->name('admin.coaches.show');
         Route::delete('/coach/{encoded_id}', [AdminController::class, 'deleteCoach'])->name('admin.coaches.delete');
         Route::get('/admin/coaches/trashed', [AdminController::class, 'trashedCoaches'])->name('admin.coaches.trashed');
         Route::post('/coach/{encoded_id}/restore', [AdminController::class, 'restoreCoach'])->name('admin.coaches.restore');
-        
+
         Route::get('/admin/search', [AdminController::class, 'search'])->name('admin.search');
         Route::post('/admin/search', [AdminController::class, 'searchResults'])->name('admin.search.results');
-        
+
         Route::get('/admin/profile', [AdminController::class, 'viewProfile'])->name('admin.profile');
         Route::get('/admin/profile/edit', [AdminController::class, 'editProfile'])->name('admin.profile.edit');
         Route::put('/admin/profile/update', [AdminController::class, 'updateProfile'])->name('admin.profile.update');
-        
+
         Route::get('/all-clubs', [ClubController::class, 'adminClubs'])->name('admin.clubs');
         Route::get('/clubs/trashed', [ClubController::class, 'trashedClubs'])->name('admin.trashed-clubs');
         Route::post('/clubs/{encoded_id}/restore', [ClubController::class, 'restore'])->name('clubs.restore');
@@ -108,8 +108,8 @@ Route::prefix('dashboard')->middleware('dashboard')->group(function () {
         Route::resource('clubs', ClubController::class)->parameters([
             'clubs' => 'encoded_id'
         ]);
-   });
-    
+    });
+
     Route::middleware('App\Http\Middleware\ClubMiddleware')->group(function () {
         Route::get('/club', [ClubController::class, 'index'])->name('club.dashboard');
         Route::get('/profile', [ClubController::class, 'profile'])->name('club.profile');
@@ -118,7 +118,7 @@ Route::prefix('dashboard')->middleware('dashboard')->group(function () {
 
         Route::get('/myclub/edit/{encoded_id}', [ClubController::class, 'edit'])->name('myclub.edit');
         Route::put('/myclub/update/{encoded_id}', [ClubController::class, 'update'])->name('myclub.update');
-        
+
         Route::get('/users', [ClubController::class, 'users'])->name('club.users');
         Route::get('/users/create', [ClubController::class, 'createUser'])->name('club.users.create');
         Route::post('/users/store', [ClubController::class, 'storeUser'])->name('club.users.store');
@@ -131,7 +131,7 @@ Route::prefix('dashboard')->middleware('dashboard')->group(function () {
         Route::put('/users/{encoded_id}', [ClubController::class, 'updateUser'])->name('club.users.update');
         Route::delete('/users/{encoded_id}', [ClubController::class, 'deleteUser'])->name('club.users.delete');
         Route::patch('/users/{encoded_id}/restore', [ClubController::class, 'restoreUser'])->name('club.users.restore');
-        
+
         Route::get('/subscription-plans', [ClubController::class, 'subscriptionPlans'])->name('club.subscription-plans');
         Route::get('/subscription-plans/create', [ClubController::class, 'createSubscriptionPlan'])->name('club.subscription-plans.create');
         Route::post('/subscription-plans', [ClubController::class, 'storeSubscriptionPlan'])->name('club.subscription-plans.store');
@@ -140,7 +140,7 @@ Route::prefix('dashboard')->middleware('dashboard')->group(function () {
         Route::delete('/subscription-plans/{encoded_id}', [ClubController::class, 'deleteSubscriptionPlan'])->name('club.subscription-plans.delete');
         Route::get('/subscription-plans/trashed', [ClubController::class, 'trashedSubscriptionPlans'])->name('club.subscription-plans.trashed');
         Route::post('/subscription-plans/{encoded_id}/restore', [ClubController::class, 'restoreSubscriptionPlan'])->name('club.subscription-plans.restore');
-        
+
         Route::get('/coaches', [ClubController::class, 'coaches'])->name('club.coaches');
         Route::get('/coaches/create', [ClubController::class, 'createCoach'])->name('club.coaches.create');
         Route::post('/coaches/store', [ClubController::class, 'storeCoach'])->name('club.coaches.store');
@@ -150,21 +150,9 @@ Route::prefix('dashboard')->middleware('dashboard')->group(function () {
         Route::put('/coaches/{encoded_id}', [ClubController::class, 'updateCoach'])->name('club.coaches.update');
         Route::delete('/coaches/{encoded_id}', [ClubController::class, 'deleteCoach'])->name('club.coaches.delete');
         Route::patch('/coaches/{encoded_id}/restore', [ClubController::class, 'restoreCoach'])->name('club.coaches.restore');
-        
+
         Route::get('/coaches/verify/{tempId}', [ClubController::class, 'showCoachVerificationForm'])->name('club.coach.verify.form');
         Route::post('/coaches/verify/{tempId}', [ClubController::class, 'verifyCoachEmail'])->name('club.coach.verify');
         Route::get('/coaches/resend-code/{tempId}', [ClubController::class, 'resendCoachVerificationCode'])->name('club.coach.resend.code');
     });
-    
-    
 });
-
-// Route::get('/elements', [HomeController::class, 'elements'])->name('elements');
-
-// Route::get('/gallery', [HomeController::class, 'gallery'])->name('gallery');
-
-// Route::get('/pricing', [HomeController::class, 'pricing'])->name('pricing');
-
-// Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
- 
-// Route::get('/blog/{id}', [HomeController::class, 'blogDetails'])->name('blog.details');

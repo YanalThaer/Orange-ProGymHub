@@ -5,11 +5,12 @@
     body {
         background-color: #121212;
 
-    height: 100%;
-    margin: 0;
-    overflow: hidden;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
 
     }
+
     .login-card {
         background-color: #1f1f1f;
         border: none;
@@ -19,23 +20,28 @@
         width: 100%;
         max-width: 500px;
     }
+
     .form-control {
         background-color: #2b2b2b;
         color: white;
         border: 1px solid #444;
     }
+
     .form-control:focus {
         border-color: #ff0000;
         box-shadow: 0 0 0 0.2rem rgba(230, 57, 70, 0.25);
     }
+
     .btn-primary {
-        background-color:  #ff0000;
-        border-color:  #ff0000;
+        background-color: #ff0000;
+        border-color: #ff0000;
     }
+
     .btn-primary:hover {
-        background-color:  #ff0000;
-        border-color:  #ff0000;
+        background-color: #ff0000;
+        border-color: #ff0000;
     }
+
     a {
         text-decoration: none;
         color: #ff0000;
@@ -53,9 +59,9 @@
             @csrf
 
             @if(isset($redirectParams) && !empty($redirectParams))
-                @foreach($redirectParams as $key => $value)
-                    <input type="hidden" name="{{ $key }}" value="{{ $value }}">
-                @endforeach
+            @foreach($redirectParams as $key => $value)
+            <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+            @endforeach
             @endif
 
             <div class="mb-3">
@@ -65,9 +71,9 @@
                     name="email" value="{{ old('email') }}" required autofocus>
 
                 @error('email')
-                    <span class="invalid-feedback d-block" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
+                <span class="invalid-feedback d-block" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
                 @enderror
             </div>
 
@@ -78,9 +84,9 @@
                     name="password" required>
 
                 @error('password')
-                    <span class="invalid-feedback d-block" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
+                <span class="invalid-feedback d-block" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
                 @enderror
             </div>
 
@@ -100,9 +106,9 @@
 
             <div class="text-center">
                 @if (Route::has('password.request'))
-                    <a class="text-light d-block mb-2" href="{{ route('password.request') }}">
-                        Forgot Your Password?
-                    </a>
+                <a class="text-light d-block mb-2" href="{{ route('password.request') }}">
+                    Forgot Your Password?
+                </a>
                 @endif
 
                 <p class="text-white">

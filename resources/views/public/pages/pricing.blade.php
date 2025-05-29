@@ -2,7 +2,6 @@
 @section('title', 'ProGymHome')
 @section('content')
 <main>
-    <!--? Hero Start -->
     <div class="slider-area2">
         <div class="slider-height2 d-flex align-items-center">
             <div class="container">
@@ -16,8 +15,6 @@
             </div>
         </div>
     </div>
-    <!-- Hero End -->
-    <!-- Courses area start -->
     <section class="pricing-area section-padding30 fix">
         <div class="container">
             <div class="row">
@@ -36,7 +33,7 @@
                             </div>
                             <div class="properties__caption">
                                 <span class="month">6 month</span>
-                                <p class="mb-25">$30/m  <span>(Single class)</span></p>
+                                <p class="mb-25">$30/m <span>(Single class)</span></p>
                                 <div class="single-features">
                                     <div class="features-icon">
                                         <img src="assets/img/icon/check.svg" alt="">
@@ -90,7 +87,7 @@
                             </div>
                             <div class="properties__caption">
                                 <span class="month">6 month</span>
-                                <p class="mb-25">$30/m  <span>(Single class)</span></p>
+                                <p class="mb-25">$30/m <span>(Single class)</span></p>
                                 <div class="single-features">
                                     <div class="features-icon">
                                         <img src="assets/img/icon/check.svg" alt="">
@@ -144,7 +141,7 @@
                             </div>
                             <div class="properties__caption">
                                 <span class="month">6 month</span>
-                                <p class="mb-25">$30/m  <span>(Single class)</span></p>
+                                <p class="mb-25">$30/m <span>(Single class)</span></p>
                                 <div class="single-features">
                                     <div class="features-icon">
                                         <img src="assets/img/icon/check.svg" alt="">
@@ -193,8 +190,6 @@
             </div>
         </div>
     </section>
-    <!-- Courses area End -->
-    <!-- ? services-area -->
     <section class="services-area">
         <div class="container">
             <div class="row justify-content-between">
@@ -217,7 +212,7 @@
                         <div class="features-caption">
                             <h3>Phone</h3>
                             <p>(90) 277 278 2566</p>
-                            <p>  (78) 267 256 2578</p>
+                            <p> (78) 267 256 2578</p>
                         </div>
                     </div>
                 </div>

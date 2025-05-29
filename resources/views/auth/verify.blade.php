@@ -11,10 +11,10 @@
                 </div>
                 <h3 class="text-center mb-4">{{ __('Verify Your Email Address') }}</h3>
                 @if (session('resent'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Success! </strong>{{ __('A fresh verification link has been sent to your email address.') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Success! </strong>{{ __('A fresh verification link has been sent to your email address.') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
                 @endif
                 <p class="text-center mb-3">{{ __('Before proceeding, please check your email for a verification link.') }}</p>
                 <p class="text-center mb-4">{{ __('If you did not receive the email') }},</p>

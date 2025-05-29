@@ -45,7 +45,7 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $validator = $this->validator($request->all());
-        
+
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
@@ -76,7 +76,7 @@ class RegisterController extends Controller
             return redirect()->route('register')
                 ->withErrors(['email' => 'Please register first to verify your email.']);
         }
-        
+
         return view('auth.verify-email')
             ->with('status', session('status'));
     }
@@ -88,7 +88,7 @@ class RegisterController extends Controller
         ]);
 
         $expiresAt = session('verification_expires_at');
-        
+
         if (!$expiresAt || Carbon::now()->gt(Carbon::parse($expiresAt))) {
             session()->forget(['register_data', 'verification_code', 'verification_expires_at']);
             return redirect()->route('register')->withErrors(['code' => 'The verification code has expired. Please register again.']);
@@ -107,7 +107,7 @@ class RegisterController extends Controller
             ]);
 
             Auth::login($user);
-            
+
             $request->session()->put('created_at', time());
             $request->session()->put('remember_me', true);
 
@@ -118,57 +118,4 @@ class RegisterController extends Controller
 
         return back()->withErrors(['code' => 'Invalid verification code']);
     }
-
-    // public function redirectToGoogle()
-    // {
-    //     return Socialite::driver('google')->redirect();
-    // }
-
-    // public function handleGoogleCallback()
-    // {
-    //     // dd('Google callback');
-    //     try {
-    //         $googleUser = Socialite::driver('google')->user();
-    //         // dd($googleUser);
-
-    //         $user = User::where('provider_id', $googleUser->getId())->first();
-
-    //         // dd($user);
-
-    //         if (!$user) {
-    //             $user = User::where('email', $googleUser->getEmail())->first();
-
-    //             if (!$user) {
-    //                 // dd('User not found');
-    //                 $user = User::create([
-    //                     'name' => $googleUser->getName(),
-    //                     'email' => $googleUser->getEmail(),
-    //                     'password' => Hash::make(uniqid()),
-    //                     'provider' => 'google',
-    //                     'provider_id' => $googleUser->getId(),
-    //                     'phone_number' => 'Please update your phone number', // Default phone number
-    //                     'join_date' => now(),
-    //                     'goal' => '',
-    //                 ]);
-
-    //                 Profile::create([
-    //                     'user_id' => $user->id,
-    //                     'profile_picture' => $googleUser->getAvatar(),
-    //                 ]);
-    //                 // dd('User created');
-    //             } else {
-    //                 $user->update([
-    //                     'provider' => 'google',
-    //                     'provider_id' => $googleUser->getId(),
-    //                 ]);
-    //             }
-    //         }
-
-    //         Auth::login($user);
-
-    //         return redirect()->route('home')->with('status', 'Registration successful!');
-    //     } catch (\Exception $e) {
-    //         return redirect()->route('login')->with('error', 'Failed to login with Google!');
-    //     }
-    // }
 }

@@ -81,14 +81,14 @@ class ClubResetPasswordController extends Controller
             $this->credentials($request),
             function ($user, $password) {
                 $this->resetPassword($user, $password);
-                
+
                 ClubPasswordNotificationController::sendPasswordResetNotification($user);
             }
         );
 
         return $response == Password::PASSWORD_RESET
-                    ? $this->sendResetResponse($request, $response)
-                    : $this->sendResetFailedResponse($request, $response);
+            ? $this->sendResetResponse($request, $response)
+            : $this->sendResetFailedResponse($request, $response);
     }
 
     /**
@@ -118,7 +118,6 @@ class ClubResetPasswordController extends Controller
      */
     protected function sendResetResponse(Request $request, $response)
     {
-        // Redirect to login page instead of auto-login to dashboard
         return redirect()->route('login')
             ->with('status', trans($response))
             ->with('success', 'Your password has been reset successfully. You can now log in with your new password.');

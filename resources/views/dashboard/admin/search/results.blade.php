@@ -14,14 +14,14 @@
                 <p class="mb-4">
                     Showing results for: <strong>"{{ $searchTerm }}"</strong>
                     @if($searchType !== 'all')
-                        in <strong>{{ ucfirst($searchType) }}</strong>
+                    in <strong>{{ ucfirst($searchType) }}</strong>
                     @endif
                 </p>
                 @php
-                    $hasResults = false;
-                    if (isset($results['clubs']) && $results['clubs']->count() > 0) $hasResults = true;
-                    if (isset($results['coaches']) && $results['coaches']->count() > 0) $hasResults = true;
-                    if (isset($results['users']) && $results['users']->count() > 0) $hasResults = true;
+                $hasResults = false;
+                if (isset($results['clubs']) && $results['clubs']->count() > 0) $hasResults = true;
+                if (isset($results['coaches']) && $results['coaches']->count() > 0) $hasResults = true;
+                if (isset($results['users']) && $results['users']->count() > 0) $hasResults = true;
                 @endphp
                 @if(!$hasResults)
                 <div class="text-center text-warning mb-4">

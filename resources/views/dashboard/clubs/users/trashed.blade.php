@@ -17,69 +17,69 @@
 
                 <div class="card-body">
                     @if(session('success'))
-                        <div class="alert alert-success" role="alert">{{ session('success') }}</div>
+                    <div class="alert alert-success" role="alert">{{ session('success') }}</div>
                     @endif
 
                     @if(session('error'))
-                        <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
+                    <div class="alert alert-danger" role="alert">{{ session('error') }}</div>
                     @endif
 
                     @if($users->isEmpty())
-                        <div class="alert alert-info">No deleted users found.</div>
+                    <div class="alert alert-info">No deleted users found.</div>
                     @else
-                        <div class="table-responsive">
-                            <table id="trashedUsersTable" class="table table-bordered table-dark table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Fitness Level</th>
-                                        <th>Goal</th>
-                                        <th>Deleted At</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($users as $user)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $user->name }}</td>
-                                            <td>{{ $user->email }}</td>
-                                            <td>{{ $user->phone_number }}</td>
-                                            <td>
-                                                @if($user->fitness_level)
-                                                    <span class="badge bg-{{ $user->fitness_level == 'beginner' ? 'primary' : ($user->fitness_level == 'intermediate' ? 'info' : 'success') }}">
-                                                        {{ ucfirst($user->fitness_level) }}
-                                                    </span>
-                                                @else
-                                                    <span class="badge bg-secondary">Not specified</span>
-                                                @endif
-                                            </td>
-                                            <td>{{ $user->goal }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($user->deleted_at)->format('Y-m-d H:i') }}</td>
-                                            <td class="d-flex justify-content-center">
-                                                <button type="button" class="btn btn-success btn-sm mx-1"
-                                                    onclick="showRestoreModal('{{ $user->getEncodedId() }}', '{{ $user->name }}')"
-                                                    title="Restore User">
-                                                    <i class="fas fa-trash-restore"></i>
-                                                </button>
+                    <div class="table-responsive">
+                        <table id="trashedUsersTable" class="table table-bordered table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Fitness Level</th>
+                                    <th>Goal</th>
+                                    <th>Deleted At</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($users as $user)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->phone_number }}</td>
+                                    <td>
+                                        @if($user->fitness_level)
+                                        <span class="badge bg-{{ $user->fitness_level == 'beginner' ? 'primary' : ($user->fitness_level == 'intermediate' ? 'info' : 'success') }}">
+                                            {{ ucfirst($user->fitness_level) }}
+                                        </span>
+                                        @else
+                                        <span class="badge bg-secondary">Not specified</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $user->goal }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($user->deleted_at)->format('Y-m-d H:i') }}</td>
+                                    <td class="d-flex justify-content-center">
+                                        <button type="button" class="btn btn-success btn-sm mx-1"
+                                            onclick="showRestoreModal('{{ $user->getEncodedId() }}', '{{ $user->name }}')"
+                                            title="Restore User">
+                                            <i class="fas fa-trash-restore"></i>
+                                        </button>
 
-                                                <form id="restore-form-{{ $user->getEncodedId() }}" action="{{ route('club.users.restore', $user->getEncodedId()) }}" method="POST" style="display:none;">
-                                                    @csrf
-                                                    @method('PATCH')
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                        <form id="restore-form-{{ $user->getEncodedId() }}" action="{{ route('club.users.restore', $user->getEncodedId()) }}" method="POST" style="display:none;">
+                                            @csrf
+                                            @method('PATCH')
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
-                        <div class="mt-4 d-flex justify-content-center">
-                            {{ $users->links('pagination::bootstrap-5') }}
-                        </div>
+                    <div class="mt-4 d-flex justify-content-center">
+                        {{ $users->links('pagination::bootstrap-5') }}
+                    </div>
                     @endif
                 </div>
             </div>
@@ -87,23 +87,22 @@
     </div>
 </div>
 
-<!-- Restore Modal -->
 <div class="modal fade" id="restoreModal" tabindex="-1" aria-labelledby="restoreModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content bg-dark text-white">
-      <div class="modal-header">
-        <h5 class="modal-title" id="restoreModalLabel">Confirm Restore</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to restore user: <strong id="userNameToRestore"></strong>?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-success" id="confirmRestoreBtn">Restore</button>
-      </div>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="restoreModalLabel">Confirm Restore</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to restore user: <strong id="userNameToRestore"></strong>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" id="confirmRestoreBtn">Restore</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 @endsection
 
@@ -120,16 +119,19 @@
         --bs-pagination-active-border-color: black;
         --bs-pagination-active-color: #fff;
     }
+
     .pagination .page-link {
         background-color: var(--bs-pagination-bg);
         border-color: var(--bs-pagination-border-color);
         color: var(--bs-pagination-color);
     }
+
     .pagination .page-link:hover {
         background-color: var(--bs-pagination-hover-bg);
         border-color: var(--bs-pagination-hover-border-color);
         color: var(--bs-pagination-hover-color);
     }
+
     .pagination .page-item.active .page-link {
         background-color: var(--bs-pagination-active-bg);
         border-color: var(--bs-pagination-active-border-color);
@@ -141,6 +143,7 @@
 @section('scripts')
 <script>
     let userIdToRestore = null;
+
     function showRestoreModal(userId, userName) {
         userIdToRestore = userId;
         document.getElementById('userNameToRestore').textContent = userName;
@@ -148,7 +151,7 @@
         restoreModal.show();
     }
 
-    document.getElementById('confirmRestoreBtn').addEventListener('click', function () {
+    document.getElementById('confirmRestoreBtn').addEventListener('click', function() {
         if (userIdToRestore) {
             const form = document.getElementById('restore-form-' + userIdToRestore);
             if (form) {
@@ -157,7 +160,7 @@
         }
     });
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('#trashedUsersTable').DataTable({
             responsive: true,
             "pageLength": 25,

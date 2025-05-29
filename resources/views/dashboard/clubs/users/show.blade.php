@@ -8,7 +8,7 @@
             <div class="card bg-dark text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>User Details: {{ $user->name }}</span>
-                    <div>                        <a href="{{ route('club.users.edit', $user->getEncodedId()) }}" class="btn btn-primary btn-sm me-2">
+                    <div> <a href="{{ route('club.users.edit', $user->getEncodedId()) }}" class="btn btn-primary btn-sm me-2">
                             <i class="fas fa-edit"></i> Edit User
                         </a>
                         <a href="{{ route('club.users') }}" class="btn btn-secondary btn-sm">
@@ -19,15 +19,15 @@
 
                 <div class="card-body bg-dark text-white">
                     @if (session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
                     @endif
-                    
+
                     @if (session('error'))
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                        </div>
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
                     @endif
 
                     <div class="row">
@@ -37,13 +37,13 @@
                                 <h3>{{ $user->name }}</h3>
                                 <div>
                                     @if($activeSubscription)
-                                        <span class="badge bg-success fs-6">Active Member</span>
+                                    <span class="badge bg-success fs-6">Active Member</span>
                                     @else
-                                        <span class="badge bg-warning text-dark fs-6">Inactive Member</span>
+                                    <span class="badge bg-warning text-dark fs-6">Inactive Member</span>
                                     @endif
-                                    
+
                                     @if($user->deleted_at)
-                                        <span class="badge bg-danger fs-6">Deleted</span>
+                                    <span class="badge bg-danger fs-6">Deleted</span>
                                     @endif
                                 </div>
                             </div>
@@ -77,10 +77,10 @@
                                             <th class="text-white">Date of Birth:</th>
                                             <td class="text-white">
                                                 @if($user->date_of_birth)
-                                                    {{ is_object($user->date_of_birth) ? $user->date_of_birth->format('Y-m-d') : $user->date_of_birth }}
-                                                    ({{ \Carbon\Carbon::parse($user->date_of_birth)->age }} years)
+                                                {{ is_object($user->date_of_birth) ? $user->date_of_birth->format('Y-m-d') : $user->date_of_birth }}
+                                                ({{ \Carbon\Carbon::parse($user->date_of_birth)->age }} years)
                                                 @else
-                                                    Not specified
+                                                Not specified
                                                 @endif
                                             </td>
                                         </tr>
@@ -116,27 +116,27 @@
                                             <th class="text-white">BMI:</th>
                                             <td class="text-white">
                                                 @if($user->bmi)
-                                                    {{ number_format($user->bmi, 2) }}
-                                                    @php
-                                                        $bmiCategory = '';
-                                                        if ($user->bmi < 18.5) {
-                                                            $bmiCategory = 'Underweight';
-                                                            $badgeColor = 'warning';
-                                                        } elseif ($user->bmi >= 18.5 && $user->bmi < 25) {
-                                                            $bmiCategory = 'Normal weight';
-                                                            $badgeColor = 'success';
+                                                {{ number_format($user->bmi, 2) }}
+                                                @php
+                                                $bmiCategory = '';
+                                                if ($user->bmi < 18.5) {
+                                                    $bmiCategory='Underweight' ;
+                                                    $badgeColor='warning' ;
+                                                    } elseif ($user->bmi >= 18.5 && $user->bmi < 25) {
+                                                        $bmiCategory='Normal weight' ;
+                                                        $badgeColor='success' ;
                                                         } elseif ($user->bmi >= 25 && $user->bmi < 30) {
-                                                            $bmiCategory = 'Overweight';
-                                                            $badgeColor = 'warning';
-                                                        } else {
-                                                            $bmiCategory = 'Obese';
-                                                            $badgeColor = 'danger';
-                                                        }
-                                                    @endphp
-                                                    <span class="badge bg-{{ $badgeColor }}">{{ $bmiCategory }}</span>
-                                                @else
-                                                    Not specified
-                                                @endif
+                                                            $bmiCategory='Overweight' ;
+                                                            $badgeColor='warning' ;
+                                                            } else {
+                                                            $bmiCategory='Obese' ;
+                                                            $badgeColor='danger' ;
+                                                            }
+                                                            @endphp
+                                                            <span class="badge bg-{{ $badgeColor }}">{{ $bmiCategory }}</span>
+                                                            @else
+                                                            Not specified
+                                                            @endif
                                             </td>
                                         </tr>
                                         <tr>
@@ -147,11 +147,11 @@
                                             <th class="text-white">Fitness Level:</th>
                                             <td class="text-white">
                                                 @if($user->fitness_level)
-                                                    <span class="badge bg-{{ $user->fitness_level == 'beginner' ? 'primary' : ($user->fitness_level == 'intermediate' ? 'info' : 'success') }}">
-                                                        {{ ucfirst($user->fitness_level) }}
-                                                    </span>
+                                                <span class="badge bg-{{ $user->fitness_level == 'beginner' ? 'primary' : ($user->fitness_level == 'intermediate' ? 'info' : 'success') }}">
+                                                    {{ ucfirst($user->fitness_level) }}
+                                                </span>
                                                 @else
-                                                    Not specified
+                                                Not specified
                                                 @endif
                                             </td>
                                         </tr>
@@ -163,7 +163,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Health Information -->
                         <div class="col-md-6">
                             <div class="card mb-4">
@@ -192,7 +192,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Training Information -->
                         <div class="col-md-6">
                             <div class="card mb-4">
@@ -225,7 +225,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Nutrition Information -->
                         <div class="col-md-6">
                             <div class="card mb-4">
@@ -238,31 +238,31 @@
                                             <th class="text-white" width="35%">Diet Preference:</th>
                                             <td class="text-white">
                                                 @php
-                                                    $dietText = 'Not specified';
-                                                    if ($user->diet_preference) {
-                                                        switch($user->diet_preference) {
-                                                            case 'no_restriction':
-                                                                $dietText = 'No restrictions';
-                                                                break;
-                                                            case 'vegetarian':
-                                                                $dietText = 'Vegetarian';
-                                                                break;
-                                                            case 'vegan':
-                                                                $dietText = 'Vegan';
-                                                                break;
-                                                            case 'keto':
-                                                                $dietText = 'Ketogenic';
-                                                                break;
-                                                            case 'paleo':
-                                                                $dietText = 'Paleo';
-                                                                break;
-                                                            case 'mediterranean':
-                                                                $dietText = 'Mediterranean';
-                                                                break;
-                                                            default:
-                                                                $dietText = ucfirst($user->diet_preference);
-                                                        }
-                                                    }
+                                                $dietText = 'Not specified';
+                                                if ($user->diet_preference) {
+                                                switch($user->diet_preference) {
+                                                case 'no_restriction':
+                                                $dietText = 'No restrictions';
+                                                break;
+                                                case 'vegetarian':
+                                                $dietText = 'Vegetarian';
+                                                break;
+                                                case 'vegan':
+                                                $dietText = 'Vegan';
+                                                break;
+                                                case 'keto':
+                                                $dietText = 'Ketogenic';
+                                                break;
+                                                case 'paleo':
+                                                $dietText = 'Paleo';
+                                                break;
+                                                case 'mediterranean':
+                                                $dietText = 'Mediterranean';
+                                                break;
+                                                default:
+                                                $dietText = ucfirst($user->diet_preference);
+                                                }
+                                                }
                                                 @endphp
                                                 {{ $dietText }}
                                             </td>
@@ -283,7 +283,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Subscription Information -->
                         <div class="col-md-6">
                             <div class="card mb-4">
@@ -292,89 +292,90 @@
                                 </div>
                                 <div class="card-body bg-dark text-white">
                                     @if($activeSubscription)
-                                        <div class="alert alert-success">
-                                            <strong>Active Subscription:</strong> {{ $activeSubscription->plan->name }}
-                                            <div class="mt-2">
-                                                <small>
-                                                    <strong>Start Date:</strong> {{ is_object($activeSubscription->start_date) ? $activeSubscription->start_date->format('Y-m-d') : \Carbon\Carbon::parse($activeSubscription->start_date)->format('Y-m-d') }}<br>
-                                                    <strong>End Date:</strong> {{ is_object($activeSubscription->end_date) ? $activeSubscription->end_date->format('Y-m-d') : \Carbon\Carbon::parse($activeSubscription->end_date)->format('Y-m-d') }} 
-                                                    ({{ \Carbon\Carbon::parse($activeSubscription->end_date)->diffForHumans() }})<br>
-                                                    <strong>Payment Status:</strong> {{ ucfirst($activeSubscription->payment_status) }}<br>
-                                                    <strong>Payment Method:</strong> {{ ucfirst($activeSubscription->payment_method) }}
-                                                </small>
-                                            </div>
+                                    <div class="alert alert-success">
+                                        <strong>Active Subscription:</strong> {{ $activeSubscription->plan->name }}
+                                        <div class="mt-2">
+                                            <small>
+                                                <strong>Start Date:</strong> {{ is_object($activeSubscription->start_date) ? $activeSubscription->start_date->format('Y-m-d') : \Carbon\Carbon::parse($activeSubscription->start_date)->format('Y-m-d') }}<br>
+                                                <strong>End Date:</strong> {{ is_object($activeSubscription->end_date) ? $activeSubscription->end_date->format('Y-m-d') : \Carbon\Carbon::parse($activeSubscription->end_date)->format('Y-m-d') }}
+                                                ({{ \Carbon\Carbon::parse($activeSubscription->end_date)->diffForHumans() }})<br>
+                                                <strong>Payment Status:</strong> {{ ucfirst($activeSubscription->payment_status) }}<br>
+                                                <strong>Payment Method:</strong> {{ ucfirst($activeSubscription->payment_method) }}
+                                            </small>
                                         </div>
+                                    </div>
                                     @else
-                                        <div class="alert alert-warning">
-                                            <strong>No Active Subscription</strong>
-                                        </div>
+                                    <div class="alert alert-warning">
+                                        <strong>No Active Subscription</strong>
+                                    </div>
                                     @endif
-                                    
+
                                     <h6 class="mt-4">Subscription History</h6>
                                     @if($userSubscriptions->count() > 0)
-                                        <div class="table-responsive">
-                                            <table class="table table-sm table-bordered">
-                                                <thead class="table-light">
-                                                    <tr>
-                                                        <th class="text-white">Plan</th>
-                                                        <th class="text-white">Start Date</th>
-                                                        <th class="text-white">End Date</th>
-                                                        <th class="text-white">Status</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach($userSubscriptions as $subscription)
-                                                        <tr>
-                                                            <td class="text-white">{{ $subscription->plan->name }}</td>
-                                                            <td class="text-white">{{ is_object($subscription->start_date) ? $subscription->start_date->format('Y-m-d') : \Carbon\Carbon::parse($subscription->start_date)->format('Y-m-d') }}</td>
-                                                            <td class="text-white">{{ is_object($subscription->end_date) ? $subscription->end_date->format('Y-m-d') : \Carbon\Carbon::parse($subscription->end_date)->format('Y-m-d') }}</td>
-                                                            <td class="text-white">
-                                                                @if($subscription->end_date >= now())
-                                                                    <span class="badge bg-success">Active</span>
-                                                                @else
-                                                                    <span class="badge bg-secondary">Expired</span>
-                                                                @endif
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-bordered">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th class="text-white">Plan</th>
+                                                    <th class="text-white">Start Date</th>
+                                                    <th class="text-white">End Date</th>
+                                                    <th class="text-white">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($userSubscriptions as $subscription)
+                                                <tr>
+                                                    <td class="text-white">{{ $subscription->plan->name }}</td>
+                                                    <td class="text-white">{{ is_object($subscription->start_date) ? $subscription->start_date->format('Y-m-d') : \Carbon\Carbon::parse($subscription->start_date)->format('Y-m-d') }}</td>
+                                                    <td class="text-white">{{ is_object($subscription->end_date) ? $subscription->end_date->format('Y-m-d') : \Carbon\Carbon::parse($subscription->end_date)->format('Y-m-d') }}</td>
+                                                    <td class="text-white">
+                                                        @if($subscription->end_date >= now())
+                                                        <span class="badge bg-success">Active</span>
+                                                        @else
+                                                        <span class="badge bg-secondary">Expired</span>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     @else
-                                        <p class="text-white">No subscription history found.</p>
+                                    <p class="text-white">No subscription history found.</p>
                                     @endif
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="card-footer">
                     <div class="d-flex justify-content-between">
                         <a href="{{ route('club.users') }}" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Back to Users
                         </a>
-                        <div>                            <a href="{{ route('club.users.edit', $user->getEncodedId()) }}" class="btn btn-primary">
+                        <div> <a href="{{ route('club.users.edit', $user->getEncodedId()) }}" class="btn btn-primary">
                                 <i class="fas fa-edit"></i> Edit User
                             </a>
                             @if($user->deleted_at)
-                                <form action="{{ route('club.users.restore', $user->getEncodedId()) }}" method="POST" class="d-inline-block">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button type="submit" class="btn btn-success">
-                                        <i class="fas fa-trash-restore"></i> Restore User
-                                    </button>
-                                </form>
+                            <form action="{{ route('club.users.restore', $user->getEncodedId()) }}" method="POST" class="d-inline-block">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-trash-restore"></i> Restore User
+                                </button>
+                            </form>
                             @else
-                                <button type="button" class="btn btn-danger" 
-                                        onclick="confirmUserDelete('{{ $user->getEncodedId() }}', '{{ $user->name }}')">
-                                    <i class="fas fa-trash"></i> Delete User
-                                </button>                                <form id="delete-user-form-{{ str_replace(['/', '+', '='], '', $user->getEncodedId()) }}" 
-                                      action="{{ route('club.users.delete', $user->getEncodedId()) }}" 
-                                      method="POST" class="d-none">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
+                            <button type="button" class="btn btn-danger"
+                                onclick="confirmUserDelete('{{ $user->getEncodedId() }}', '{{ $user->name }}')">
+                                <i class="fas fa-trash"></i> Delete User
+                            </button>
+                            <form id="delete-user-form-{{ str_replace(['/', '+', '='], '', $user->getEncodedId()) }}"
+                                action="{{ route('club.users.delete', $user->getEncodedId()) }}"
+                                method="POST" class="d-none">
+                                @csrf
+                                @method('DELETE')
+                            </form>
                             @endif
                         </div>
                     </div>

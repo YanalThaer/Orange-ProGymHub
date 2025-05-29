@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,7 +20,7 @@ class UserSubscription extends Model
         'payment_status',
         'payment_method',
     ];
-    
+
     protected $casts = [
         'start_date' => 'datetime',
         'end_date' => 'datetime',
@@ -34,7 +35,7 @@ class UserSubscription extends Model
     {
         return $this->belongsTo(SubscriptionPlan::class);
     }
-    
+
     public function club()
     {
         return $this->belongsTo(Club::class);

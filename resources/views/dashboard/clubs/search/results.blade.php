@@ -16,15 +16,15 @@
                 <p class="mb-4">
                     Showing results for: <strong>"{{ $searchTerm }}"</strong>
                     @if($searchType !== 'all')
-                        in <strong>{{ ucfirst(str_replace('_', ' ', $searchType)) }}</strong>
+                    in <strong>{{ ucfirst(str_replace('_', ' ', $searchType)) }}</strong>
                     @endif
                 </p>
 
                 @php
-                    $hasResults = false;
-                    if (isset($results['coaches']) && $results['coaches']->isNotEmpty()) $hasResults = true;
-                    if (isset($results['users']) && $results['users']->isNotEmpty()) $hasResults = true;
-                    if (isset($results['subscription_plans']) && $results['subscription_plans']->isNotEmpty()) $hasResults = true;
+                $hasResults = false;
+                if (isset($results['coaches']) && $results['coaches']->isNotEmpty()) $hasResults = true;
+                if (isset($results['users']) && $results['users']->isNotEmpty()) $hasResults = true;
+                if (isset($results['subscription_plans']) && $results['subscription_plans']->isNotEmpty()) $hasResults = true;
                 @endphp
 
                 @if(!$hasResults)
@@ -35,7 +35,7 @@
                         <i class="fa fa-search me-2"></i> Try Another Search
                     </a>
                 </div>
-                @endif                {{-- Coaches --}}
+                @endif {{-- Coaches --}}
                 @if(isset($results['coaches']) && $results['coaches']->isNotEmpty())
                 <div class="mb-4">
                     <h3><i class="fa fa-dumbbell me-2"></i>Coaches ({{ $results['coaches']->count() }})</h3>
@@ -144,7 +144,8 @@
                         </table>
                     </div>
                 </div>
-                @endif            </div>
+                @endif
+            </div>
         </div>
     </div>
 </div>
@@ -170,11 +171,13 @@
 
 @push('scripts')
 <script>
-    // Focus search input on page load if no results
     document.addEventListener('DOMContentLoaded', function() {
-        const hasResults = {{ $hasResults ? 'true' : 'false' }};
+        const hasResults = {
+            {
+                $hasResults ? 'true' : 'false'
+            }
+        };
         if (!hasResults) {
-            // Highlight the no results message with a brief animation
             const noResultsMessage = document.querySelector('.text-warning');
             if (noResultsMessage) {
                 noResultsMessage.style.transition = 'all 0.3s';

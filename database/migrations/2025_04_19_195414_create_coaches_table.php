@@ -20,19 +20,19 @@ return new class extends Migration
             $table->string('password');
             $table->text('bio')->nullable();
             $table->foreignId('club_id')->nullable()->constrained('clubs')->onDelete('cascade');
-            
+
             $table->enum('gender', ['male', 'female'])->nullable();
             $table->string('profile_image')->nullable();
             $table->integer('experience_years')->nullable();
             $table->json('certifications')->nullable(); // Professional certifications
             $table->json('specializations')->nullable(); // Fitness specializations
-            
+
             $table->string('employment_type')->nullable(); // Full-time, part-time, contractor
             $table->json('working_hours')->nullable(); // أوقات الدوام للمدرب
 
             $table->string('verification_code')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            
+
             $table->softDeletes();
             $table->timestamps();
         });

@@ -8,11 +8,13 @@
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         font-size: medium;
     }
+
     .profile-container {
         max-width: 1000px;
         margin: 50px auto;
         padding: 0;
     }
+
     .profile-header {
         background: linear-gradient(to right, #1a1a1a, #2d2d2d);
         border-radius: 15px;
@@ -23,6 +25,7 @@
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         border: 1px solid rgba(255, 0, 0, 0.1);
     }
+
     .profile-header::before {
         content: '';
         position: absolute;
@@ -34,6 +37,7 @@
         background-size: 200% 100%;
         animation: gradientShift 8s infinite linear;
     }
+
     @keyframes gradientShift {
         0% {
             background-position: 0% 50%;
@@ -47,6 +51,7 @@
             background-position: 0% 50%;
         }
     }
+
     .profile-image {
         width: 180px;
         height: 180px;
@@ -56,35 +61,41 @@
         box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
         margin-right: 30px;
     }
+
     .profile-name {
 
         font-weight: 700;
         margin-bottom: 5px;
         color: #ffffff;
     }
+
     .profile-title {
 
         color: #ff0000;
         margin-bottom: 15px;
         font-weight: 500;
     }
+
     .profile-meta {
         display: flex;
         flex-wrap: wrap;
         margin-top: 20px;
         color: #aaa;
     }
+
     .meta-item {
         margin-right: 20px;
         margin-bottom: 10px;
         display: flex;
         align-items: center;
     }
+
     .meta-item i {
         color: #ff0000;
         margin-right: 8px;
 
     }
+
     .profile-section {
         background-color: #1a1a1a;
         border-radius: 15px;
@@ -93,6 +104,7 @@
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         border: 1px solid rgba(255, 255, 255, 0.05);
     }
+
     .section-title {
 
         color: #ff0000;
@@ -100,11 +112,13 @@
         padding-bottom: 10px;
         border-bottom: 2px solid rgba(255, 0, 0, 0.2);
     }
+
     .bio-text {
         color: #ddd;
         line-height: 1.7;
         ;
     }
+
     .badge-specialization {
         background: linear-gradient(135deg, #ff0000, #cc0000);
         color: white;
@@ -117,10 +131,12 @@
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         transition: all 0.3s ease;
     }
+
     .badge-specialization:hover {
         transform: translateY(-3px);
         box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
     }
+
     .certification-item {
         background-color: #2a2a2a;
         border-radius: 10px;
@@ -129,24 +145,29 @@
         border-left: 3px solid #ff0000;
         transition: all 0.3s ease;
     }
+
     .certification-item:hover {
         transform: translateX(5px);
         background-color: #333333;
     }
+
     .certification-name {
         color: white;
         font-weight: 600;
         margin-bottom: 5px;
     }
+
     .certification-issuer {
         color: #aaa;
 
     }
+
     .social-links {
         display: flex;
         justify-content: center;
         margin-top: 20px;
     }
+
     .social-link {
         width: 40px;
         height: 40px;
@@ -160,16 +181,19 @@
         transition: all 0.3s ease;
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
+
     .social-link:hover {
         background-color: #ff0000;
         transform: translateY(-5px);
         box-shadow: 0 5px 10px rgba(255, 0, 0, 0.3);
     }
+
     .working-hours {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
     }
+
     .day-block {
         background-color: #2a2a2a;
         border-radius: 8px;
@@ -181,17 +205,21 @@
         align-items: center;
         transition: all 0.3s ease;
     }
+
     .day-block:hover {
         background-color: #333;
         transform: translateY(-3px);
     }
+
     .day-name {
         color: white;
         font-weight: 600;
     }
+
     .day-hours {
         color: #ff6b6b;
     }
+
     .contact-btn {
         background: linear-gradient(45deg, #ff0000, #cc0000);
         color: white;
@@ -206,27 +234,33 @@
         text-decoration: none;
         margin-top: 10px;
     }
+
     .contact-btn:hover {
         transform: translateY(-3px);
         box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4);
         color: white;
         text-decoration: none;
     }
+
     @media (max-width: 768px) {
         .profile-header {
             flex-direction: column;
             text-align: center;
         }
+
         .profile-image {
             margin: 0 auto 20px;
         }
+
         .day-block {
             width: 100%;
         }
+
         .profile-meta {
             justify-content: center;
         }
     }
+
     .club-badge {
         position: relative;
         display: inline-block;
@@ -237,14 +271,17 @@
         transition: all 0.3s ease;
         border: 1px solid rgba(255, 0, 0, 0.3);
     }
+
     .club-badge:hover {
         background-color: #444;
         transform: translateY(-2px);
     }
+
     .club-badge a {
         color: #fff;
         text-decoration: none;
     }
+
     .back-to-club {
         display: inline-flex;
         align-items: center;
@@ -254,14 +291,17 @@
         margin-bottom: 20px;
         transition: all 0.3s ease;
     }
+
     .back-to-club i {
         margin-right: 8px;
         transition: transform 0.3s ease;
     }
+
     .back-to-club:hover {
         color: #ff0000;
         text-decoration: none;
     }
+
     .back-to-club:hover i {
         transform: translateX(-5px);
     }
